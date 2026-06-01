@@ -1483,7 +1483,7 @@ function initMontagem() {
   document.getElementById('mont-tech-cards').innerHTML = techs.map(function(t) {
     var td = d.techs[t];
     var sl = [td.shifts.T1>0?'T1':'',td.shifts.T2>0?'T2':'',td.shifts.T3>0?'T3':''].filter(Boolean).join('+')||'T1';
-    return '<div class="tech-card" style="--t-color:'+td.color+'" onclick="montSelectTech(''+t+'')">'+
+    return '<div class="tech-card" style="--t-color:'+td.color+'" onclick="montSelectTech(\\''+t+'\\')">' +
       '<div class="tech-avatar">'+t.charAt(0)+'</div>'+
       '<div class="tech-name">'+t+'</div>'+
       '<div class="tech-role">MONTAGEM · '+sl+'</div>'+
@@ -1509,12 +1509,12 @@ function initMontagem() {
 function montSelectTech(t) {
   montShowPage('mont-techs',null);
   montBuildSelector();
-  var btn=document.querySelector('#mont-techSelector .tech-btn[onclick*="''+t+''"]');
+  var btn=document.querySelector('#mont-techSelector .tech-btn[onclick*="\\\''+t+'\\\'"]');
   montSwitchTechDetail(t,btn);
 }
 function montBuildSelector() {
   document.getElementById('mont-techSelector').innerHTML=MONT_TECHS.map(function(t){
-    return '<button class="tech-btn'+(t===montCurrentTech?' active':'')+'" style="--t-color:'+MD.techs[t].color+'" onclick="montSwitchTechDetail(''+t+'',this)">'+t+'</button>';
+    return '<button class="tech-btn'+(t===montCurrentTech?' active':'')+'" style="--t-color:'+MD.techs[t].color+'" onclick="montSwitchTechDetail(\\\''+t+'\\\',this)">'+t+'</button>';
   }).join('');
 }
 function montSwitchTechDetail(tech,btn){
