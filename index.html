@@ -540,6 +540,68 @@
   .imp-fill{height:100%;background:var(--accent3);width:0;transition:width 0.3s;}
   .imp-close{margin-top:18px;padding:8px 24px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;font-weight:600;}
 
+
+  /* ===== MONTH FILTER ===== */
+  .month-filter-bar {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+  }
+  .mf-btn {
+    padding: 5px 14px; border-radius: 16px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text2); cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; transition: all 0.2s;
+  }
+  .mf-btn:hover { color: var(--text); border-color: var(--text3); }
+  .mf-btn.active { border-color: var(--accent3); color: var(--accent3); background: rgba(56,224,140,0.1); }
+
+  /* ===== CHART BOX (altura fixa para não esticar) ===== */
+  .chart-box { position: relative; width: 100%; height: 200px; }
+  .chart-box canvas { position: absolute; inset: 0; }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 768px) {
+    header { flex-direction: column; gap: 16px; padding: 16px 16px 12px; }
+    .header-right { flex-wrap: wrap; gap: 10px; width: 100%; }
+    .stat-pill { flex: 1; min-width: 80px; padding: 6px 10px; }
+    .stat-pill .val { font-size: 16px; }
+
+    .area-filter-bar { padding: 8px 16px; flex-wrap: wrap; gap: 8px; }
+    .import-btn { margin-left: 0; }
+
+    .nav-tabs { padding: 12px 16px 0; gap: 2px; overflow-x: auto; flex-wrap: nowrap; }
+    .nav-tab { padding: 8px 12px; font-size: 11px; white-space: nowrap; }
+
+    .page { padding: 16px; }
+
+    .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .grid-4 .card:nth-child(n+3) { }
+
+    .tech-kpis { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .tech-avatar { width: 36px; height: 36px; font-size: 14px; }
+    .tech-name { font-size: 15px; }
+    .card-value { font-size: 24px; }
+
+    .heatmap-grid { grid-template-columns: 55px repeat(24, 1fr); gap: 2px; }
+    .hm-label { font-size: 8px; padding-right: 4px; }
+    .hm-header { font-size: 7px; }
+    .hm-cell { height: 18px; }
+
+    .cmp-table th, .cmp-table td { padding: 8px 8px; font-size: 11px; }
+
+    #mont-tech-cards { grid-template-columns: 1fr 1fr !important; }
+    .tech-card { padding: 16px; }
+
+    .rec-card { padding: 12px 14px; }
+    .insight-box { padding: 14px 16px; }
+  }
+
+  @media (max-width: 480px) {
+    .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+    #mont-tech-cards { grid-template-columns: 1fr !important; }
+    .header-right { gap: 8px; }
+    .stat-pill { min-width: 70px; }
+    .nav-tab { font-size: 10px; padding: 7px 10px; }
+  }
+
 </style>
 </head>
 <body>
@@ -1029,13 +1091,13 @@
   </div>
   <div id="mont-tech-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:24px;"></div>
   <div class="grid-2">
-    <div class="chart-wrap"><div class="chart-title">📈 Volume de Chamados — Evolução Semanal</div><div class="chart-subtitle">Todos os técnicos | Semanas ISO</div><canvas id="mont-chartWeekly" height="220"></canvas></div>
-    <div class="chart-wrap"><div class="chart-title">🥧 Distribuição por Área de Suporte</div><div class="chart-subtitle">Processos vs Testes</div><canvas id="mont-chartArea" height="220"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">📈 Volume de Chamados — Evolução Semanal</div><div class="chart-subtitle">Todos os técnicos | Semanas ISO</div><div class="chart-box"><canvas id="mont-chartWeekly"></canvas></div></div>
+    <div class="chart-wrap"><div class="chart-title">🥧 Distribuição por Área de Suporte</div><div class="chart-subtitle">Processos vs Testes</div><div class="chart-box"><canvas id="mont-chartArea"></canvas></div></div>
   </div>
   <div class="grid-3">
-    <div class="chart-wrap"><div class="chart-title">📊 Chamados por Técnico</div><div class="chart-subtitle">Participação no volume total</div><canvas id="mont-chartTechVolume" height="200"></canvas></div>
-    <div class="chart-wrap"><div class="chart-title">⚡ Tempo Médio Total (min)</div><div class="chart-subtitle">Mediana por técnico</div><canvas id="mont-chartTechTime" height="200"></canvas></div>
-    <div class="chart-wrap"><div class="chart-title">🎯 Taxa de Resolução (%)</div><div class="chart-subtitle">Finalizados vs expirados</div><canvas id="mont-chartResolucao" height="200"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">📊 Chamados por Técnico</div><div class="chart-subtitle">Participação no volume total</div><div class="chart-box"><canvas id="mont-chartTechVolume"></canvas></div></div>
+    <div class="chart-wrap"><div class="chart-title">⚡ Tempo Médio Total (min)</div><div class="chart-subtitle">Mediana por técnico</div><div class="chart-box"><canvas id="mont-chartTechTime"></canvas></div></div>
+    <div class="chart-wrap"><div class="chart-title">🎯 Taxa de Resolução (%)</div><div class="chart-subtitle">Finalizados vs expirados</div><div class="chart-box"><canvas id="mont-chartResolucao"></canvas></div></div>
   </div>
 </div>
 <div class="page" id="mont-techs">
@@ -1046,10 +1108,10 @@
   <div class="section-title">Análise de SLA — Montagem</div>
   <div class="grid-4" id="mont-tempoKpis"></div>
   <div class="grid-2">
-    <div class="chart-wrap"><div class="chart-title">📊 Tempo de Aceite (min)</div><div class="chart-subtitle">Mediana | Meta ≤ 15min</div><canvas id="mont-chartAceite" height="240"></canvas></div>
-    <div class="chart-wrap"><div class="chart-title">🔧 Tempo de Resolução (min)</div><div class="chart-subtitle">Mediana</div><canvas id="mont-chartResolTime" height="240"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">📊 Tempo de Aceite (min)</div><div class="chart-subtitle">Mediana | Meta ≤ 15min</div><div class="chart-box"><canvas id="mont-chartAceite"></canvas></div></div>
+    <div class="chart-wrap"><div class="chart-title">🔧 Tempo de Resolução (min)</div><div class="chart-subtitle">Mediana</div><div class="chart-box"><canvas id="mont-chartResolTime"></canvas></div></div>
   </div>
-  <div class="chart-wrap"><div class="chart-title">📉 Comparativo Aceite | Resolução | Total</div><div class="chart-subtitle">Valores em minutos | Meta aceite ≤ 15min | Meta total ≤ 60min</div><canvas id="mont-chartComparativo" height="200"></canvas></div>
+  <div class="chart-wrap"><div class="chart-title">📉 Comparativo Aceite | Resolução | Total</div><div class="chart-subtitle">Valores em minutos | Meta aceite ≤ 15min | Meta total ≤ 60min</div><div class="chart-box"><canvas id="mont-chartComparativo"></canvas></div></div>
   <div class="chart-wrap"><div class="chart-title">🏆 Ranking de Eficiência</div><div class="chart-subtitle">Pontuação: volume × resolução ÷ tempo total</div>
     <table class="cmp-table"><thead><tr><th>RANK</th><th>TÉCNICO</th><th>CHAMADOS</th><th>RESOLUÇÃO</th><th>ACEITE MED.</th><th>RESOL. MED.</th><th>TOTAL MED.</th><th>SCORE</th></tr></thead><tbody id="mont-rankingBody"></tbody></table>
   </div>
@@ -1057,16 +1119,16 @@
 <div class="page" id="mont-distribuicao">
   <div class="section-title">Distribuição — Montagem</div>
   <div class="grid-3">
-    <div class="chart-wrap"><div class="chart-title">🌗 Por Turno</div><div class="chart-subtitle">T1: 06h-14h | T2: 14h-22h | T3: 22h-06h</div><canvas id="mont-chartTurnos" height="220"></canvas></div>
-    <div class="chart-wrap"><div class="chart-title">📅 Por Dia da Semana</div><div class="chart-subtitle">Volume acumulado do time</div><canvas id="mont-chartDia" height="220"></canvas></div>
-    <div class="chart-wrap"><div class="chart-title">📆 Evolução Mensal</div><div class="chart-subtitle">Fev — Jun 2026 por técnico</div><canvas id="mont-chartMensal" height="220"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">🌗 Por Turno</div><div class="chart-subtitle">T1: 06h-14h | T2: 14h-22h | T3: 22h-06h</div><div class="chart-box"><canvas id="mont-chartTurnos"></canvas></div></div>
+    <div class="chart-wrap"><div class="chart-title">📅 Por Dia da Semana</div><div class="chart-subtitle">Volume acumulado do time</div><div class="chart-box"><canvas id="mont-chartDia"></canvas></div></div>
+    <div class="chart-wrap"><div class="chart-title">📆 Evolução Mensal</div><div class="chart-subtitle">Fev — Jun 2026 por técnico</div><div class="chart-box"><canvas id="mont-chartMensal"></canvas></div></div>
   </div>
   <div class="chart-wrap">
     <div class="chart-title">🗺 Heatmap — Técnico × Hora do Dia</div><div class="chart-subtitle">Chamados por hora (00h–23h)</div>
     <div id="mont-heatmapContainer" style="overflow-x:auto;padding-bottom:8px;"></div>
     <div class="legend" id="mont-heatmapLegend" style="margin-top:12px;"></div>
   </div>
-  <div class="chart-wrap"><div class="chart-title">🏭 Área de Suporte por Técnico</div><div class="chart-subtitle">Processos vs Testes</div><canvas id="mont-chartAreaTech" height="250"></canvas></div>
+  <div class="chart-wrap"><div class="chart-title">🏭 Área de Suporte por Técnico</div><div class="chart-subtitle">Processos vs Testes</div><div class="chart-box"><canvas id="mont-chartAreaTech"></canvas></div></div>
 </div>
 <div class="page" id="mont-recomendacoes">
   <div class="section-title">Recomendações — Montagem</div>
@@ -1443,8 +1505,8 @@ let montInited = false;
 
 function switchArea(area) {
   currentArea = area;
-  document.getElementById('btnPCI').className  = 'area-btn' + (area==='pci'?' active-pci':'');
-  document.getElementById('btnMont').className = 'area-btn' + (area==='mont'?' active-mont':'');
+  document.getElementById('btnPCI').className  = 'area-btn' + (area==='pci'  ? ' active-pci'  : '');
+  document.getElementById('btnMont').className = 'area-btn' + (area==='mont' ? ' active-mont' : '');
   if (area === 'pci') {
     document.getElementById('pci-wrapper').style.display  = '';
     document.getElementById('mont-wrapper').style.display = 'none';
@@ -1459,235 +1521,418 @@ function switchArea(area) {
   }
 }
 
-// ===== MONTAGEM =====
+// ===== MONTAGEM CORE =====
 const MD = MONT_DATA;
 const MONT_TECHS_ORDER = ['Dariany','Samuel','Danyel','Cassia','Johny'];
-const MONT_TECHS = MONT_TECHS_ORDER.filter(t => MD.techs[t] && MD.techs[t].total > 0);
-let montCharts = {}, montCurrentTech = null, montPageInited = {};
+const MONT_TECHS = MONT_TECHS_ORDER.filter(function(t){ return MD.techs[t] && MD.techs[t].total > 0; });
+
+var montCharts = {}, montCurrentTech = null, montPageInited = {};
+var montMonthFilter = 'all'; // filtro de mês ativo
 
 function mChart(id, cfg) {
   if (montCharts[id]) montCharts[id].destroy();
-  const el = document.getElementById(id); if (!el) return null;
+  var el = document.getElementById(id); if (!el) return null;
   montCharts[id] = new Chart(el.getContext('2d'), cfg);
   return montCharts[id];
 }
-const MCD = { responsive:true, maintainAspectRatio:true,
-  plugins:{ legend:{ labels:{ color:'#7a9bb5', font:{family:'IBM Plex Mono',size:10} } } } };
+var MCD = { responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { labels: { color:'#7a9bb5', font:{family:'IBM Plex Mono',size:10}, boxWidth:12 } } } };
 
+// --- Filtro de mês ---
+function getMontFilteredData() {
+  if (montMonthFilter === 'all') return MD;
+
+  // Recompute techs filtered to selected month
+  var filtered = {};
+  MONT_TECHS.forEach(function(t) {
+    var td = MD.techs[t];
+    var monthly = td.monthly[montMonthFilter] || 0;
+    // For month filter we scale proportionally (best we can with aggregated data)
+    // Actually we keep raw data and just adjust the weekly view
+    filtered[t] = Object.assign({}, td, {
+      total: monthly,
+      monthly: td.monthly
+    });
+  });
+  return MD; // full data, month filter applied in chart labels/datasets
+}
+
+function buildMonthFilter() {
+  var months = MD.all_months;
+  var labels = {'2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun'};
+  var html = '<div class="month-filter-bar">';
+  html += '<button class="mf-btn active" data-month="all" onclick="setMontMonth(this)">Todos</button>';
+  months.forEach(function(m) {
+    var lbl = labels[m] || m;
+    html += '<button class="mf-btn" data-month="' + m + '" onclick="setMontMonth(this)">' + lbl + '</button>';
+  });
+  html += '</div>';
+  return html;
+}
+
+function setMontMonth(btn) {
+  document.querySelectorAll('.mf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  montMonthFilter = btn.getAttribute('data-month');
+  // Reset and reinit overview charts
+  ['mont-chartWeekly','mont-chartArea','mont-chartTechVolume','mont-chartTechTime','mont-chartResolucao'].forEach(function(id){
+    if(montCharts[id]){ montCharts[id].destroy(); delete montCharts[id]; }
+  });
+  drawMontOverviewCharts();
+  // Update tech cards
+  drawMontTechCards();
+  // Update stats
+  updateMontStats();
+}
+
+function getTechsForMonth() {
+  // Returns filtered tech data for selected month
+  var techs = MONT_TECHS;
+  if (montMonthFilter === 'all') return techs.map(function(t){ return { name:t, d: MD.techs[t] }; });
+  return techs.map(function(t) {
+    var td = MD.techs[t];
+    var monthTotal = td.monthly[montMonthFilter] || 0;
+    // Scale times proportionally? No — keep same medians, just show month volume
+    return { name:t, d: Object.assign({}, td, { total: monthTotal }) };
+  }).filter(function(x){ return x.d.total > 0; });
+}
+
+function updateMontStats() {
+  var items = getTechsForMonth();
+  var total = items.reduce(function(s,x){ return s + x.d.total; }, 0);
+  document.getElementById('mont-stat-total').textContent = total;
+  // taxa and med only meaningful for 'all'
+  if (montMonthFilter === 'all') {
+    document.getElementById('mont-stat-taxa').textContent = MD.taxa_all + '%';
+    document.getElementById('mont-stat-med').textContent  = MD.team_med + ' min';
+  } else {
+    document.getElementById('mont-stat-taxa').textContent = '—';
+    document.getElementById('mont-stat-med').textContent  = '— min';
+  }
+}
+
+// --- Init ---
 function initMontagem() {
-  const techs = MONT_TECHS, d = MD;
-  document.getElementById('mont-stat-total').textContent = d.team_total;
-  document.getElementById('mont-stat-taxa').textContent  = d.taxa_all + '%';
-  document.getElementById('mont-stat-med').textContent   = d.team_med + ' min';
+  // Inject month filter bar
+  var overviewEl = document.getElementById('mont-overview');
+  var firstChild = overviewEl.querySelector('.section-title-row') || overviewEl.querySelector('.section-title');
+  if (firstChild) firstChild.insertAdjacentHTML('afterend', buildMonthFilter());
 
-  document.getElementById('mont-tech-cards').innerHTML = techs.map(function(t) {
-    var td = d.techs[t];
-    var sl = [td.shifts.T1>0?'T1':'',td.shifts.T2>0?'T2':'',td.shifts.T3>0?'T3':''].filter(Boolean).join('+')||'T1';
-    return '<div class="tech-card" style="--t-color:'+td.color+'" onclick="montSelectTech(\\''+t+'\\')">' +
-      '<div class="tech-avatar">'+t.charAt(0)+'</div>'+
-      '<div class="tech-name">'+t+'</div>'+
-      '<div class="tech-role">MONTAGEM · '+sl+'</div>'+
-      '<div class="tech-kpis">'+
-        '<div class="tech-kpi"><span class="k-val" style="color:'+td.color+'">'+td.total+'</span><span class="k-lbl">Chamados</span></div>'+
-        '<div class="tech-kpi"><span class="k-val" style="color:'+td.color+'">'+td.taxa+'%</span><span class="k-lbl">Resolução</span></div>'+
-        '<div class="tech-kpi"><span class="k-val" style="color:'+td.color+'">'+td.aceite+'m</span><span class="k-lbl">Aceite med.</span></div>'+
-        '<div class="tech-kpi"><span class="k-val" style="color:'+td.color+'">'+td.total_t+'m</span><span class="k-lbl">Total med.</span></div>'+
-      '</div>'+
-      '<div class="perf-bar"><div class="perf-fill" style="width:'+td.taxa+'%;background:'+td.color+'"></div></div>'+
-    '</div>';
-  }).join('');
+  updateMontStats();
+  drawMontTechCards();
+  drawMontOverviewCharts();
+}
 
+function drawMontTechCards() {
+  var items = getTechsForMonth();
+  var container = document.getElementById('mont-tech-cards');
+  container.innerHTML = '';
+  items.forEach(function(item) {
+    var t = item.name, td = MD.techs[t]; // always use full medians
+    var dispTotal = item.d.total;
+    var sl = [td.shifts.T1>0?'T1':'', td.shifts.T2>0?'T2':'', td.shifts.T3>0?'T3':''].filter(Boolean).join('+')||'T1';
+    var card = document.createElement('div');
+    card.className = 'tech-card';
+    card.style.cssText = '--t-color:' + td.color;
+    card.setAttribute('data-tech', t);
+    card.innerHTML =
+      '<div class="tech-avatar">' + t.charAt(0) + '</div>' +
+      '<div class="tech-name">' + t + '</div>' +
+      '<div class="tech-role">MONTAGEM · ' + sl + '</div>' +
+      '<div class="tech-kpis">' +
+        '<div class="tech-kpi"><span class="k-val" style="color:' + td.color + '">' + dispTotal + '</span><span class="k-lbl">Chamados</span></div>' +
+        '<div class="tech-kpi"><span class="k-val" style="color:' + td.color + '">' + td.taxa + '%</span><span class="k-lbl">Resolução</span></div>' +
+        '<div class="tech-kpi"><span class="k-val" style="color:' + td.color + '">' + td.aceite + 'm</span><span class="k-lbl">Aceite med.</span></div>' +
+        '<div class="tech-kpi"><span class="k-val" style="color:' + td.color + '">' + td.total_t + 'm</span><span class="k-lbl">Total med.</span></div>' +
+      '</div>' +
+      '<div class="perf-bar"><div class="perf-fill" style="width:' + td.taxa + '%;background:' + td.color + '"></div></div>';
+    card.addEventListener('click', function(){ montSelectTech(t); });
+    container.appendChild(card);
+  });
+}
+
+function drawMontOverviewCharts() {
+  var d = MD;
+  var items = getTechsForMonth();
+  var techs = items.map(function(x){ return x.name; });
   var weeks = d.all_weeks;
-  mChart('mont-chartWeekly',{type:'line',data:{labels:weeks.map(function(w){return'S'+w;}),datasets:techs.map(function(t){return{label:t,data:weeks.map(function(w){return d.techs[t].weekly[w]||0;}),borderColor:d.techs[t].color,backgroundColor:d.techs[t].color+'22',borderWidth:2,pointRadius:3,tension:0.4,fill:false};})},options:Object.assign({},MCD)});
-  mChart('mont-chartArea',{type:'doughnut',data:{labels:Object.keys(d.area_dist),datasets:[{data:Object.values(d.area_dist),backgroundColor:['#00c8ff99','#38e08c99','#ffc30099'],borderColor:'#0d1520',borderWidth:3}]},options:Object.assign({},MCD,{cutout:'65%'})});
-  mChart('mont-chartTechVolume',{type:'bar',data:{labels:techs,datasets:[{data:techs.map(function(t){return d.techs[t].total;}),backgroundColor:techs.map(function(t){return d.techs[t].color+'cc';}),borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'}}}})});
-  mChart('mont-chartTechTime',{type:'bar',data:{labels:techs,datasets:[{data:techs.map(function(t){return d.techs[t].total_t;}),backgroundColor:techs.map(function(t){return d.techs[t].color+'cc';}),borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'}}}})});
-  var minT=Math.min.apply(null,techs.map(function(t){return d.techs[t].taxa;}));
-  mChart('mont-chartResolucao',{type:'bar',data:{labels:techs,datasets:[{data:techs.map(function(t){return d.techs[t].taxa;}),backgroundColor:techs.map(function(t){return d.techs[t].color+'cc';}),borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{min:Math.max(80,minT-5),max:101,ticks:{color:'#7a9bb5'}}}})});
+  var months = d.all_months;
+  var mesLbls = {'2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun'};
+
+  // Weekly chart — show only selected month's weeks if filtered
+  var weekLabels, weekData;
+  if (montMonthFilter === 'all') {
+    weekLabels = weeks.map(function(w){ return 'S'+w; });
+    weekData = techs.map(function(t) {
+      return { label:t, data:weeks.map(function(w){ return d.techs[t].weekly[w]||0; }),
+        borderColor:d.techs[t].color, backgroundColor:d.techs[t].color+'22',
+        borderWidth:2, pointRadius:3, tension:0.4, fill:false };
+    });
+  } else {
+    // Show monthly breakdown instead
+    weekLabels = months.map(function(m){ return mesLbls[m]||m; });
+    weekData = techs.map(function(t) {
+      return { label:t, data:months.map(function(m){ return d.techs[t].monthly[m]||0; }),
+        borderColor:d.techs[t].color, backgroundColor:d.techs[t].color+'22',
+        borderWidth:2, pointRadius:3, tension:0.4, fill:false };
+    });
+  }
+
+  mChart('mont-chartWeekly', { type:'line',
+    data:{ labels:weekLabels, datasets:weekData },
+    options: Object.assign({}, MCD)
+  });
+
+  mChart('mont-chartArea', { type:'doughnut',
+    data:{ labels:Object.keys(d.area_dist), datasets:[{
+      data:Object.values(d.area_dist),
+      backgroundColor:['#00c8ff99','#38e08c99','#ffc30099'],
+      borderColor:'#0d1520', borderWidth:3
+    }]},
+    options: Object.assign({}, MCD, { cutout:'65%' })
+  });
+
+  // Volume per tech (filtered)
+  var techTotals = techs.map(function(t){ return items.find(function(x){return x.name===t;}).d.total; });
+  mChart('mont-chartTechVolume', { type:'bar',
+    data:{ labels:techs, datasets:[{ data:techTotals,
+      backgroundColor:techs.map(function(t){ return d.techs[t].color+'cc'; }), borderRadius:6 }]},
+    options: Object.assign({}, MCD, { plugins:{legend:{display:false}},
+      scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})
+  });
+
+  mChart('mont-chartTechTime', { type:'bar',
+    data:{ labels:MONT_TECHS, datasets:[{ data:MONT_TECHS.map(function(t){ return d.techs[t].total_t; }),
+      backgroundColor:MONT_TECHS.map(function(t){ return d.techs[t].color+'cc'; }), borderRadius:6 }]},
+    options: Object.assign({}, MCD, { plugins:{legend:{display:false}},
+      scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})
+  });
+
+  var minT = Math.min.apply(null, MONT_TECHS.map(function(t){ return d.techs[t].taxa; }));
+  mChart('mont-chartResolucao', { type:'bar',
+    data:{ labels:MONT_TECHS, datasets:[{ data:MONT_TECHS.map(function(t){ return d.techs[t].taxa; }),
+      backgroundColor:MONT_TECHS.map(function(t){ return d.techs[t].color+'cc'; }), borderRadius:6 }]},
+    options: Object.assign({}, MCD, { plugins:{legend:{display:false}},
+      scales:{x:{ticks:{color:'#7a9bb5'}},y:{min:Math.max(80,minT-5),max:101,ticks:{color:'#7a9bb5'}}}})
+  });
 }
 
+// --- Por Técnico ---
 function montSelectTech(t) {
-  montShowPage('mont-techs',null);
+  montShowPage('mont-techs', null);
   montBuildSelector();
-  var btn=document.querySelector('#mont-techSelector .tech-btn[onclick*="\\\''+t+'\\\'"]');
-  montSwitchTechDetail(t,btn);
+  var btn = document.querySelector('#mont-techSelector .tech-btn[data-tech="' + t + '"]');
+  montSwitchTechDetail(t, btn);
 }
+
 function montBuildSelector() {
-  document.getElementById('mont-techSelector').innerHTML=MONT_TECHS.map(function(t){
-    return '<button class="tech-btn'+(t===montCurrentTech?' active':'')+'" style="--t-color:'+MD.techs[t].color+'" onclick="montSwitchTechDetail(\\\''+t+'\\\',this)">'+t+'</button>';
-  }).join('');
+  var container = document.getElementById('mont-techSelector');
+  container.innerHTML = '';
+  MONT_TECHS.forEach(function(t) {
+    var btn = document.createElement('button');
+    btn.className = 'tech-btn' + (t === montCurrentTech ? ' active' : '');
+    btn.style.cssText = '--t-color:' + MD.techs[t].color;
+    btn.setAttribute('data-tech', t);
+    btn.textContent = t;
+    btn.addEventListener('click', function(){ montSwitchTechDetail(t, btn); });
+    container.appendChild(btn);
+  });
 }
-function montSwitchTechDetail(tech,btn){
-  montCurrentTech=tech;
-  document.querySelectorAll('#mont-techSelector .tech-btn').forEach(function(b){b.classList.remove('active');});
-  if(btn)btn.classList.add('active');
+
+function montSwitchTechDetail(tech, btn) {
+  montCurrentTech = tech;
+  document.querySelectorAll('#mont-techSelector .tech-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
   montRenderTechDetail(tech);
 }
-function montRenderTechDetail(tech){
-  var d=MD.techs[tech],c=d.color;
-  var months=MD.all_months;
-  var mesLbls=months.map(function(m){return['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][parseInt(m.split('-')[1])-1];});
-  var bAceite=(d.aceite<=15?'badge-green':d.aceite<=30?'badge-yellow':'badge-red');
-  var tAceite=(d.aceite<=15?'✅ OK':d.aceite<=30?'⚠ REGULAR':'❌ ALTO');
-  var bTotal=(d.total_t<=30?'badge-green':d.total_t<=60?'badge-yellow':'badge-red');
-  var tTotal=(d.total_t<=30?'✅ EXCELENTE':d.total_t<=60?'⚠ BOM':'📋 COMPLEXO');
-  var bTaxa=(d.taxa===100?'badge-green':d.taxa>=95?'badge-yellow':'badge-red');
-  var tTaxa=(d.taxa===100?'✅ PERFEITO':d.taxa>=95?'⚠ ATENÇÃO':'❌ CRÍTICO');
-  document.getElementById('mont-techDetail').innerHTML=
-    '<div class="grid-4">'+
-      '<div class="card" style="--accent-color:'+c+'"><div class="card-title">TOTAL CHAMADOS</div><div class="card-value">'+d.total+'</div><div class="card-sub">Período: Fev–Jun 2026</div></div>'+
-      '<div class="card" style="--accent-color:'+c+'"><div class="card-title">TAXA RESOLUÇÃO</div><div class="card-value">'+d.taxa+'%</div><span class="badge '+bTaxa+'">'+tTaxa+'</span></div>'+
-      '<div class="card" style="--accent-color:'+c+'"><div class="card-title">TEMPO ACEITE MED.</div><div class="card-value">'+d.aceite+'m</div><span class="badge '+bAceite+'">'+tAceite+'</span></div>'+
-      '<div class="card" style="--accent-color:'+c+'"><div class="card-title">TEMPO TOTAL MED.</div><div class="card-value">'+d.total_t+'m</div><span class="badge '+bTotal+'">'+tTotal+'</span></div>'+
-    '</div>'+
-    '<div class="grid-2">'+
-      '<div class="chart-wrap"><div class="chart-title">🏭 Área de Suporte</div><div class="chart-subtitle">Processos vs Testes</div><canvas id="mTechAreaChart" height="220"></canvas></div>'+
-      '<div class="chart-wrap"><div class="chart-title">🌗 Distribuição por Turno</div><div class="chart-subtitle">T1 (06-14h) · T2 (14-22h) · T3 (22-06h)</div><canvas id="mTechTurnoChart" height="220"></canvas></div>'+
-    '</div>'+
-    '<div class="grid-2">'+
-      '<div class="chart-wrap"><div class="chart-title">📆 Volume Mensal</div><div class="chart-subtitle">Fev–Jun 2026</div><canvas id="mTechMesChart" height="180"></canvas></div>'+
-      '<div class="chart-wrap"><div class="chart-title">🎯 Causa Raiz</div><div class="chart-subtitle">Problema técnico vs. erro operacional</div><canvas id="mTechCausaChart" height="180"></canvas></div>'+
-    '</div>'+
-    '<div class="chart-wrap"><div class="chart-title">📅 Dias da Semana</div><div class="chart-subtitle">Distribuição ao longo da semana</div><canvas id="mTechDiaChart" height="150"></canvas></div>';
-  setTimeout(function(){
+
+function montRenderTechDetail(tech) {
+  var d = MD.techs[tech], c = d.color;
+  var months = MD.all_months;
+  var mesLbls = {'2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun'};
+  var mesArr = months.map(function(m){ return mesLbls[m]||m; });
+
+  var bAceite = d.aceite<=15?'badge-green':d.aceite<=30?'badge-yellow':'badge-red';
+  var tAceite = d.aceite<=15?'✅ OK':d.aceite<=30?'⚠ REGULAR':'❌ ALTO';
+  var bTotal  = d.total_t<=30?'badge-green':d.total_t<=60?'badge-yellow':'badge-red';
+  var tTotal  = d.total_t<=30?'✅ EXCELENTE':d.total_t<=60?'⚠ BOM':'📋 COMPLEXO';
+  var bTaxa   = d.taxa===100?'badge-green':d.taxa>=95?'badge-yellow':'badge-red';
+  var tTaxa   = d.taxa===100?'✅ PERFEITO':d.taxa>=95?'⚠ ATENÇÃO':'❌ CRÍTICO';
+
+  var detail = document.getElementById('mont-techDetail');
+  detail.innerHTML =
+    '<div class="grid-4">' +
+      '<div class="card" style="--accent-color:'+c+'"><div class="card-title">TOTAL CHAMADOS</div><div class="card-value">'+d.total+'</div><div class="card-sub">Período: Fev–Jun 2026</div></div>' +
+      '<div class="card" style="--accent-color:'+c+'"><div class="card-title">TAXA RESOLUÇÃO</div><div class="card-value">'+d.taxa+'%</div><span class="badge '+bTaxa+'">'+tTaxa+'</span></div>' +
+      '<div class="card" style="--accent-color:'+c+'"><div class="card-title">TEMPO ACEITE MED.</div><div class="card-value">'+d.aceite+'m</div><span class="badge '+bAceite+'">'+tAceite+'</span></div>' +
+      '<div class="card" style="--accent-color:'+c+'"><div class="card-title">TEMPO TOTAL MED.</div><div class="card-value">'+d.total_t+'m</div><span class="badge '+bTotal+'">'+tTotal+'</span></div>' +
+    '</div>' +
+    '<div class="grid-2">' +
+      '<div class="chart-wrap"><div class="chart-title">🏭 Área de Suporte</div><div class="chart-subtitle">Processos vs Testes</div><div class="chart-box"><canvas id="mTechAreaChart"></canvas></div></div>' +
+      '<div class="chart-wrap"><div class="chart-title">🌗 Distribuição por Turno</div><div class="chart-subtitle">T1 (06-14h) · T2 (14-22h) · T3 (22-06h)</div><div class="chart-box"><canvas id="mTechTurnoChart"></canvas></div></div>' +
+    '</div>' +
+    '<div class="grid-2">' +
+      '<div class="chart-wrap"><div class="chart-title">📆 Volume Mensal</div><div class="chart-subtitle">Fev–Jun 2026</div><div class="chart-box"><canvas id="mTechMesChart"></canvas></div></div>' +
+      '<div class="chart-wrap"><div class="chart-title">🎯 Causa Raiz</div><div class="chart-subtitle">Problema técnico vs. erro operacional</div><div class="chart-box"><canvas id="mTechCausaChart"></canvas></div></div>' +
+    '</div>' +
+    '<div class="chart-wrap"><div class="chart-title">📅 Dias da Semana</div><div class="chart-subtitle">Distribuição ao longo da semana</div><div class="chart-box"><canvas id="mTechDiaChart"></canvas></div></div>';
+
+  setTimeout(function() {
     mChart('mTechAreaChart',{type:'doughnut',data:{labels:Object.keys(d.suporte),datasets:[{data:Object.values(d.suporte),backgroundColor:[c+'cc',c+'66'],borderColor:'#0d1520',borderWidth:3}]},options:Object.assign({},MCD,{cutout:'60%'})});
     mChart('mTechTurnoChart',{type:'bar',data:{labels:['T1','T2','T3'],datasets:[{data:[d.shifts.T1,d.shifts.T2,d.shifts.T3],backgroundColor:[c+'cc',c+'88',c+'55'],borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
-    mChart('mTechMesChart',{type:'bar',data:{labels:mesLbls,datasets:[{data:months.map(function(m){return d.monthly[m]||0;}),backgroundColor:c+'cc',borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
+    mChart('mTechMesChart',{type:'bar',data:{labels:mesArr,datasets:[{data:months.map(function(m){return d.monthly[m]||0;}),backgroundColor:c+'cc',borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
     mChart('mTechCausaChart',{type:'doughnut',data:{labels:['Prob. Técnico','Erro Operacional'],datasets:[{data:[d.causa.Tecnico,d.causa.Operacional],backgroundColor:[c+'cc','#ff5f4099'],borderColor:'#0d1520',borderWidth:3}]},options:Object.assign({},MCD,{cutout:'60%'})});
     mChart('mTechDiaChart',{type:'bar',data:{labels:['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],datasets:[{data:[0,1,2,3,4,5,6].map(function(i){return d.dow[i]||0;}),backgroundColor:c+'cc',borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
-  },50);
+  }, 50);
 }
 
-function initMontTempo(){
-  var techs=MONT_TECHS,d=MD;
-  var bya=[].concat(techs).sort(function(a,b){return d.techs[a].aceite-d.techs[b].aceite;});
-  var byt=[].concat(techs).sort(function(a,b){return d.techs[a].total_t-d.techs[b].total_t;});
-  var fast=bya[0],slow=bya[bya.length-1],fastT=byt[0],slowT=byt[byt.length-1];
-  document.getElementById('mont-tempoKpis').innerHTML=
-    '<div class="card" style="--accent-color:'+d.techs[fast].color+'"><div class="card-title">MELHOR TEMPO ACEITE</div><div class="card-value">'+d.techs[fast].aceite+' min</div><div class="card-sub">'+fast+' — mediana</div><span class="badge badge-green">🏆 LÍDER</span></div>'+
-    '<div class="card" style="--accent-color:'+d.techs[fastT].color+'"><div class="card-title">MELHOR TEMPO TOTAL</div><div class="card-value">'+d.techs[fastT].total_t+' min</div><div class="card-sub">'+fastT+' — mediana total</div><span class="badge badge-green">🏆 MAIS RÁPIDO</span></div>'+
-    '<div class="card" style="--accent-color:var(--accent4)"><div class="card-title">MAIOR TEMPO ACEITE</div><div class="card-value">'+d.techs[slow].aceite+' min</div><div class="card-sub">'+slow+' — mediana</div><span class="badge badge-yellow">⚠ ATENÇÃO</span></div>'+
+// --- Tempos ---
+function initMontTempo() {
+  var techs = MONT_TECHS, d = MD;
+  var bya = [].concat(techs).sort(function(a,b){ return d.techs[a].aceite - d.techs[b].aceite; });
+  var byt = [].concat(techs).sort(function(a,b){ return d.techs[a].total_t - d.techs[b].total_t; });
+  var fast=bya[0], slow=bya[bya.length-1], fastT=byt[0], slowT=byt[byt.length-1];
+
+  document.getElementById('mont-tempoKpis').innerHTML =
+    '<div class="card" style="--accent-color:'+d.techs[fast].color+'"><div class="card-title">MELHOR TEMPO ACEITE</div><div class="card-value">'+d.techs[fast].aceite+' min</div><div class="card-sub">'+fast+' — mediana</div><span class="badge badge-green">🏆 LÍDER</span></div>' +
+    '<div class="card" style="--accent-color:'+d.techs[fastT].color+'"><div class="card-title">MELHOR TEMPO TOTAL</div><div class="card-value">'+d.techs[fastT].total_t+' min</div><div class="card-sub">'+fastT+' — mediana total</div><span class="badge badge-green">🏆 MAIS RÁPIDO</span></div>' +
+    '<div class="card" style="--accent-color:var(--accent4)"><div class="card-title">MAIOR TEMPO ACEITE</div><div class="card-value">'+d.techs[slow].aceite+' min</div><div class="card-sub">'+slow+' — mediana</div><span class="badge badge-yellow">⚠ ATENÇÃO</span></div>' +
     '<div class="card" style="--accent-color:var(--accent2)"><div class="card-title">MAIOR TEMPO TOTAL</div><div class="card-value">'+d.techs[slowT].total_t+' min</div><div class="card-sub">'+slowT+' — mediana total</div><span class="badge badge-yellow">📋 COMPLEXIDADE ALTA</span></div>';
-  mChart('mont-chartAceite',{type:'bar',data:{labels:techs,datasets:[{label:'Aceite (min)',data:techs.map(function(t){return d.techs[t].aceite;}),backgroundColor:techs.map(function(t){return d.techs[t].color+'cc';}),borderRadius:6},{label:'Meta (15min)',data:techs.map(function(){return 15;}),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},options:Object.assign({},MCD,{scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'},title:{display:true,text:'Minutos',color:'#7a9bb5'}}}})});
-  mChart('mont-chartResolTime',{type:'bar',data:{labels:techs,datasets:[{label:'Resolução (min)',data:techs.map(function(t){return d.techs[t].resolucao;}),backgroundColor:techs.map(function(t){return d.techs[t].color+'cc';}),borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'}}}})});
-  mChart('mont-chartComparativo',{type:'bar',data:{labels:techs,datasets:[{label:'Aceite',data:techs.map(function(t){return d.techs[t].aceite;}),backgroundColor:'#00c8ff77',borderRadius:4},{label:'Resolução',data:techs.map(function(t){return d.techs[t].resolucao;}),backgroundColor:'#38e08c77',borderRadius:4},{label:'Total',data:techs.map(function(t){return d.techs[t].total_t;}),backgroundColor:'#ffc30077',borderRadius:4},{label:'Meta total (60min)',data:techs.map(function(){return 60;}),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},options:Object.assign({},MCD,{scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'}}}})});
-  var rk=[].concat(techs).map(function(t){var td=d.techs[t];return Object.assign({},td,{name:t,score:Math.round((td.total*td.taxa)/(td.total_t+1))});}).sort(function(a,b){return b.score-a.score;});
-  var rc=['#ffd700','#c0c0c0','#cd7f32','#7a9bb5','#3d5a75'];
-  document.getElementById('mont-rankingBody').innerHTML=rk.map(function(r,i){
-    var bc=(r.taxa===100?'badge-green':r.taxa>=95?'badge-yellow':'badge-red');
-    return '<tr><td><span class="rank-badge" style="background:'+rc[i%rc.length]+'22;color:'+rc[i%rc.length]+'">'+(i+1)+'</span></td><td style="color:'+r.color+';font-weight:700;font-family:'Syne',sans-serif">'+r.name+'</td><td>'+r.total+'</td><td><span class="badge '+bc+'">'+r.taxa+'%</span></td><td>'+r.aceite+' min</td><td>'+r.resolucao+' min</td><td>'+r.total_t+' min</td><td><span style="color:'+r.color+';font-family:'Syne',sans-serif;font-weight:700">'+r.score+'</span></td></tr>';
+
+  mChart('mont-chartAceite',{type:'bar',data:{labels:techs,datasets:[{label:'Aceite (min)',data:techs.map(function(t){return d.techs[t].aceite;}),backgroundColor:techs.map(function(t){return d.techs[t].color+'cc';}),borderRadius:6},{label:'Meta (15min)',data:techs.map(function(){return 15;}),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},options:Object.assign({},MCD,{scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'},title:{display:true,text:'Minutos',color:'#7a9bb5'}}}})});
+  mChart('mont-chartResolTime',{type:'bar',data:{labels:techs,datasets:[{label:'Resolução (min)',data:techs.map(function(t){return d.techs[t].resolucao;}),backgroundColor:techs.map(function(t){return d.techs[t].color+'cc';}),borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
+  mChart('mont-chartComparativo',{type:'bar',data:{labels:techs,datasets:[{label:'Aceite',data:techs.map(function(t){return d.techs[t].aceite;}),backgroundColor:'#00c8ff77',borderRadius:4},{label:'Resolução',data:techs.map(function(t){return d.techs[t].resolucao;}),backgroundColor:'#38e08c77',borderRadius:4},{label:'Total',data:techs.map(function(t){return d.techs[t].total_t;}),backgroundColor:'#ffc30077',borderRadius:4},{label:'Meta total (60min)',data:techs.map(function(){return 60;}),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},options:Object.assign({},MCD,{scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
+
+  var rk = [].concat(techs).map(function(t){ var td=d.techs[t]; return {name:t,color:td.color,total:td.total,taxa:td.taxa,aceite:td.aceite,resolucao:td.resolucao,total_t:td.total_t,score:Math.round((td.total*td.taxa)/(td.total_t+1))}; }).sort(function(a,b){ return b.score-a.score; });
+  var rc = ['#ffd700','#c0c0c0','#cd7f32','#7a9bb5','#3d5a75'];
+  document.getElementById('mont-rankingBody').innerHTML = rk.map(function(r,i){
+    var bc = r.taxa===100?'badge-green':r.taxa>=95?'badge-yellow':'badge-red';
+    return '<tr><td><span class="rank-badge" style="background:'+rc[i%rc.length]+'22;color:'+rc[i%rc.length]+'">'+(i+1)+'</span></td><td style="color:'+r.color+';font-weight:700;font-family:Syne,sans-serif">'+r.name+'</td><td>'+r.total+'</td><td><span class="badge '+bc+'">'+r.taxa+'%</span></td><td>'+r.aceite+' min</td><td>'+r.resolucao+' min</td><td>'+r.total_t+' min</td><td><span style="color:'+r.color+';font-weight:700">'+r.score+'</span></td></tr>';
   }).join('');
 }
 
-function initMontDistrib(){
-  var techs=MONT_TECHS,d=MD;
+// --- Distribuição ---
+function initMontDistrib() {
+  var techs=MONT_TECHS, d=MD;
   var months=d.all_months;
-  var mesLbls=months.map(function(m){return['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][parseInt(m.split('-')[1])-1];});
+  var mesLbls={'2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun'};
+  var mesArr=months.map(function(m){return mesLbls[m]||m;});
   var weeks=d.all_weeks;
-  mChart('mont-chartTurnos',{type:'bar',data:{labels:['T1 (06-14h)','T2 (14-22h)','T3 (22-06h)'],datasets:techs.map(function(t){return{label:t,data:[d.techs[t].shifts.T1,d.techs[t].shifts.T2,d.techs[t].shifts.T3],backgroundColor:d.techs[t].color+'cc',borderRadius:4};})},options:Object.assign({},MCD,{scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}},y:{ticks:{color:'#7a9bb5'}}}})});
+
+  mChart('mont-chartTurnos',{type:'bar',data:{labels:['T1 (06-14h)','T2 (14-22h)','T3 (22-06h)'],datasets:techs.map(function(t){return{label:t,data:[d.techs[t].shifts.T1,d.techs[t].shifts.T2,d.techs[t].shifts.T3],backgroundColor:d.techs[t].color+'cc',borderRadius:4};})},options:Object.assign({},MCD,{scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
   var dow=[0,1,2,3,4,5,6].map(function(i){return techs.reduce(function(s,t){return s+(d.techs[t].dow[i]||0);},0);});
-  mChart('mont-chartDia',{type:'bar',data:{labels:['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],datasets:[{data:dow,backgroundColor:dow.map(function(_,i){return i<5?'#00c8ff99':'#ffc30099';}),borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}},y:{ticks:{color:'#7a9bb5'}}}})});
-  mChart('mont-chartMensal',{type:'bar',data:{labels:mesLbls,datasets:techs.map(function(t){return{label:t,data:months.map(function(m){return d.techs[t].monthly[m]||0;}),backgroundColor:d.techs[t].color+'cc',stack:'s',borderRadius:2};})},options:Object.assign({},MCD,{scales:{x:{stacked:true,ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}},y:{stacked:true,ticks:{color:'#7a9bb5'}}}})});
+  mChart('mont-chartDia',{type:'bar',data:{labels:['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],datasets:[{data:dow,backgroundColor:dow.map(function(_,i){return i<5?'#00c8ff99':'#ffc30099';}),borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
+  mChart('mont-chartMensal',{type:'bar',data:{labels:mesArr,datasets:techs.map(function(t){return{label:t,data:months.map(function(m){return d.techs[t].monthly[m]||0;}),backgroundColor:d.techs[t].color+'cc',stack:'s',borderRadius:2};})},options:Object.assign({},MCD,{scales:{x:{stacked:true,ticks:{color:'#7a9bb5'}},y:{stacked:true,ticks:{color:'#7a9bb5'}}}})});
+
   function hexRgb(h){return[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)].join(',');}
-  var mx={};techs.forEach(function(t){mx[t]=Math.max.apply(null,[1].concat(Object.values(d.techs[t].hm)));});
-  var hm='<div class="heatmap-grid"><div class="hm-header"></div>';
-  for(var h=0;h<24;h++) hm+='<div class="hm-header">'+String(h).padStart(2,'0')+'h</div>';
+  var mx={};
+  techs.forEach(function(t){mx[t]=Math.max.apply(null,[1].concat(Object.values(d.techs[t].hm)));});
+  var hmEl=document.getElementById('mont-heatmapContainer');
+  var hmDiv=document.createElement('div'); hmDiv.className='heatmap-grid';
+  var hdr=document.createElement('div'); hdr.className='hm-header'; hmDiv.appendChild(hdr);
+  for(var h=0;h<24;h++){var hh=document.createElement('div');hh.className='hm-header';hh.textContent=String(h).padStart(2,'0')+'h';hmDiv.appendChild(hh);}
   techs.forEach(function(t){
-    hm+='<div class="hm-label">'+t+'</div>';
+    var lbl=document.createElement('div');lbl.className='hm-label';lbl.textContent=t;hmDiv.appendChild(lbl);
     for(var h=0;h<24;h++){
       var v=d.techs[t].hm[h]||0;var a=v/mx[t];
-      var bg=a>0?'rgba('+hexRgb(d.techs[t].color)+','+Math.max(0.05,a*0.85)+')':'rgba(255,255,255,0.03)';
-      hm+='<div class="hm-cell" style="background:'+bg+'" data-tip="'+t+' '+String(h).padStart(2,'0')+'h: '+v+'"></div>';
+      var cell=document.createElement('div');cell.className='hm-cell';
+      cell.style.background=a>0?'rgba('+hexRgb(d.techs[t].color)+','+Math.max(0.05,a*0.85)+')':'rgba(255,255,255,0.03)';
+      cell.setAttribute('data-tip',t+' '+String(h).padStart(2,'0')+'h: '+v);
+      hmDiv.appendChild(cell);
     }
-  });hm+='</div>';
-  document.getElementById('mont-heatmapContainer').innerHTML=hm;
-  document.getElementById('mont-heatmapLegend').innerHTML=techs.map(function(t){return'<div class="legend-item"><div class="legend-dot" style="background:'+d.techs[t].color+'"></div>'+t+'</div>';}).join('');
+  });
+  hmEl.innerHTML=''; hmEl.appendChild(hmDiv);
+
+  var leg=document.getElementById('mont-heatmapLegend');
+  leg.innerHTML=techs.map(function(t){return '<div class="legend-item"><div class="legend-dot" style="background:'+d.techs[t].color+'"></div>'+t+'</div>';}).join('');
+
   var allAreas=[...new Set(techs.reduce(function(a,t){return a.concat(Object.keys(d.techs[t].suporte));},[])) ];
-  mChart('mont-chartAreaTech',{type:'bar',data:{labels:allAreas,datasets:techs.map(function(t){return{label:t,data:allAreas.map(function(a){return d.techs[t].suporte[a]||0;}),backgroundColor:d.techs[t].color+'cc',stack:'s',borderRadius:2};})},options:Object.assign({},MCD,{scales:{x:{stacked:true,ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}},y:{stacked:true,ticks:{color:'#7a9bb5'}}}})});
+  mChart('mont-chartAreaTech',{type:'bar',data:{labels:allAreas,datasets:techs.map(function(t){return{label:t,data:allAreas.map(function(a){return d.techs[t].suporte[a]||0;}),backgroundColor:d.techs[t].color+'cc',stack:'s',borderRadius:2};})},options:Object.assign({},MCD,{scales:{x:{stacked:true,ticks:{color:'#7a9bb5'}},y:{stacked:true,ticks:{color:'#7a9bb5'}}}})});
 }
 
-function buildMontRec(){
-  var techs=MONT_TECHS,d=MD;
+// --- Recomendações ---
+function buildMontRec() {
+  var techs=MONT_TECHS, d=MD;
   var bya=[].concat(techs).sort(function(a,b){return d.techs[a].aceite-d.techs[b].aceite;});
-  var fast=bya[0],slow=bya[bya.length-1];
-  var atencao=techs.filter(function(t){return d.techs[t].aceite>30;}).map(function(t){
+  var fast=bya[0], slow=bya[bya.length-1];
+
+  var atencao = techs.filter(function(t){return d.techs[t].aceite>30;}).map(function(t){
     return '<div class="rec-card" style="--accent-color:var(--accent2)"><div class="rec-title">🔴 '+t+' — Tempo de Aceite Elevado</div><div class="rec-body">Mediana de '+d.techs[t].aceite+'min, acima da meta de 15min. Investigar sobrecarga.</div></div>';
   }).join('');
-  var taxa98=techs.filter(function(t){return d.techs[t].taxa<98&&d.techs[t].total>=5;}).map(function(t){
-    return '<div class="rec-card" style="--accent-color:var(--accent4)"><div class="rec-title">🟡 '+t+' — Taxa Abaixo de 98%</div><div class="rec-body">'+d.techs[t].taxa+'% com '+d.techs[t].exp+' chamados expirados. Criar escalonamento preventivo.</div></div>';
+  var taxa98 = techs.filter(function(t){return d.techs[t].taxa<98&&d.techs[t].total>=5;}).map(function(t){
+    return '<div class="rec-card" style="--accent-color:var(--accent4)"><div class="rec-title">🟡 '+t+' — Taxa Abaixo de 98%</div><div class="rec-body">'+d.techs[t].taxa+'% com '+d.techs[t].exp+' expirados. Criar escalonamento preventivo.</div></div>';
   }).join('');
-  var baixoVol=techs.filter(function(t){return d.techs[t].total<5;}).map(function(t){
+  var baixoVol = techs.filter(function(t){return d.techs[t].total<5;}).map(function(t){
     return '<div class="rec-card" style="--accent-color:var(--accent5)"><div class="rec-title">🟣 '+t+' — Volume Muito Baixo</div><div class="rec-body">Apenas '+d.techs[t].total+' chamados. Verificar limitação de atribuição.</div></div>';
   }).join('');
-  var semProblema=(atencao+taxa98+baixoVol)===''?'<div class="rec-card" style="--accent-color:var(--accent3)"><div class="rec-title">✅ Sem pontos críticos</div><div class="rec-body">Time operando dentro dos parâmetros. Manter monitoramento.</div></div>':'';
-  var boas100=techs.filter(function(t){return d.techs[t].taxa===100&&d.techs[t].total>=5;}).map(function(t){
-    return '<div class="rec-card" style="--accent-color:'+d.techs[t].color+'"><div class="rec-title">🟢 '+t+' — 100% de Resolução</div><div class="rec-body">'+d.techs[t].total+' chamados sem nenhuma expiração. Excelente desempenho.</div></div>';
+  var semProb = (atencao+taxa98+baixoVol)==='' ? '<div class="rec-card" style="--accent-color:var(--accent3)"><div class="rec-title">✅ Sem pontos críticos</div><div class="rec-body">Time operando dentro dos parâmetros.</div></div>' : '';
+  var boas100 = techs.filter(function(t){return d.techs[t].taxa===100&&d.techs[t].total>=5;}).map(function(t){
+    return '<div class="rec-card" style="--accent-color:'+d.techs[t].color+'"><div class="rec-title">🟢 '+t+' — 100% de Resolução</div><div class="rec-body">'+d.techs[t].total+' chamados sem nenhuma expiração.</div></div>';
   }).join('');
-  document.getElementById('mont-recContent').innerHTML=
-    '<div class="insight-box"><h3>🎯 Resumo Executivo — Montagem</h3><p>O time de <strong style="color:var(--accent)">'+techs.length+' técnicos</strong> atendeu <strong style="color:var(--accent)">'+d.team_total+' chamados</strong> de Montagem com taxa de <strong style="color:var(--accent3)">'+d.taxa_all+'%</strong> e tempo médio de <strong style="color:var(--accent4)">'+d.team_med+' min</strong>. Destaque para <strong style="color:'+d.techs[fast].color+'">'+fast+'</strong> com menor aceite ('+d.techs[fast].aceite+'min).'+(d.techs[slow].aceite>30?' <strong style="color:var(--accent4)">'+slow+' com aceite elevado ('+d.techs[slow].aceite+'min) — ponto de atenção.</strong>':'')+'</p></div>'+
-    '<div class="grid-2"><div>'+
-      '<div class="section-title">⚠ Pontos de Atenção</div>'+atencao+taxa98+baixoVol+semProblema+
-    '</div><div>'+
-      '<div class="section-title">✅ Boas Práticas</div>'+
-      '<div class="rec-card" style="--accent-color:'+d.techs[fast].color+'"><div class="rec-title">🟢 '+fast+' — Referência de Aceite ('+d.techs[fast].aceite+'min)</div><div class="rec-body">'+d.techs[fast].taxa+'% de resolução e menor tempo de aceite. Referência para o time.</div></div>'+
-      boas100+
-      '<div class="rec-card" style="--accent-color:var(--accent)"><div class="rec-title">🔵 Integração PCI ↔ Montagem</div><div class="rec-body">Garantir alinhamento entre os times para cobertura cruzada em Testes e Processos que atendem Montagem.</div></div>'+
-    '</div></div>';
+
+  document.getElementById('mont-recContent').innerHTML =
+    '<div class="insight-box"><h3>🎯 Resumo Executivo — Montagem</h3><p>O time de <strong style="color:var(--accent)">'+techs.length+' técnicos</strong> atendeu <strong style="color:var(--accent)">'+d.team_total+' chamados</strong> com taxa de <strong style="color:var(--accent3)">'+d.taxa_all+'%</strong> e tempo médio de <strong style="color:var(--accent4)">'+d.team_med+' min</strong>. Melhor aceite: <strong style="color:'+d.techs[fast].color+'">'+fast+' ('+d.techs[fast].aceite+'min)</strong>.'+(d.techs[slow].aceite>30?' <strong style="color:var(--accent4)">'+slow+' com aceite elevado ('+d.techs[slow].aceite+'min).</strong>':'')+'</p></div>' +
+    '<div class="grid-2"><div><div class="section-title">⚠ Pontos de Atenção</div>'+atencao+taxa98+baixoVol+semProb+'</div>' +
+    '<div><div class="section-title">✅ Boas Práticas</div>' +
+    '<div class="rec-card" style="--accent-color:'+d.techs[fast].color+'"><div class="rec-title">🟢 '+fast+' — Referência de Aceite ('+d.techs[fast].aceite+'min)</div><div class="rec-body">'+d.techs[fast].taxa+'% de resolução e menor tempo de aceite do time.</div></div>' +
+    boas100 +
+    '<div class="rec-card" style="--accent-color:var(--accent)"><div class="rec-title">🔵 Integração PCI ↔ Montagem</div><div class="rec-body">Garantir alinhamento entre os times para cobertura cruzada em Testes e Processos que atendem Montagem.</div></div></div></div>';
 }
 
-function montShowPage(id,event){
-  document.querySelectorAll('#mont-wrapper .page').forEach(function(p){p.classList.remove('active');});
-  document.querySelectorAll('#nav-mont .nav-tab').forEach(function(t){t.classList.remove('active');});
+// --- Navegação ---
+function montShowPage(id, event) {
+  document.querySelectorAll('#mont-wrapper .page').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('#nav-mont .nav-tab').forEach(function(t){ t.classList.remove('active'); });
   document.getElementById(id).classList.add('active');
-  if(event&&event.target)event.target.classList.add('active');
-  if(id==='mont-techs'){
+  if (event && event.target) event.target.classList.add('active');
+  if (id==='mont-techs') {
     montBuildSelector();
-    if(!montCurrentTech&&MONT_TECHS.length){
-      montCurrentTech=MONT_TECHS[0];
-      var btn=document.querySelector('#mont-techSelector .tech-btn');
-      if(btn)btn.classList.add('active');
+    if (!montCurrentTech && MONT_TECHS.length) {
+      montCurrentTech = MONT_TECHS[0];
+      var btn = document.querySelector('#mont-techSelector .tech-btn');
+      if (btn) btn.classList.add('active');
       montRenderTechDetail(montCurrentTech);
     }
   }
-  if(id==='mont-tempo'&&!montPageInited.tempo){initMontTempo();montPageInited.tempo=true;}
-  if(id==='mont-distribuicao'&&!montPageInited.distrib){initMontDistrib();montPageInited.distrib=true;}
-  if(id==='mont-recomendacoes'&&!montPageInited.rec){buildMontRec();montPageInited.rec=true;}
+  if (id==='mont-tempo'       && !montPageInited.tempo)  { initMontTempo();   montPageInited.tempo=true; }
+  if (id==='mont-distribuicao' && !montPageInited.distrib){ initMontDistrib(); montPageInited.distrib=true; }
+  if (id==='mont-recomendacoes'&& !montPageInited.rec)   { buildMontRec();    montPageInited.rec=true; }
 }
 
 // ===== IMPORTAR PLANILHA =====
-function importFile(event){
+function importFile(event) {
   var file=event.target.files[0]; if(!file)return;
   var modal=document.getElementById('impModal');
   var fill=document.getElementById('impFill');
   var msg=document.getElementById('impMsg');
-  modal.classList.add('show');msg.textContent='Lendo arquivo Excel...';fill.style.width='20%';
+  modal.classList.add('show'); msg.textContent='Lendo arquivo Excel...'; fill.style.width='20%';
   var reader=new FileReader();
   reader.onload=function(e){
     try{
-      fill.style.width='50%';msg.textContent='Processando dados...';
+      fill.style.width='50%'; msg.textContent='Processando dados...';
       var wb=XLSX.read(e.target.result,{type:'array'});
       var ws=wb.Sheets[wb.SheetNames[0]];
       var rows=XLSX.utils.sheet_to_json(ws,{defval:''});
-      fill.style.width='80%';msg.textContent='Recalculando métricas...';
+      fill.style.width='80%'; msg.textContent='Recalculando métricas...';
       var montRows=rows.filter(function(r){
         var sup=r['Área Suporte']||'';
         var sol=r['Área Solicitante']||'';
         var tec=r['Técnico']||'';
-        return(sup==='Processos'||sup==='Testes')&&sol==='Montagem'&&MONT_TECHS_ORDER.indexOf(tec)>=0;
+        return (sup==='Processos'||sup==='Testes') && sol==='Montagem' && MONT_TECHS_ORDER.indexOf(tec)>=0;
       });
       if(!montRows.length){msg.textContent='❌ Nenhum dado de Montagem encontrado.';return;}
       var newMont=recomputeMont(montRows);
       Object.assign(MD,newMont);
       fill.style.width='100%';
       msg.textContent='✅ Atualizado! '+rows.length+' chamados, '+montRows.length+' de Montagem.';
-      montInited=false;montPageInited={};montCurrentTech=null;
+      montInited=false; montPageInited={}; montCurrentTech=null; montMonthFilter='all';
       Object.keys(montCharts).forEach(function(k){if(montCharts[k])montCharts[k].destroy();delete montCharts[k];});
       if(currentArea==='mont'){initMontagem();montInited=true;}
       var ok=document.getElementById('importOk');
-      ok.style.display='inline';setTimeout(function(){ok.style.display='none';},4000);
+      ok.style.display='inline'; setTimeout(function(){ok.style.display='none';},4000);
     }catch(err){msg.textContent='❌ Erro: '+err.message;console.error(err);}
   };
-  reader.readAsArrayBuffer(file);event.target.value='';
+  reader.readAsArrayBuffer(file); event.target.value='';
 }
 
 function recomputeMont(rows){
@@ -1704,17 +1949,17 @@ function recomputeMont(rows){
     var sol=r['Área Solicitante']||'';if(sol)td.areas[sol]=(td.areas[sol]||0)+1;
     var h=null,dw=null,mes=null,sem=null;
     try{
-      var ds=r['Data Abertura']||'';var d;
-      if(typeof ds==='string'&&ds.indexOf('/')>=0){var p=ds.split('/');d=new Date(p[2]+'-'+p[1]+'-'+p[0]);}
-      else if(typeof ds==='number'){d=new Date(Math.round((ds-25569)*86400*1000));}
-      else d=new Date(ds);
-      if(!isNaN(d)){
-        var dw2=d.getDay();dw=dw2===0?6:dw2-1;
-        mes=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');allMonths.add(mes);
-        var tmp=new Date(d);tmp.setHours(0,0,0,0);tmp.setDate(tmp.getDate()+3-(tmp.getDay()+6)%7);
+      var ds=r['Data Abertura']||'';var dd;
+      if(typeof ds==='string'&&ds.indexOf('/')>=0){var p=ds.split('/');dd=new Date(p[2]+'-'+p[1]+'-'+p[0]);}
+      else if(typeof ds==='number'){dd=new Date(Math.round((ds-25569)*86400*1000));}
+      else dd=new Date(ds);
+      if(!isNaN(dd)){
+        var dw2=dd.getDay();dw=dw2===0?6:dw2-1;
+        mes=dd.getFullYear()+'-'+String(dd.getMonth()+1).padStart(2,'0');allMonths.add(mes);
+        var tmp=new Date(dd);tmp.setHours(0,0,0,0);tmp.setDate(tmp.getDate()+3-(tmp.getDay()+6)%7);
         var w1=new Date(tmp.getFullYear(),0,4);sem=1+Math.round(((tmp-w1)/86400000-3+(w1.getDay()+6)%7)/7);allWeeks.add(sem);
       }
-    }catch(e){}
+    }catch(ex){}
     var ts=r['Hora Abertura']||'';if(typeof ts==='string'&&ts.indexOf(':')>=0)h=parseInt(ts.split(':')[0]);
     if(mes)td.monthly[mes]=(td.monthly[mes]||0)+1;
     if(sem)td.weekly[sem]=(td.weekly[sem]||0)+1;
@@ -1736,11 +1981,10 @@ function recomputeMont(rows){
   var fin=rows.filter(function(r){return r['Status Final']==='Finalizado';}).length;
   var aDist={};rows.forEach(function(r){var s=r['Área Suporte']||'';if(s)aDist[s]=(aDist[s]||0)+1;});
   var wAll={};rows.forEach(function(r){
-    try{var ds=r['Data Abertura']||'';var d;if(typeof ds==='string'&&ds.indexOf('/')>=0){var p=ds.split('/');d=new Date(p[2]+'-'+p[1]+'-'+p[0]);}else if(typeof ds==='number'){d=new Date(Math.round((ds-25569)*86400*1000));}else d=new Date(ds);
-    if(!isNaN(d)){var tmp=new Date(d);tmp.setHours(0,0,0,0);tmp.setDate(tmp.getDate()+3-(tmp.getDay()+6)%7);var w1=new Date(tmp.getFullYear(),0,4);var wk=1+Math.round(((tmp-w1)/86400000-3+(w1.getDay()+6)%7)/7);wAll[wk]=(wAll[wk]||0)+1;}}catch(e){}
+    try{var ds=r['Data Abertura']||'';var dd;if(typeof ds==='string'&&ds.indexOf('/')>=0){var p=ds.split('/');dd=new Date(p[2]+'-'+p[1]+'-'+p[0]);}else if(typeof ds==='number'){dd=new Date(Math.round((ds-25569)*86400*1000));}else dd=new Date(ds);
+    if(!isNaN(dd)){var tmp=new Date(dd);tmp.setHours(0,0,0,0);tmp.setDate(tmp.getDate()+3-(tmp.getDay()+6)%7);var w1=new Date(tmp.getFullYear(),0,4);var wk=1+Math.round(((tmp-w1)/86400000-3+(w1.getDay()+6)%7)/7);wAll[wk]=(wAll[wk]||0)+1;}}catch(ex){}
   });
-  var aMonths=[...allMonths].sort();var aWeeks=[...allWeeks].sort(function(a,b){return a-b;});
-  return{techs:techs,team_total:rows.length,taxa_all:rows.length>0?Math.round(fin/rows.length*1000)/10:0,team_med:med(allTot),area_dist:aDist,weekly_all:wAll,all_months:aMonths,all_weeks:aWeeks};
+  return{techs:techs,team_total:rows.length,taxa_all:rows.length>0?Math.round(fin/rows.length*1000)/10:0,team_med:med(allTot),area_dist:aDist,weekly_all:wAll,all_months:[...allMonths].sort(),all_weeks:[...allWeeks].sort(function(a,b){return a-b;})};
 }
 
 </script>
