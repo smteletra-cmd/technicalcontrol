@@ -609,7 +609,7 @@
 <div class="loading" id="loading">
   <h2>⚡ CARREGANDO DASHBOARD</h2>
   <div class="loading-bar"><div class="loading-fill"></div></div>
-  <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);">Processando chamados do time...</p>
+  <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);">Processando 752 chamados do time...</p>
 </div>
 
 
@@ -669,7 +669,7 @@
 
   <div class="grid-5">
     <!-- Vitor -->
-    <div class="tech-card" style="--t-color:var(--vitor)" onclick="selectTech('Vitor')">
+    <div class="tech-card" style="--t-color:var(--vitor)" onclick="selectTech('Vitor')" data-tech="Vitor">
       <div class="tech-avatar">V</div>
       <div class="tech-name">Vitor</div>
       <div class="tech-role">PROCESSOS · T1+T2</div>
@@ -694,7 +694,7 @@
       <div class="perf-bar"><div class="perf-fill" style="width:97.7%"></div></div>
     </div>
     <!-- Iago -->
-    <div class="tech-card" style="--t-color:var(--iago)" onclick="selectTech('Iago')">
+    <div class="tech-card" style="--t-color:var(--iago)" onclick="selectTech('Iago')" data-tech="Iago">
       <div class="tech-avatar" style="color:#fff">I</div>
       <div class="tech-name">Iago</div>
       <div class="tech-role">PROCESSOS · T3</div>
@@ -719,7 +719,7 @@
       <div class="perf-bar"><div class="perf-fill" style="width:100%;background:var(--iago)"></div></div>
     </div>
     <!-- Ricardo -->
-    <div class="tech-card" style="--t-color:var(--ricardo)" onclick="selectTech('Ricardo')">
+    <div class="tech-card" style="--t-color:var(--ricardo)" onclick="selectTech('Ricardo')" data-tech="Ricardo">
       <div class="tech-avatar">R</div>
       <div class="tech-name">Ricardo</div>
       <div class="tech-role">PROCESSOS · T2</div>
@@ -744,7 +744,7 @@
       <div class="perf-bar"><div class="perf-fill" style="width:100%;background:var(--ricardo)"></div></div>
     </div>
     <!-- Elciney -->
-    <div class="tech-card" style="--t-color:var(--elciney)" onclick="selectTech('Elciney')">
+    <div class="tech-card" style="--t-color:var(--elciney)" onclick="selectTech('Elciney')" data-tech="Elciney">
       <div class="tech-avatar">E</div>
       <div class="tech-name">Elciney</div>
       <div class="tech-role">PROCESSOS · T1</div>
@@ -769,7 +769,7 @@
       <div class="perf-bar"><div class="perf-fill" style="width:100%;background:var(--elciney)"></div></div>
     </div>
     <!-- Giselly -->
-    <div class="tech-card" style="--t-color:var(--giselly)" onclick="selectTech('Giselly')">
+    <div class="tech-card" style="--t-color:var(--giselly)" onclick="selectTech('Giselly')" data-tech="Giselly">
       <div class="tech-avatar">G</div>
       <div class="tech-name">Giselly</div>
       <div class="tech-role">PROCESSOS · T1+T2</div>
@@ -1141,91 +1141,190 @@
 <script>
 // ===== DATA =====
 const techData = {
-  Vitor:   { total:264, finalized:258, expired:6,  taxa:97.7, aceite:16.5, resolucao:4,  total_t:32.5, color:'#00c8ff', areas:{SMT:191,'Check SMT':48,PTH:25}, monthly:{2:24,3:65,4:105,5:65,6:5}, shifts:{'T1':156,'T2':104,'T3':4}, causa:{Técnico:234,Operacional:30}, dias:{Mon:40,Tue:46,Wed:57,Thu:43,Fri:51,Sat:27,Sun:0} },
-  Iago:    { total:224, finalized:224, expired:0,  taxa:100,  aceite:2,    resolucao:6,  total_t:14,   color:'#38e08c', areas:{SMT:100,PTH:92,'Check SMT':26,Engenharia:5,Montagem:1}, monthly:{2:25,3:47,4:57,5:95}, shifts:{'T1':1,'T2':39,'T3':184}, causa:{Técnico:216,Operacional:8}, dias:{Mon:25,Tue:41,Wed:39,Thu:33,Fri:28,Sat:35,Sun:23} },
-  Ricardo: { total:183, finalized:183, expired:0,  taxa:100,  aceite:52,   resolucao:11, total_t:96,   color:'#ffc300', areas:{SMT:95,'Check SMT':38,PTH:35,Engenharia:15}, monthly:{2:2,3:46,4:26,5:109}, shifts:{'T1':15,'T2':166,'T3':2}, causa:{Técnico:171,Operacional:12}, dias:{Mon:32,Tue:34,Wed:42,Thu:32,Fri:21,Sat:19,Sun:3} },
-  Elciney: { total:58,  finalized:58,  expired:0,  taxa:100,  aceite:14.5, resolucao:4,  total_t:23.5, color:'#ff5f40', areas:{SMT:50,PTH:8}, monthly:{2:3,3:3,4:51,5:1}, shifts:{'T1':57,'T2':1,'T3':0}, causa:{Técnico:49,Operacional:9}, dias:{Mon:9,Tue:7,Wed:7,Thu:11,Fri:17,Sat:7,Sun:0} },
-  Giselly: { total:23,  finalized:23,  expired:0,  taxa:100,  aceite:16,   resolucao:16, total_t:75,   color:'#c97bff', areas:{PTH:22,SMT:1}, monthly:{2:0,3:3,4:13,5:7}, shifts:{'T1':13,'T2':10,'T3':0}, causa:{Técnico:18,Operacional:5}, dias:{Mon:2,Tue:3,Wed:3,Thu:2,Fri:7,Sat:6,Sun:0} }
+  Vitor:   { total:264, finalized:258, expired:6,  taxa:97.7, aceite:16.5, resolucao:4,  total_t:32.5, color:'#00c8ff', areas:{SMT:191,'Check SMT':48,PTH:25}, monthly:{2:24,3:65,4:105,5:65,6:5}, shifts:{'T1':156,'T2':104,'T3':4}, causa:{'Técnico':234,Operacional:30}, dias:{Mon:40,Tue:46,Wed:57,Thu:43,Fri:51,Sat:27,Sun:0} },
+  Iago:    { total:224, finalized:224, expired:0,  taxa:100,  aceite:2,    resolucao:6,  total_t:14,   color:'#38e08c', areas:{SMT:100,PTH:92,'Check SMT':26,Engenharia:5,Montagem:1}, monthly:{2:25,3:47,4:57,5:95,6:0}, shifts:{'T1':1,'T2':39,'T3':184}, causa:{'Técnico':216,Operacional:8}, dias:{Mon:25,Tue:41,Wed:39,Thu:33,Fri:28,Sat:35,Sun:23} },
+  Ricardo: { total:183, finalized:183, expired:0,  taxa:100,  aceite:52,   resolucao:11, total_t:96,   color:'#ffc300', areas:{SMT:95,'Check SMT':38,PTH:35,Engenharia:15}, monthly:{2:2,3:46,4:26,5:109,6:0}, shifts:{'T1':15,'T2':166,'T3':2}, causa:{'Técnico':171,Operacional:12}, dias:{Mon:32,Tue:34,Wed:42,Thu:32,Fri:21,Sat:19,Sun:3} },
+  Elciney: { total:58,  finalized:58,  expired:0,  taxa:100,  aceite:14.5, resolucao:4,  total_t:23.5, color:'#ff5f40', areas:{SMT:50,PTH:8}, monthly:{2:3,3:3,4:51,5:1,6:0}, shifts:{'T1':57,'T2':1,'T3':0}, causa:{'Técnico':49,Operacional:9}, dias:{Mon:9,Tue:7,Wed:7,Thu:11,Fri:17,Sat:7,Sun:0} },
+  Giselly: { total:23,  finalized:23,  expired:0,  taxa:100,  aceite:16,   resolucao:16, total_t:75,   color:'#c97bff', areas:{PTH:22,SMT:1}, monthly:{2:0,3:3,4:13,5:7,6:0}, shifts:{'T1':13,'T2':10,'T3':0}, causa:{'Técnico':18,Operacional:5}, dias:{Mon:2,Tue:3,Wed:3,Thu:2,Fri:7,Sat:6,Sun:0} }
 };
 
-const heatmapData = {
-  Vitor:   {6:22,7:30,8:26,9:20,10:18,11:19,12:16,13:5,14:15,15:22,16:18,17:21,18:20,19:8,20:4,21:0,22:2,23:0,0:0,1:0,2:0,3:0,4:0,5:2},
-  Iago:    {0:30,1:22,2:18,3:10,4:8,5:5,6:1,14:5,15:8,16:7,17:6,18:5,19:4,20:3,21:1,22:25,23:30,7:0,8:0,9:0,10:0,11:0,12:0,13:0},
-  Ricardo: {6:2,7:3,8:3,14:22,15:28,16:30,17:26,18:24,19:20,20:15,21:12,22:2,0:0,1:0,2:0,3:0,4:0,5:0,9:0,10:0,11:0,12:0,13:0,23:0},
-  Elciney: {6:9,7:10,8:14,9:5,10:11,11:3,12:2,13:3,14:1,0:0,1:0,2:0,3:0,4:0,5:0,15:0,16:0,17:0,18:0,19:0,20:0,21:0,22:0,23:0},
-  Giselly: {7:1,8:4,9:2,10:1,11:2,12:2,13:1,14:2,15:6,16:2,0:0,1:0,2:0,3:0,4:0,5:0,6:0,17:0,18:0,19:0,20:0,21:0,22:0,23:0}
+const weeklyMap = {
+  Vitor:   {7:5,8:16,9:3,10:8,11:23,12:4,13:24,14:6,15:26,16:23,17:45,18:11,19:24,20:14,21:19,22:8,23:5},
+  Iago:    {7:12,8:10,9:3,10:8,11:8,12:5,13:18,14:15,15:17,16:9,17:13,18:16,19:18,20:34,21:22,22:16,23:0},
+  Ricardo: {7:2,8:0,9:0,10:0,11:8,12:9,13:21,14:15,15:4,16:0,17:0,18:15,19:31,20:25,21:32,22:21,23:0},
+  Elciney: {7:0,8:2,9:1,10:2,11:0,12:1,13:0,14:0,15:10,16:19,17:18,18:4,19:0,20:0,21:0,22:1,23:0},
+  Giselly: {7:0,8:0,9:0,10:0,11:0,12:2,13:1,14:1,15:2,16:4,17:3,18:3,19:2,20:3,21:1,22:1,23:0}
 };
+
+// month filter: 0=all, 2=Fev, 3=Mar, 4=Abr, 5=Mai, 6=Jun
+const PCI_MONTHS = [2,3,4,5,6];
+const PCI_MES_LABELS = {2:'Fev',3:'Mar',4:'Abr',5:'Mai',6:'Jun'};
+let pciMonthFilter = 0; // 0 = todos
+
+let pciChartInstances = {};
+
+function pciChart(id, cfg) {
+  if (pciChartInstances[id]) pciChartInstances[id].destroy();
+  const el = document.getElementById(id);
+  if (!el) return null;
+  pciChartInstances[id] = new Chart(el.getContext('2d'), cfg);
+  return pciChartInstances[id];
+}
 
 const techs = ['Vitor','Iago','Ricardo','Elciney','Giselly'];
 const CHART_DEFAULTS = {
   color: '#e4f0ff',
   responsive: true,
-  maintainAspectRatio: true,
-  plugins: { legend: { labels: { color:'#7a9bb5', font:{family:'IBM Plex Mono', size:10} } } }
+  maintainAspectRatio: false,
+  plugins: { legend: { labels: { color:'#7a9bb5', font:{family:'IBM Plex Mono', size:10}, boxWidth:12 } } }
 };
 
 Chart.defaults.color = '#7a9bb5';
 Chart.defaults.borderColor = '#1a2d45';
 
-// ===== CHARTS: OVERVIEW =====
+// --- Filtro de mês PCI ---
+function buildPciMonthFilter() {
+  const bar = document.createElement('div');
+  bar.className = 'month-filter-bar';
+  bar.id = 'pci-month-filter';
+
+  const allBtn = document.createElement('button');
+  allBtn.className = 'mf-btn active';
+  allBtn.textContent = 'Todos';
+  allBtn.addEventListener('click', function(){ setPciMonth(0, allBtn); });
+  bar.appendChild(allBtn);
+
+  PCI_MONTHS.forEach(function(m) {
+    const btn = document.createElement('button');
+    btn.className = 'mf-btn';
+    btn.textContent = PCI_MES_LABELS[m];
+    btn.addEventListener('click', function(){ setPciMonth(m, btn); });
+    bar.appendChild(btn);
+  });
+
+  const overview = document.getElementById('page-overview');
+  const sectionTitle = overview.querySelector('.section-title');
+  sectionTitle.insertAdjacentElement('afterend', bar);
+}
+
+function setPciMonth(month, btn) {
+  document.querySelectorAll('#pci-month-filter .mf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  pciMonthFilter = month;
+  // Redraw overview charts and update tech cards
+  ['chartWeekly','chartArea','chartTechVolume','chartTechTime','chartResolucao'].forEach(function(id){
+    if(pciChartInstances[id]){ pciChartInstances[id].destroy(); delete pciChartInstances[id]; }
+  });
+  initOverviewCharts();
+  updatePciTechCards();
+  updatePciHeaderStats();
+}
+
+function getPciTechs() {
+  // When filtered, exclude techs with 0 in that month
+  if (pciMonthFilter === 0) return techs;
+  return techs.filter(function(t){ return (techData[t].monthly[pciMonthFilter]||0) > 0; });
+}
+
+function getPciTotal(t) {
+  if (pciMonthFilter === 0) return techData[t].total;
+  return techData[t].monthly[pciMonthFilter] || 0;
+}
+
+function updatePciTechCards() {
+  const activeTechs = getPciTechs();
+  document.querySelectorAll('#page-overview .tech-card').forEach(function(card) {
+    const techName = card.getAttribute('data-tech');
+    if (!techName) return;
+    const show = pciMonthFilter === 0 || activeTechs.indexOf(techName) >= 0;
+    card.style.display = show ? '' : 'none';
+    // Update volume number
+    const kval = card.querySelector('.k-val');
+    if (kval) kval.textContent = getPciTotal(techName);
+  });
+}
+
+function updatePciHeaderStats() {
+  const activeTechs = getPciTechs();
+  const total = activeTechs.reduce(function(s,t){ return s + getPciTotal(t); }, 0);
+  const statEl = document.querySelector('.stat-pill .val');
+  if (statEl) statEl.textContent = total;
+}
+
+// ===== OVERVIEW CHARTS =====
 function initOverviewCharts() {
-  // Weekly volume
+  const activeTechs = getPciTechs();
   const weeks = [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
-  const weeklyMap = { Vitor:{7:5,8:16,9:3,10:8,11:23,12:4,13:24,14:6,15:26,16:23,17:45,18:11,19:24,20:14,21:19,22:8,23:5}, Iago:{7:12,8:10,9:3,10:8,11:8,12:5,13:18,14:15,15:17,16:9,17:13,18:16,19:18,20:34,21:22,22:16,23:0}, Ricardo:{7:2,8:0,9:0,10:0,11:8,12:9,13:21,14:15,15:4,16:0,17:0,18:15,19:31,20:25,21:32,22:21,23:0}, Elciney:{7:0,8:2,9:1,10:2,11:0,12:1,13:0,14:0,15:10,16:19,17:18,18:4,19:0,20:0,21:0,22:1,23:0}, Giselly:{7:0,8:0,9:0,10:0,11:0,12:2,13:1,14:1,15:2,16:4,17:3,18:3,19:2,20:3,21:1,22:1,23:0} };
-  
-  new Chart(document.getElementById('chartWeekly').getContext('2d'), {
+
+  // Weekly/monthly chart
+  let chartLabels, chartDatasets;
+  if (pciMonthFilter === 0) {
+    chartLabels = weeks.map(w => `S${w}`);
+    chartDatasets = activeTechs.map(t => ({
+      label:t, data:weeks.map(w => weeklyMap[t][w]||0),
+      borderColor:techData[t].color, backgroundColor:techData[t].color+'22',
+      borderWidth:2, pointRadius:3, tension:0.4, fill:false
+    }));
+  } else {
+    chartLabels = PCI_MONTHS.map(m => PCI_MES_LABELS[m]);
+    chartDatasets = activeTechs.map(t => ({
+      label:t, data:PCI_MONTHS.map(m => techData[t].monthly[m]||0),
+      borderColor:techData[t].color, backgroundColor:techData[t].color+'22',
+      borderWidth:2, pointRadius:3, tension:0.4, fill:false
+    }));
+  }
+
+  pciChart('chartWeekly', {
     type:'line',
-    data:{
-      labels: weeks.map(w=>`S${w}`),
-      datasets: techs.map(t=>({
-        label:t, data:weeks.map(w=>weeklyMap[t][w]||0),
-        borderColor:techData[t].color, backgroundColor:techData[t].color+'22',
-        borderWidth:2, pointRadius:3, tension:0.4, fill:false
-      }))
-    },
+    data:{ labels:chartLabels, datasets:chartDatasets },
     options:{...CHART_DEFAULTS, plugins:{...CHART_DEFAULTS.plugins}}
   });
 
   // Area pie
   const areaTotals = { SMT:0, PTH:0, 'Check SMT':0, Engenharia:0, Outros:0 };
-  techs.forEach(t=>{ Object.entries(techData[t].areas).forEach(([a,v])=>{ if(areaTotals[a]!==undefined) areaTotals[a]+=v; else areaTotals.Outros+=v; }); });
-  new Chart(document.getElementById('chartArea').getContext('2d'), {
+  activeTechs.forEach(t => {
+    Object.entries(techData[t].areas).forEach(([a,v]) => {
+      const contrib = pciMonthFilter === 0 ? v : Math.round(v * (getPciTotal(t) / techData[t].total));
+      if (areaTotals[a] !== undefined) areaTotals[a] += contrib; else areaTotals.Outros += contrib;
+    });
+  });
+  pciChart('chartArea', {
     type:'doughnut',
     data:{
       labels:Object.keys(areaTotals),
       datasets:[{data:Object.values(areaTotals),backgroundColor:['#00c8ff99','#38e08c99','#ffc30099','#c97bff99','#ff5f4099'],borderColor:'#0d1520',borderWidth:3}]
     },
-    options:{...CHART_DEFAULTS,cutout:'65%',plugins:{...CHART_DEFAULTS.plugins}}
+    options:{...CHART_DEFAULTS, cutout:'65%', plugins:{...CHART_DEFAULTS.plugins}}
   });
 
   // Volume bar
-  new Chart(document.getElementById('chartTechVolume').getContext('2d'), {
+  pciChart('chartTechVolume', {
     type:'bar',
     data:{
-      labels:techs,
-      datasets:[{data:techs.map(t=>techData[t].total),backgroundColor:techs.map(t=>techData[t].color+'cc'),borderRadius:6}]
+      labels:activeTechs,
+      datasets:[{data:activeTechs.map(t => getPciTotal(t)), backgroundColor:activeTechs.map(t => techData[t].color+'cc'), borderRadius:6}]
     },
-    options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}}}}
+    options:{...CHART_DEFAULTS, plugins:{legend:{display:false}}, scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}}}}
   });
 
   // Time bar
-  new Chart(document.getElementById('chartTechTime').getContext('2d'), {
+  pciChart('chartTechTime', {
     type:'bar',
     data:{
-      labels:techs,
-      datasets:[{data:techs.map(t=>techData[t].total_t),backgroundColor:techs.map(t=>techData[t].color+'cc'),borderRadius:6}]
+      labels:activeTechs,
+      datasets:[{data:activeTechs.map(t => techData[t].total_t), backgroundColor:activeTechs.map(t => techData[t].color+'cc'), borderRadius:6}]
     },
-    options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}}}}
+    options:{...CHART_DEFAULTS, plugins:{legend:{display:false}}, scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}}}}
   });
 
-  // Resolucao
-  new Chart(document.getElementById('chartResolucao').getContext('2d'), {
+  // Resolução
+  pciChart('chartResolucao', {
     type:'bar',
     data:{
-      labels:techs,
-      datasets:[{data:techs.map(t=>techData[t].taxa),backgroundColor:techs.map(t=>techData[t].color+'cc'),borderRadius:6}]
+      labels:activeTechs,
+      datasets:[{data:activeTechs.map(t => techData[t].taxa), backgroundColor:activeTechs.map(t => techData[t].color+'cc'), borderRadius:6}]
     },
-    options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{min:95,max:101,ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}}}}
+    options:{...CHART_DEFAULTS, plugins:{legend:{display:false}}, scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{min:95,max:101,ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}}}}
   });
 }
 
@@ -1269,69 +1368,64 @@ function renderTechDetail(tech) {
     <div class="grid-2">
       <div class="chart-wrap">
         <div class="chart-title">🏭 Áreas Atendidas</div>
-        <div class="chart-subtitle">Distribuição de chamados por área solicitante</div>
-        <canvas id="techAreaChart" height="220"></canvas>
+        <div class="chart-subtitle">Distribuição por área solicitante</div>
+        <div class="chart-box"><canvas id="techAreaChart"></canvas></div>
       </div>
       <div class="chart-wrap">
         <div class="chart-title">🌗 Distribuição por Turno</div>
         <div class="chart-subtitle">T1 (06-14h) · T2 (14-22h) · T3 (22-06h)</div>
-        <canvas id="techTurnoChart" height="220"></canvas>
+        <div class="chart-box"><canvas id="techTurnoChart"></canvas></div>
       </div>
     </div>
     <div class="grid-2">
       <div class="chart-wrap">
         <div class="chart-title">📆 Volume Mensal</div>
         <div class="chart-subtitle">Fev–Jun 2026</div>
-        <canvas id="techMesChart" height="180"></canvas>
+        <div class="chart-box"><canvas id="techMesChart"></canvas></div>
       </div>
       <div class="chart-wrap">
         <div class="chart-title">🎯 Causa Raiz</div>
         <div class="chart-subtitle">Problema técnico vs. erro operacional</div>
-        <canvas id="techCausaChart" height="180"></canvas>
+        <div class="chart-box"><canvas id="techCausaChart"></canvas></div>
       </div>
     </div>
     <div class="chart-wrap">
       <div class="chart-title">📅 Dias da Semana</div>
-      <div class="chart-subtitle">Distribuição de chamados ao longo da semana</div>
-      <canvas id="techDiaChart" height="150"></canvas>
+      <div class="chart-subtitle">Distribuição ao longo da semana</div>
+      <div class="chart-box"><canvas id="techDiaChart"></canvas></div>
     </div>
   `;
   document.getElementById('techDetail').innerHTML = html;
 
   setTimeout(()=>{
-    // Area
+    const mesLabels = ['Fev','Mar','Abr','Mai','Jun'];
+    const mesNums = [2,3,4,5,6];
     new Chart(document.getElementById('techAreaChart').getContext('2d'),{
       type:'doughnut',
       data:{labels:Object.keys(d.areas),datasets:[{data:Object.values(d.areas),backgroundColor:[c+'cc',c+'88',c+'55',c+'33',c+'22'],borderColor:'#0d1520',borderWidth:3}]},
       options:{...CHART_DEFAULTS,cutout:'60%',plugins:{...CHART_DEFAULTS.plugins}}
     });
-    // Turno
     new Chart(document.getElementById('techTurnoChart').getContext('2d'),{
       type:'bar',
       data:{labels:['T1 (06-14h)','T2 (14-22h)','T3 (22-06h)'],datasets:[{data:[d.shifts.T1,d.shifts.T2,d.shifts.T3],backgroundColor:[c+'cc',c+'88',c+'55'],borderRadius:6}]},
-      options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}},y:{ticks:{color:'#7a9bb5'}}}}
+      options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}
     });
-    // Mensal
-    const mesLabels = ['Fev','Mar','Abr','Mai','Jun'];
-    const mesNums = [2,3,4,5,6];
     new Chart(document.getElementById('techMesChart').getContext('2d'),{
       type:'bar',
       data:{labels:mesLabels,datasets:[{data:mesNums.map(m=>d.monthly[m]||0),backgroundColor:c+'cc',borderRadius:6}]},
-      options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}},y:{ticks:{color:'#7a9bb5'}}}}
+      options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}
     });
-    // Causa
     new Chart(document.getElementById('techCausaChart').getContext('2d'),{
       type:'doughnut',
-      data:{labels:['Prob. Técnico','Erro Operacional'],datasets:[{data:[d.causa.Técnico,d.causa.Operacional],backgroundColor:[c+'cc','#ff5f4099'],borderColor:'#0d1520',borderWidth:3}]},
+      data:{labels:['Prob. Técnico','Erro Operacional'],datasets:[{data:[d.causa['Técnico'],d.causa.Operacional],backgroundColor:[c+'cc','#ff5f4099'],borderColor:'#0d1520',borderWidth:3}]},
       options:{...CHART_DEFAULTS,cutout:'60%',plugins:{...CHART_DEFAULTS.plugins}}
     });
-    // Dias
     const diasOrder = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
     const diasLabel = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
     new Chart(document.getElementById('techDiaChart').getContext('2d'),{
       type:'bar',
       data:{labels:diasLabel,datasets:[{data:diasOrder.map(dd=>d.dias[dd]||0),backgroundColor:c+'cc',borderRadius:6}]},
-      options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}},y:{ticks:{color:'#7a9bb5'}}}}
+      options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}
     });
   },50);
 }
@@ -1364,7 +1458,6 @@ function initTempoCharts() {
     options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'}}}}
   });
 
-  // Ranking
   const ranking = techs.map(t=>{
     const d = techData[t];
     const score = Math.round((d.total * d.taxa) / (d.total_t + 1));
@@ -1388,17 +1481,23 @@ function initTempoCharts() {
 
 // ===== DISTRIBUTION CHARTS =====
 function initDistribCharts() {
-  // Turnos grouped
+  const heatmapData = {
+    Vitor:   {6:20,7:32,8:24,9:28,10:14,11:11,12:12,13:15,14:8,15:26,16:11,17:14,18:16,19:11,20:9,21:9,0:0,1:0,2:0,3:0,4:0,5:4,22:0,23:0},
+    Iago:    {0:30,1:22,2:18,3:10,4:8,5:5,6:1,14:5,15:8,16:7,17:6,18:5,19:4,20:3,21:1,22:25,23:30,7:0,8:0,9:0,10:0,11:0,12:0,13:0},
+    Ricardo: {6:2,7:3,8:3,14:22,15:28,16:30,17:26,18:24,19:20,20:15,21:12,22:2,0:0,1:0,2:0,3:0,4:0,5:0,9:0,10:0,11:0,12:0,13:0,23:0},
+    Elciney: {6:9,7:10,8:14,9:5,10:11,11:3,12:2,13:3,14:1,0:0,1:0,2:0,3:0,4:0,5:0,15:0,16:0,17:0,18:0,19:0,20:0,21:0,22:0,23:0},
+    Giselly: {7:1,8:4,9:2,10:1,11:2,12:2,13:1,14:2,15:6,16:2,0:0,1:0,2:0,3:0,4:0,5:0,6:0,17:0,18:0,19:0,20:0,21:0,22:0,23:0}
+  };
+
   new Chart(document.getElementById('chartTurnos').getContext('2d'),{
     type:'bar',
     data:{
       labels:['T1 (06-14h)','T2 (14-22h)','T3 (22-06h)'],
       datasets:techs.map(t=>({label:t,data:[techData[t].shifts.T1,techData[t].shifts.T2,techData[t].shifts.T3],backgroundColor:techData[t].color+'cc',borderRadius:4}))
     },
-    options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}},stacked:false},y:{ticks:{color:'#7a9bb5'}}}}
+    options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}},y:{ticks:{color:'#7a9bb5'}}}}
   });
 
-  // Dias da semana
   const diasOrder = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   const diasLabel = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
   const diasTotal = diasOrder.map(d=>techs.reduce((s,t)=>s+(techData[t].dias[d]||0),0));
@@ -1408,7 +1507,6 @@ function initDistribCharts() {
     options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:10}}},y:{ticks:{color:'#7a9bb5'}}}}
   });
 
-  // Mensal stacked
   const meses = ['Fev','Mar','Abr','Mai','Jun'];
   const mesNums = [2,3,4,5,6];
   new Chart(document.getElementById('chartMensal').getContext('2d'),{
@@ -1421,9 +1519,33 @@ function initDistribCharts() {
   });
 
   // Heatmap
-  buildHeatmap();
+  const techColors = { Vitor:'0,200,255', Iago:'56,224,140', Ricardo:'255,195,0', Elciney:'255,95,64', Giselly:'201,123,255' };
+  const maxes = {};
+  techs.forEach(t=>{ maxes[t] = Math.max(...Object.values(heatmapData[t])); });
+  const hmEl = document.getElementById('heatmapContainer');
+  const hmDiv = document.createElement('div'); hmDiv.className = 'heatmap-grid';
+  const hdr = document.createElement('div'); hdr.className = 'hm-header'; hmDiv.appendChild(hdr);
+  for(let h=0;h<24;h++){const hh=document.createElement('div');hh.className='hm-header';hh.textContent=String(h).padStart(2,'0')+'h';hmDiv.appendChild(hh);}
+  techs.forEach(t=>{
+    const lbl=document.createElement('div');lbl.className='hm-label';lbl.textContent=t;hmDiv.appendChild(lbl);
+    for(let h=0;h<24;h++){
+      const v=heatmapData[t][h]||0;const alpha=maxes[t]>0?v/maxes[t]:0;
+      const cell=document.createElement('div');cell.className='hm-cell';
+      cell.style.background=alpha>0?`rgba(${techColors[t]},${Math.max(0.05,alpha*0.9)})`:'rgba(255,255,255,0.03)';
+      cell.setAttribute('data-tip',`${t} ${String(h).padStart(2,'0')}h: ${v} chamados`);
+      hmDiv.appendChild(cell);
+    }
+  });
+  hmEl.innerHTML=''; hmEl.appendChild(hmDiv);
 
-  // Area vs Tech
+  // Legend
+  document.getElementById('heatmapContainer').insertAdjacentHTML('afterend',
+    '<div class="legend" style="margin-top:12px">' +
+    techs.map(t=>`<div class="legend-item"><div class="legend-dot" style="background:${techData[t].color}"></div>${t}</div>`).join('') +
+    '</div>'
+  );
+
+  // Area vs tech
   const allAreas = ['SMT','PTH','Check SMT','Engenharia','Outros'];
   new Chart(document.getElementById('chartAreaTech').getContext('2d'),{
     type:'bar',
@@ -1440,35 +1562,12 @@ function initDistribCharts() {
   });
 }
 
-function buildHeatmap() {
-  const techColors = { Vitor:'0,200,255', Iago:'56,224,140', Ricardo:'255,195,0', Elciney:'255,95,64', Giselly:'201,123,255' };
-  const maxes = {};
-  techs.forEach(t=>{ maxes[t] = Math.max(...Object.values(heatmapData[t])); });
-  
-  let html = '<div class="heatmap-grid">';
-  // Header row
-  html += '<div class="hm-header"></div>';
-  for(let h=0;h<24;h++) html += `<div class="hm-header">${String(h).padStart(2,'0')}h</div>`;
-  
-  techs.forEach(t=>{
-    html += `<div class="hm-label">${t}</div>`;
-    for(let h=0;h<24;h++){
-      const v = heatmapData[t][h]||0;
-      const alpha = maxes[t]>0?v/maxes[t]:0;
-      const bg = alpha>0 ? `rgba(${techColors[t]},${Math.max(0.05,alpha*0.9)})` : 'rgba(255,255,255,0.03)';
-      html += `<div class="hm-cell" style="background:${bg}" data-tip="${t} ${String(h).padStart(2,'0')}h: ${v} chamados"></div>`;
-    }
-  });
-  html += '</div>';
-  document.getElementById('heatmapContainer').innerHTML = html;
-}
-
 // ===== NAVIGATION =====
 let chartsInited = { overview:false, tempo:false, distribuicao:false };
 
 function showPage(id) {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#pci-wrapper .page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('#nav-pci .nav-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById(`page-${id}`).classList.add('active');
   event.target.classList.add('active');
 
@@ -1479,8 +1578,8 @@ function showPage(id) {
 
 function selectTech(t) {
   showPage('techs');
-  document.querySelectorAll('.nav-tab')[1].classList.add('active');
-  document.querySelectorAll('.nav-tab')[0].classList.remove('active');
+  document.querySelectorAll('#nav-pci .nav-tab')[1].classList.add('active');
+  document.querySelectorAll('#nav-pci .nav-tab')[0].classList.remove('active');
   const btn = document.querySelector(`.tech-btn[onclick*="${t}"]`);
   if(btn) switchTechDetail(t, btn);
 }
@@ -1490,11 +1589,11 @@ window.addEventListener('load', ()=>{
   setTimeout(()=>{
     document.getElementById('loading').style.opacity='0';
     setTimeout(()=>document.getElementById('loading').style.display='none',400);
+    buildPciMonthFilter();
     initOverviewCharts();
-  }, 1500);
+  }, 1200);
 });
 
-document.getElementById('loading').style.transition = 'opacity 0.4s';
 
 // ===== MONTAGEM DATA =====
 const MONT_DATA = {"techs": {"Dariany": {"total": 40, "fin": 39, "exp": 1, "taxa": 97.5, "aceite": 4.0, "resolucao": 7.0, "total_t": 16.0, "areas": {"Montagem": 40}, "suporte": {"Testes": 40}, "monthly": {"2026-02": 3, "2026-03": 2, "2026-04": 11, "2026-05": 23, "2026-06": 1}, "weekly": {"7": 1, "8": 2, "10": 2, "13": 0, "14": 0, "15": 3, "16": 4, "17": 1, "18": 3, "19": 6, "20": 13, "21": 2, "22": 2, "23": 1}, "shifts": {"T1": 34, "T2": 2, "T3": 4}, "dow": {"0": 3, "1": 8, "2": 13, "3": 8, "4": 3, "5": 5, "6": 0}, "hm": {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 4, "6": 4, "7": 5, "8": 5, "9": 7, "10": 5, "11": 0, "12": 5, "13": 3, "14": 0, "15": 1, "16": 0, "17": 0, "18": 0, "19": 0, "20": 1, "21": 0, "22": 0, "23": 0}, "causa": {"Tecnico": 22, "Operacional": 18}, "color": "#00c8ff"}, "Samuel": {"total": 24, "fin": 23, "exp": 1, "taxa": 95.8, "aceite": 29.5, "resolucao": 0.5, "total_t": 42.0, "areas": {"Montagem": 24}, "suporte": {"Testes": 13, "Processos": 11}, "monthly": {"2026-02": 0, "2026-03": 2, "2026-04": 14, "2026-05": 8, "2026-06": 0}, "weekly": {"7": 0, "8": 0, "10": 0, "13": 2, "14": 1, "15": 2, "16": 4, "17": 6, "18": 1, "19": 5, "20": 3, "21": 0, "22": 0, "23": 0}, "shifts": {"T1": 18, "T2": 6, "T3": 0}, "dow": {"0": 3, "1": 3, "2": 6, "3": 4, "4": 6, "5": 2, "6": 0}, "hm": {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 1, "7": 1, "8": 1, "9": 4, "10": 4, "11": 2, "12": 5, "13": 0, "14": 1, "15": 2, "16": 1, "17": 2, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0}, "causa": {"Tecnico": 17, "Operacional": 7}, "color": "#38e08c"}, "Danyel": {"total": 16, "fin": 16, "exp": 0, "taxa": 100.0, "aceite": 6.0, "resolucao": 3.0, "total_t": 18.0, "areas": {"Montagem": 16}, "suporte": {"Processos": 10, "Testes": 6}, "monthly": {"2026-02": 0, "2026-03": 1, "2026-04": 11, "2026-05": 4, "2026-06": 0}, "weekly": {"7": 0, "8": 0, "10": 0, "13": 1, "14": 0, "15": 3, "16": 2, "17": 5, "18": 1, "19": 2, "20": 0, "21": 2, "22": 0, "23": 0}, "shifts": {"T1": 1, "T2": 15, "T3": 0}, "dow": {"0": 3, "1": 4, "2": 2, "3": 1, "4": 2, "5": 4, "6": 0}, "hm": {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 1, "11": 0, "12": 0, "13": 0, "14": 3, "15": 4, "16": 1, "17": 2, "18": 2, "19": 1, "20": 1, "21": 1, "22": 0, "23": 0}, "causa": {"Tecnico": 6, "Operacional": 10}, "color": "#ffc300"}, "Cassia": {"total": 10, "fin": 10, "exp": 0, "taxa": 100.0, "aceite": 8.0, "resolucao": 3.0, "total_t": 15.5, "areas": {"Montagem": 10}, "suporte": {"Testes": 8, "Processos": 2}, "monthly": {"2026-02": 1, "2026-03": 0, "2026-04": 3, "2026-05": 6, "2026-06": 0}, "weekly": {"7": 0, "8": 1, "10": 0, "13": 0, "14": 2, "15": 1, "16": 0, "17": 0, "18": 2, "19": 0, "20": 2, "21": 1, "22": 1, "23": 0}, "shifts": {"T1": 0, "T2": 2, "T3": 8}, "dow": {"0": 0, "1": 4, "2": 2, "3": 0, "4": 2, "5": 1, "6": 1}, "hm": {"0": 0, "1": 2, "2": 0, "3": 3, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 2, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 2, "23": 1}, "causa": {"Tecnico": 10, "Operacional": 0}, "color": "#ff5f40"}, "Johny": {"total": 2, "fin": 2, "exp": 0, "taxa": 100.0, "aceite": 16.0, "resolucao": 20.5, "total_t": 36.5, "areas": {"Montagem": 2}, "suporte": {"Testes": 1, "Processos": 1}, "monthly": {"2026-02": 0, "2026-03": 0, "2026-04": 0, "2026-05": 2, "2026-06": 0}, "weekly": {"7": 0, "8": 0, "10": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 1, "21": 1, "22": 0, "23": 0}, "shifts": {"T1": 0, "T2": 2, "T3": 0}, "dow": {"0": 0, "1": 1, "2": 0, "3": 0, "4": 1, "5": 0, "6": 0}, "hm": {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 2, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0}, "causa": {"Tecnico": 1, "Operacional": 1}, "color": "#c97bff"}}, "team_total": 92, "taxa_all": 97.8, "team_med": 17.0, "area_dist": {"Testes": 68, "Processos": 24}, "weekly_all": {"7": 1, "8": 3, "10": 2, "13": 3, "14": 3, "15": 9, "16": 10, "17": 12, "18": 7, "19": 13, "20": 19, "21": 6, "22": 3, "23": 1}, "all_months": ["2026-02", "2026-03", "2026-04", "2026-05", "2026-06"], "all_weeks": [7, 8, 10, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]};
