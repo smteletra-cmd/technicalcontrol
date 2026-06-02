@@ -390,65 +390,52 @@
 </div>
 <!-- PAGE: ANÁLISE PCI -->
 <div class="page" id="page-analise">
-  <div class="section-title">Análise de Chamados — Top Problemas & Máquinas</div>
+  <div class="section-title">Top 10 Problemas — SMT &amp; PTH (Processos)</div>
 
-  <!-- filtros -->
-  <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px;flex-wrap:wrap;">
-    <div class="stat-pill"><span class="val" id="an-total" style="color:var(--accent)">—</span><span class="lbl">CHAMADOS ANALISADOS</span></div>
-    <div class="stat-pill"><span class="val" id="an-grupos" style="color:var(--accent3)">—</span><span class="lbl">GRUPOS ÚNICOS</span></div>
-    <div class="stat-pill"><span class="val" id="an-maquinas" style="color:var(--accent4)">—</span><span class="lbl">MÁQUINAS/LOCAIS</span></div>
-    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-      <select id="an-area-filter" onchange="renderAnalise()" style="padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:IBM Plex Mono,monospace;font-size:11px;cursor:pointer;">
-        <option value="">Todas as áreas</option>
-        <option value="SMT">SMT</option>
-        <option value="PTH">PTH</option>
-        <option value="Check SMT">Check SMT</option>
-        <option value="Engenharia">Engenharia</option>
-        <option value="Montagem">Montagem</option>
-      </select>
-      <select id="an-tech-filter" onchange="renderAnalise()" style="padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:IBM Plex Mono,monospace;font-size:11px;cursor:pointer;">
-        <option value="">Todos os técnicos</option>
-      </select>
-      <select id="an-month-filter" onchange="renderAnalise()" style="padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:IBM Plex Mono,monospace;font-size:11px;cursor:pointer;">
-        <option value="">Todos os meses</option>
-      </select>
-      <input id="an-search" type="text" placeholder="🔍 buscar problema..." oninput="renderAnalise()"
-        style="padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:IBM Plex Mono,monospace;font-size:11px;width:200px;">
-    </div>
-  </div>
+  <!-- filtro de mês idêntico ao resto do dashboard -->
+  <div id="an-month-bar" class="month-filter-bar" style="margin-bottom:20px;"></div>
 
-  <!-- slider de similaridade -->
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 20px;">
-    <span style="font-family:IBM Plex Mono,monospace;font-size:11px;color:var(--text2);white-space:nowrap;">🧠 SENSIBILIDADE DO AGRUPAMENTO:</span>
-    <input type="range" id="an-similarity" min="1" max="10" value="5" oninput="document.getElementById('an-sim-val').textContent=this.value;renderAnalise()"
-      style="flex:1;accent-color:var(--accent)">
-    <span id="an-sim-val" style="font-family:Syne,sans-serif;font-weight:800;font-size:18px;color:var(--accent);min-width:20px">5</span>
-    <span style="font-family:IBM Plex Mono,monospace;font-size:10px;color:var(--text3)">1=agrupa muito &nbsp;|&nbsp; 10=agrupa pouco</span>
-  </div>
+  <div class="grid-2" style="margin-bottom:0">
 
-  <div class="grid-2">
-    <!-- Top 10 problemas -->
+    <!-- TOP 10 SMT -->
     <div class="chart-wrap">
-      <div class="chart-title">🏆 Top 10 — Grupos de Problemas</div>
-      <div class="chart-subtitle" id="an-prob-subtitle">Agrupados por similaridade de texto</div>
-      <div id="an-prob-list" style="margin-top:4px;"></div>
+      <div class="chart-title">🔵 SMT — Top 10 Problemas</div>
+      <div class="chart-subtitle">Somente chamados de Processos | Agrupamento por similaridade</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);">SENSIBILIDADE:</span>
+        <input type="range" id="an-sim-smt" min="1" max="10" value="5"
+          oninput="document.getElementById('an-sim-smt-val').textContent=this.value;renderAnaliseSMT()"
+          style="flex:1;accent-color:var(--accent)">
+        <span id="an-sim-smt-val" style="font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:var(--accent);min-width:16px">5</span>
+      </div>
+      <div id="an-smt-list"></div>
     </div>
-    <!-- Top 10 máquinas -->
+
+    <!-- TOP 10 PTH -->
     <div class="chart-wrap">
-      <div class="chart-title">🏭 Top 10 — Linha / Máquina</div>
-      <div class="chart-subtitle">Locais com mais chamados no período</div>
-      <div id="an-maq-list" style="margin-top:4px;"></div>
+      <div class="chart-title">🟢 PTH — Top 10 Problemas</div>
+      <div class="chart-subtitle">Somente chamados de Processos | Agrupamento por similaridade</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);">SENSIBILIDADE:</span>
+        <input type="range" id="an-sim-pth" min="1" max="10" value="5"
+          oninput="document.getElementById('an-sim-pth-val').textContent=this.value;renderAnalisePTH()"
+          style="flex:1;accent-color:var(--accent3)">
+        <span id="an-sim-pth-val" style="font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:var(--accent3);min-width:16px">5</span>
+      </div>
+      <div id="an-pth-list"></div>
     </div>
+
   </div>
 
-  <!-- Tabela detalhada do grupo selecionado -->
-  <div class="chart-wrap" id="an-detail-wrap" style="display:none;">
-    <div class="chart-title" id="an-detail-title">Chamados do grupo</div>
+  <!-- Detalhe ao clicar num grupo -->
+  <div class="chart-wrap" id="an-detail-wrap" style="display:none;margin-top:16px;">
+    <div class="chart-title" id="an-detail-title"></div>
     <div class="chart-subtitle" id="an-detail-sub"></div>
     <div style="overflow-x:auto;">
       <table class="cmp-table">
         <thead><tr>
-          <th>ID</th><th>DATA</th><th>ÁREA</th><th>MÁQUINA</th><th>TÉCNICO</th><th>STATUS</th><th>PROBLEMA (completo)</th>
+          <th>ID</th><th>DATA</th><th>ÁREA</th><th>MÁQUINA / LOCAL</th>
+          <th>TÉCNICO</th><th>STATUS</th><th>PROBLEMA COMPLETO</th>
         </tr></thead>
         <tbody id="an-detail-body"></tbody>
       </table>
@@ -1180,12 +1167,12 @@ function fetchDashboard(){
 
       updateHeader(currentArea);
       if(st)st.textContent='✅ '+rows.length+' chamados — PCI: '+pciRows.length+' | Mont: '+montRows.length;
+      // Recomendações PCI dinâmicas após atualização
+      if(document.getElementById('page-recomendacoes')&&document.getElementById('page-recomendacoes').classList.contains('active')) buildPciRec();
       // Alimentar análise com dados frescos
       analiseRows = rows.map(function(r){ r['Local/Máquina']=r['Local/Máquina']||r['local_maquina']||''; return r; });
       analiseInited = false;
-      // Recomendações PCI dinâmicas após atualização
-      if(document.getElementById('page-recomendacoes')&&document.getElementById('page-recomendacoes').classList.contains('active')) buildPciRec();
-      if(document.getElementById('page-analise')&&document.getElementById('page-analise').classList.contains('active')) initAnalise();
+      if(document.getElementById('page-analise')&&document.getElementById('page-analise').classList.contains('active')){ buildAnMonthBar(); renderAnaliseSMT(); renderAnalisePTH(); }
       // Buscar abertos também
       fetchAbertos();
       if(btn){btn.disabled=false;btn.textContent='🔄 Atualizar Online';}
@@ -1202,336 +1189,269 @@ function fetchDashboard(){
 
 
 // =========================================================================
-// ANÁLISE INTELIGENTE DE PROBLEMAS
+// ANÁLISE INTELIGENTE — TOP 10 PROBLEMAS SMT & PTH
 // =========================================================================
-
-var analiseRows = [];   // todos os chamados históricos
+var analiseRows  = [];
 var analiseInited = false;
+var _gruposSMT = [], _gruposPTH = [];
 
-// ── Normalização de texto ─────────────────────────────────────────────────
-// Remove acentos, padroniza separadores, palavras irrelevantes
-var STOP_WORDS = new Set([
-  'de','da','do','das','dos','em','na','no','nas','nos','com','por','para',
-  'que','se','um','uma','e','o','a','os','as','ao','ou','na','no',
-  'problema','chamado','favor','verificar','verificar','maquina','linha',
-  'apresentando','apresenta','ocorreu','ocorrendo','esta','estava'
-]);
+// ── Normalização ──────────────────────────────────────────────────────────
+var AN_STOP = {'de':1,'da':1,'do':1,'das':1,'dos':1,'em':1,'na':1,'no':1,'nas':1,
+  'nos':1,'com':1,'por':1,'para':1,'que':1,'se':1,'um':1,'uma':1,'e':1,'o':1,
+  'a':1,'os':1,'as':1,'ao':1,'ou':1,'problema':1,'chamado':1,'favor':1,
+  'verificar':1,'apresentando':1,'apresenta':1,'esta':1,'estava':1,'maquina':1};
 
-function normalizar(str) {
+function anNorm(str) {
   if (!str) return '';
-  return str
-    .toLowerCase()
-    .normalize('NFD').replace(/[̀-ͯ]/g, '') // remove acentos
-    .replace(/[^a-z0-9\s]/g, ' ')                     // só letras e números
-    .replace(/\s+/g, ' ')
-    .trim()
+  return str.toLowerCase()
+    .normalize('NFD').replace(/\u0300-\u036f/g, '')
+    .replace(/[^a-z0-9 ]/g, ' ')
+    .replace(/\s+/g, ' ').trim()
     .split(' ')
-    .filter(function(w){ return w.length > 2 && !STOP_WORDS.has(w); })
+    .filter(function(w){ return w.length > 2 && !AN_STOP[w]; })
     .join(' ');
 }
 
-// ── Similaridade de Jaccard sobre bigramas de palavras ───────────────────
-function getBigrams(str) {
-  var words = str.split(' ');
-  var set = new Set();
-  // Unigrams
-  words.forEach(function(w){ if(w) set.add(w); });
-  // Bigrams
+// ── Similaridade Jaccard sobre unigramas + bigramas ───────────────────────
+function anBigrams(norm) {
+  var words = norm.split(' ');
+  var s = {};
+  words.forEach(function(w){ if(w) s[w] = 1; });
   for (var i = 0; i < words.length - 1; i++) {
-    if (words[i] && words[i+1]) set.add(words[i] + '_' + words[i+1]);
+    if (words[i] && words[i+1]) s[words[i]+'_'+words[i+1]] = 1;
   }
-  return set;
+  return s;
 }
-
-function jaccard(a, b) {
+function anJaccard(a, b) {
   if (!a || !b) return 0;
-  var ba = getBigrams(a), bb = getBigrams(b);
-  var inter = 0;
-  ba.forEach(function(x){ if(bb.has(x)) inter++; });
-  var union = ba.size + bb.size - inter;
+  var ba = anBigrams(a), bb = anBigrams(b);
+  var inter = 0, union = 0;
+  var all = Object.assign({}, ba, bb);
+  Object.keys(all).forEach(function(k){
+    var ia = ba[k]?1:0, ib = bb[k]?1:0;
+    inter += ia & ib;
+    union += Math.min(1, ia + ib);
+  });
   return union === 0 ? 0 : inter / union;
 }
 
-// ── Motor de agrupamento (clustering greedy) ──────────────────────────────
-// threshold: 0.15 (agrupa muito) → 0.70 (agrupa pouco)
-// slider 1-10 mapeia para 0.10-0.65
-function sliderToThreshold(v) {
-  return 0.10 + (parseInt(v) - 1) * (0.55 / 9);
-}
+// ── Slider → threshold ────────────────────────────────────────────────────
+// 1 = agrupa muito (threshold baixo ~0.10) | 10 = agrupa pouco (~0.65)
+function anThreshold(v) { return 0.10 + (parseInt(v)-1) * (0.55/9); }
 
-function agruparProblemas(rows, threshold) {
-  // Pré-computar texto normalizado
-  var itens = rows.map(function(r) {
-    return { row: r, norm: normalizar(r['Problema'] || '') };
+// ── Agrupamento greedy ────────────────────────────────────────────────────
+function anAgrupar(rows, threshold) {
+  var itens = rows.map(function(r){
+    return { r:r, norm: anNorm(r['Problema']||'') };
   });
-
-  var grupos = [];  // [{label, norm, rows: [...]}]
-
+  var grupos = [];
   itens.forEach(function(item) {
     if (!item.norm) {
-      // sem problema descrito → grupo "Não informado"
-      var g = grupos.find(function(g){ return g.label === '(Não informado)'; });
-      if (!g) { g = {label:'(Não informado)', norm:'', rows:[]}; grupos.push(g); }
-      g.rows.push(item.row);
-      return;
+      var g = grupos.find(function(g){ return g.label==='(Não informado)'; });
+      if (!g) { g={label:'(Não informado)',norm:'',rows:[]}; grupos.push(g); }
+      g.rows.push(item.r); return;
     }
-
-    // Procurar grupo existente com maior similaridade acima do threshold
-    var bestScore = -1, bestGroup = null;
-    grupos.forEach(function(g) {
+    var best=-1, bestG=null;
+    grupos.forEach(function(g){
       if (!g.norm) return;
-      var score = jaccard(item.norm, g.norm);
-      if (score > bestScore) { bestScore = score; bestGroup = g; }
+      var sc = anJaccard(item.norm, g.norm);
+      if (sc > best) { best=sc; bestG=g; }
     });
-
-    if (bestScore >= threshold) {
-      // Adicionar ao grupo existente
-      bestGroup.rows.push(item.row);
-      // Atualizar o centróide (representante mais frequente)
-      // Usar o texto que mais aparece no grupo como label
-      var freq = {};
-      bestGroup.rows.forEach(function(r){
-        var k = normalizar(r['Problema']||'');
-        freq[k] = (freq[k]||0) + 1;
-      });
-      var top = Object.entries(freq).sort(function(a,b){return b[1]-a[1];})[0];
-      bestGroup.norm = top ? top[0] : bestGroup.norm;
-      // Label amigável: texto original do representante mais frequente
-      var topOrig = bestGroup.rows.reduce(function(acc, r) {
-        var n = normalizar(r['Problema']||'');
-        if (n === bestGroup.norm) return r['Problema']||acc;
-        return acc;
-      }, bestGroup.label);
-      bestGroup.label = topOrig;
+    if (best >= threshold && bestG) {
+      bestG.rows.push(item.r);
+      // Atualizar centróide: texto normalizado mais frequente no grupo
+      var freq={};
+      bestG.rows.forEach(function(r){ var n=anNorm(r['Problema']||''); freq[n]=(freq[n]||0)+1; });
+      var topNorm = Object.keys(freq).sort(function(a,b){return freq[b]-freq[a];})[0];
+      bestG.norm = topNorm;
+      // Label = texto original mais frequente
+      var origFreq={};
+      bestG.rows.forEach(function(r){ var p=r['Problema']||''; origFreq[p]=(origFreq[p]||0)+1; });
+      bestG.label = Object.keys(origFreq).sort(function(a,b){return origFreq[b]-origFreq[a];})[0] || bestG.label;
     } else {
-      // Novo grupo
-      grupos.push({ label: item.row['Problema']||item.norm, norm: item.norm, rows: [item.row] });
+      grupos.push({ label: item.r['Problema']||item.norm, norm:item.norm, rows:[item.r] });
     }
   });
-
-  return grupos.sort(function(a,b){ return b.rows.length - a.rows.length; });
+  return grupos.sort(function(a,b){ return b.rows.length-a.rows.length; });
 }
 
-// ── Renderizar análise ────────────────────────────────────────────────────
-function renderAnalise() {
-  var areaF  = (document.getElementById('an-area-filter')  || {}).value || '';
-  var techF  = (document.getElementById('an-tech-filter')  || {}).value || '';
-  var monthF = (document.getElementById('an-month-filter') || {}).value || '';
-  var searchF= ((document.getElementById('an-search')      || {}).value || '').toLowerCase().trim();
-  var simV   = (document.getElementById('an-similarity')   || {}).value || 5;
-  var threshold = sliderToThreshold(simV);
+// ── Filtro de mês da análise ──────────────────────────────────────────────
+var anMonthFilter = 'all';
 
-  // Filtrar linhas
-  var rows = analiseRows.filter(function(r) {
-    if (areaF  && r['Área Solicitante'] !== areaF)  return false;
-    if (techF  && r['Técnico']          !== techF)  return false;
-    if (monthF) {
-      var da = r['Data Abertura'] || '';
+function buildAnMonthBar() {
+  var bar = document.getElementById('an-month-bar');
+  if (!bar) return;
+  var months = new Set();
+  analiseRows.forEach(function(r){
+    var da = r['Data Abertura']||'';
+    if (da.length >= 7) { var p=da.split('/'); months.add(p[2]+'-'+p[1]); }
+  });
+  var MES_L={'01':'Jan','02':'Fev','03':'Mar','04':'Abr','05':'Mai','06':'Jun',
+             '07':'Jul','08':'Ago','09':'Set','10':'Out','11':'Nov','12':'Dez'};
+  var btns = '<button class="mf-btn'+(anMonthFilter==='all'?' active':'')+'" onclick="setAnMonth(\'all\',this)">Todos</button>';
+  Array.from(months).sort().forEach(function(m){
+    var p=m.split('-');
+    var lbl=(MES_L[p[1]]||p[1])+'/'+p[0];
+    btns += '<button class="mf-btn'+(anMonthFilter===m?' active':'')+'" onclick="setAnMonth(\''+m+'\',this)">'+lbl+'</button>';
+  });
+  bar.innerHTML = btns;
+}
+
+function setAnMonth(m, btn) {
+  document.querySelectorAll('#an-month-bar .mf-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  anMonthFilter = m;
+  renderAnaliseSMT(); renderAnalisePTH();
+}
+
+function anFilterRows(area) {
+  return analiseRows.filter(function(r){
+    // Somente Processos (exclui Montagem, Testes, etc.)
+    var sup = r['Area Suporte']||r['Área Suporte']||'';
+    if (sup !== 'Processos') return false;
+    // Área solicitante
+    if (r['Área Solicitante'] !== area) return false;
+    // Filtro de mês
+    if (anMonthFilter !== 'all') {
+      var da = r['Data Abertura']||'';
       if (da.length >= 7) {
-        var parts = da.split('/');
-        var mes = parts[2] + '-' + parts[1];
-        if (mes !== monthF) return false;
+        var p = da.split('/');
+        if ((p[2]+'-'+p[1]) !== anMonthFilter) return false;
       }
-    }
-    if (searchF) {
-      var prob = (r['Problema'] || '').toLowerCase();
-      var maq  = (r['Local/Máquina'] || r['local_maquina'] || '').toLowerCase();
-      if (prob.indexOf(searchF) < 0 && maq.indexOf(searchF) < 0) return false;
     }
     return true;
   });
-
-  // Agrupar problemas
-  var grupos = agruparProblemas(rows, threshold);
-
-  // Stats
-  var maquinas = new Set(rows.map(function(r){ return (r['Local/Máquina']||r['local_maquina']||'').trim(); }).filter(Boolean));
-  var el;
-  el = document.getElementById('an-total');    if(el) el.textContent = rows.length;
-  el = document.getElementById('an-grupos');   if(el) el.textContent = grupos.length;
-  el = document.getElementById('an-maquinas'); if(el) el.textContent = maquinas.size;
-  el = document.getElementById('an-prob-subtitle');
-  if(el) el.textContent = 'Agrupados por similaridade | threshold: ' + Math.round(threshold*100) + '% | ' + grupos.length + ' grupos de ' + rows.length + ' chamados';
-
-  // ── Top 10 problemas ─────────────────────────────────────────────────
-  var top10 = grupos.slice(0, 10);
-  var maxP = top10.length ? top10[0].rows.length : 1;
-  var probList = document.getElementById('an-prob-list');
-  if (probList) {
-    probList.innerHTML = top10.length ? top10.map(function(g, i) {
-      var pct = Math.round(g.rows.length / rows.length * 100);
-      var barW = Math.round(g.rows.length / maxP * 100);
-      var colors = ['var(--accent2)','var(--accent4)','var(--accent5)','var(--accent)','var(--accent3)'];
-      var c = colors[i % colors.length];
-      // Técnicos envolvidos
-      var tecMap = {};
-      g.rows.forEach(function(r){ var t=r['Técnico']||'?'; tecMap[t]=(tecMap[t]||0)+1; });
-      var tecStr = Object.entries(tecMap).sort(function(a,b){return b[1]-a[1];}).slice(0,3)
-        .map(function(e){ return e[0]+' ('+e[1]+')'; }).join(', ');
-      return '<div onclick="showGrupoDetalhe('+i+')" style="cursor:pointer;padding:10px 0;border-bottom:1px solid var(--border)">' +
-        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">' +
-          '<span style="font-family:Syne,sans-serif;font-weight:800;font-size:13px;color:'+c+';min-width:22px">#'+(i+1)+'</span>' +
-          '<span style="font-size:13px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+g.label.replace(/"/g,"'")+'">'+g.label+'</span>' +
-          '<span style="font-family:Syne,sans-serif;font-weight:800;font-size:15px;color:'+c+'">'+g.rows.length+'</span>' +
-          '<span style="font-family:IBM Plex Mono,monospace;font-size:10px;color:var(--text2)">'+pct+'%</span>' +
-        '</div>' +
-        '<div style="height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-bottom:5px">' +
-          '<div style="height:100%;width:'+barW+'%;background:'+c+';border-radius:3px;transition:width 0.4s"></div>' +
-        '</div>' +
-        '<div style="font-family:IBM Plex Mono,monospace;font-size:10px;color:var(--text3)">👤 '+tecStr+'</div>' +
-      '</div>';
-    }).join('') : '<div style="text-align:center;color:var(--text2);padding:32px">Nenhum dado</div>';
-  }
-
-  // ── Top 10 máquinas ──────────────────────────────────────────────────
-  var maqMap = {};
-  rows.forEach(function(r) {
-    var m = (r['Local/Máquina'] || r['local_maquina'] || '').trim();
-    if (!m) m = '(Não informado)';
-    if (!maqMap[m]) maqMap[m] = { count:0, areas:{}, techs:{} };
-    maqMap[m].count++;
-    var area = r['Área Solicitante'] || '';
-    if (area) maqMap[m].areas[area] = (maqMap[m].areas[area]||0)+1;
-    var tec = r['Técnico'] || '';
-    if (tec) maqMap[m].techs[tec] = (maqMap[m].techs[tec]||0)+1;
-  });
-  var top10maq = Object.entries(maqMap).sort(function(a,b){ return b[1].count - a[1].count; }).slice(0,10);
-  var maxM = top10maq.length ? top10maq[0][1].count : 1;
-  var maqList = document.getElementById('an-maq-list');
-  if (maqList) {
-    maqList.innerHTML = top10maq.length ? top10maq.map(function(entry, i) {
-      var nome = entry[0], d = entry[1];
-      var barW = Math.round(d.count / maxM * 100);
-      var pct = Math.round(d.count / rows.length * 100);
-      var topArea = Object.entries(d.areas).sort(function(a,b){return b[1]-a[1];})[0];
-      var topTec  = Object.entries(d.techs).sort(function(a,b){return b[1]-a[1];})[0];
-      var AREA_COLORS = {SMT:'var(--accent)',PTH:'var(--accent3)','Check SMT':'var(--accent5)',Engenharia:'var(--accent4)',Montagem:'var(--accent2)'};
-      var c = topArea ? (AREA_COLORS[topArea[0]] || 'var(--accent)') : 'var(--accent)';
-      return '<div style="padding:10px 0;border-bottom:1px solid var(--border)">' +
-        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">' +
-          '<span style="font-family:Syne,sans-serif;font-weight:800;font-size:13px;color:'+c+';min-width:22px">#'+(i+1)+'</span>' +
-          '<span style="font-size:13px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+nome+'">'+nome+'</span>' +
-          '<span style="font-family:Syne,sans-serif;font-weight:800;font-size:15px;color:'+c+'">'+d.count+'</span>' +
-          '<span style="font-family:IBM Plex Mono,monospace;font-size:10px;color:var(--text2)">'+pct+'%</span>' +
-        '</div>' +
-        '<div style="height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-bottom:5px">' +
-          '<div style="height:100%;width:'+barW+'%;background:'+c+';border-radius:3px;transition:width 0.4s"></div>' +
-        '</div>' +
-        '<div style="font-family:IBM Plex Mono,monospace;font-size:10px;color:var(--text3)">' +
-          (topArea ? '📍 '+topArea[0]+' ('+topArea[1]+')' : '') +
-          (topTec  ? ' &nbsp;|&nbsp; 👤 '+topTec[0]+' ('+topTec[1]+')' : '') +
-        '</div>' +
-      '</div>';
-    }).join('') : '<div style="text-align:center;color:var(--text2);padding:32px">Nenhum dado</div>';
-  }
-
-  // Guardar grupos para detalhe ao clicar
-  window._analiseGrupos = grupos;
-  window._analiseRows   = rows;
 }
 
-function showGrupoDetalhe(idx) {
-  var grupos = window._analiseGrupos || [];
-  var g = grupos[idx];
-  if (!g) return;
+// ── Renderizar lista de top 10 ────────────────────────────────────────────
+function renderTop10(grupos, containerId, accentColor, grupoRef) {
+  var el = document.getElementById(containerId);
+  if (!el) return;
+  var top = grupos.slice(0, 10);
+  var maxV = top.length ? top[0].rows.length : 1;
+  if (!top.length) {
+    el.innerHTML = '<div style="text-align:center;color:var(--text2);padding:32px;font-family:IBM Plex Mono,monospace;font-size:12px">Nenhum dado no período</div>';
+    return;
+  }
+  var RANK_COLORS = [
+    accentColor, accentColor+'cc', accentColor+'aa',
+    accentColor+'88', accentColor+'77', accentColor+'66',
+    accentColor+'55', accentColor+'44', accentColor+'33', accentColor+'22'
+  ];
+  el.innerHTML = top.map(function(g, i) {
+    var barW = Math.round(g.rows.length / maxV * 100);
+    var c = RANK_COLORS[i] || accentColor+'22';
+    // Máquinas mais frequentes neste grupo
+    var maqFreq = {};
+    g.rows.forEach(function(r){ var m=(r['Local/Máquina']||r['local_maquina']||'').trim(); if(m)maqFreq[m]=(maqFreq[m]||0)+1; });
+    var topMaq = Object.entries(maqFreq).sort(function(a,b){return b[1]-a[1];}).slice(0,2).map(function(e){return e[0];}).join(', ');
+    // Técnicos
+    var tecFreq = {};
+    g.rows.forEach(function(r){ var t=r['Técnico']||''; if(t)tecFreq[t]=(tecFreq[t]||0)+1; });
+    var topTec = Object.entries(tecFreq).sort(function(a,b){return b[1]-a[1];}).slice(0,2).map(function(e){return e[0]+' ('+e[1]+')';}).join(', ');
 
+    return '<div onclick="showAnDetalhe('+i+',\''+grupoRef+'\')" style="cursor:pointer;padding:10px 0;border-bottom:1px solid var(--border);transition:background 0.15s" onmouseover="this.style.background=\'rgba(255,255,255,0.03)\'" onmouseout="this.style.background=\'\'">' +
+      '<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px">' +
+        '<span style="font-family:Syne,sans-serif;font-weight:800;font-size:14px;color:'+accentColor+';min-width:26px;margin-top:1px">#'+(i+1)+'</span>' +
+        '<div style="flex:1;min-width:0">' +
+          // PROBLEMA em destaque
+          '<div style="font-size:13px;color:var(--text);line-height:1.4;margin-bottom:4px;word-break:break-word">'+g.label+'</div>' +
+          // Barra
+          '<div style="height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;margin-bottom:5px">' +
+            '<div style="height:100%;width:'+barW+'%;background:'+accentColor+';border-radius:2px;transition:width 0.5s"></div>' +
+          '</div>' +
+          // Meta info
+          '<div style="font-family:IBM Plex Mono,monospace;font-size:10px;color:var(--text3);display:flex;gap:12px;flex-wrap:wrap">' +
+            (topMaq ? '<span>🏭 '+topMaq+'</span>' : '') +
+            '<span>👤 '+topTec+'</span>' +
+          '</div>' +
+        '</div>' +
+        '<span style="font-family:Syne,sans-serif;font-weight:800;font-size:18px;color:'+accentColor+';margin-left:8px;white-space:nowrap">'+g.rows.length+'</span>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function renderAnaliseSMT() {
+  var rows = anFilterRows('SMT');
+  var th = anThreshold(document.getElementById('an-sim-smt')?document.getElementById('an-sim-smt').value:5);
+  _gruposSMT = anAgrupar(rows, th);
+  renderTop10(_gruposSMT, 'an-smt-list', 'var(--accent)', 'smt');
+}
+
+function renderAnalisePTH() {
+  var rows = anFilterRows('PTH');
+  var th = anThreshold(document.getElementById('an-sim-pth')?document.getElementById('an-sim-pth').value:5);
+  _gruposPTH = anAgrupar(rows, th);
+  renderTop10(_gruposPTH, 'an-pth-list', 'var(--accent3)', 'pth');
+}
+
+// ── Detalhe ao clicar ─────────────────────────────────────────────────────
+function showAnDetalhe(idx, which) {
+  var g = which === 'smt' ? _gruposSMT[idx] : _gruposPTH[idx];
+  if (!g) return;
   var wrap  = document.getElementById('an-detail-wrap');
   var title = document.getElementById('an-detail-title');
   var sub   = document.getElementById('an-detail-sub');
   var tbody = document.getElementById('an-detail-body');
   if (!wrap || !tbody) return;
-
   wrap.style.display = '';
-  if (title) title.textContent = '📋 Grupo: "' + g.label + '"';
-  if (sub)   sub.textContent   = g.rows.length + ' chamados neste grupo';
-
-  var MES_L = {'01':'Jan','02':'Fev','03':'Mar','04':'Abr','05':'Mai','06':'Jun','07':'Jul','08':'Ago','09':'Set','10':'Out','11':'Nov','12':'Dez'};
-  function fmtData(d) {
-    if (!d) return '—';
-    var p = d.split('/'); if(p.length<3) return d;
-    return p[0]+' '+( MES_L[p[1]]||p[1])+' '+p[2];
-  }
-
-  // Ordenar por data desc
+  if (title) title.textContent = (which==='smt'?'🔵 SMT':'🟢 PTH') + ' — "' + g.label + '"';
+  if (sub)   sub.textContent   = g.rows.length + ' chamado(s) neste grupo — clique na linha para ver o problema completo';
+  var MES_L={'01':'Jan','02':'Fev','03':'Mar','04':'Abr','05':'Mai','06':'Jun',
+             '07':'Jul','08':'Ago','09':'Set','10':'Out','11':'Nov','12':'Dez'};
+  function fmtD(d){ if(!d)return'—'; var p=d.split('/'); return p[0]+' '+(MES_L[p[1]]||p[1])+' '+p[2]; }
   var sorted = g.rows.slice().sort(function(a,b){
-    var da = (a['Data Abertura']||'').split('/').reverse().join('');
-    var db = (b['Data Abertura']||'').split('/').reverse().join('');
+    var da=(a['Data Abertura']||'').split('/').reverse().join('');
+    var db=(b['Data Abertura']||'').split('/').reverse().join('');
     return db.localeCompare(da);
   });
-
-  tbody.innerHTML = sorted.map(function(r) {
-    var tec = r['Técnico'] || '—';
-    var tc  = getTechColor(tec);
-    var st  = r['Status Final'] || r['Status'] || '—';
-    var stColor = st === 'Finalizado' ? 'var(--accent3)' : st.indexOf('Expirado')===0 ? 'var(--accent2)' : 'var(--text2)';
-    return '<tr>' +
-      '<td style="font-family:IBM Plex Mono,monospace;color:var(--text2);font-size:11px">#'+(r['ID']||r['id_chamado']||'—')+'</td>' +
-      '<td style="font-family:IBM Plex Mono,monospace;font-size:11px;white-space:nowrap">'+fmtData(r['Data Abertura'])+'</td>' +
-      '<td style="font-size:12px">'+( r['Área Solicitante']||'—')+'</td>' +
-      '<td style="font-family:IBM Plex Mono,monospace;font-size:11px;color:var(--accent4)">'+( r['Local/Máquina']||r['local_maquina']||'—')+'</td>' +
-      '<td style="color:'+tc+';font-weight:600;font-size:12px">'+tec+'</td>' +
-      '<td style="color:'+stColor+';font-family:IBM Plex Mono,monospace;font-size:11px">'+st+'</td>' +
-      '<td style="font-size:12px;color:var(--text2);max-width:280px">'+( r['Problema']||'—')+'</td>' +
+  var acColor = which==='smt'?'var(--accent)':'var(--accent3)';
+  tbody.innerHTML = sorted.map(function(r){
+    var tec=r['Técnico']||'—';
+    var tc=getTechColor(tec);
+    var st=r['Status Final']||r['Status']||'—';
+    var stC=st==='Finalizado'?'var(--accent3)':st.indexOf('Expirado')===0?'var(--accent2)':'var(--text2)';
+    var maq=(r['Local/Máquina']||r['local_maquina']||'—');
+    var prob=r['Problema']||'—';
+    return '<tr title="'+prob.replace(/"/g,"'")+'">' +
+      '<td style="font-family:IBM Plex Mono,monospace;color:var(--text2);font-size:11px">#'+(r['ID']||r['id_chamado']||'—')+'</td>'+
+      '<td style="font-family:IBM Plex Mono,monospace;font-size:11px;white-space:nowrap">'+fmtD(r['Data Abertura'])+'</td>'+
+      '<td style="font-size:12px;color:'+acColor+'">'+( r['Área Solicitante']||'—')+'</td>'+
+      '<td style="font-family:IBM Plex Mono,monospace;font-size:11px;color:var(--accent4)">'+maq+'</td>'+
+      '<td style="color:'+tc+';font-weight:600;font-size:12px">'+tec+'</td>'+
+      '<td style="color:'+stC+';font-family:IBM Plex Mono,monospace;font-size:11px">'+st+'</td>'+
+      '<td style="font-size:12px;color:var(--text);word-break:break-word;max-width:300px">'+prob+'</td>'+
     '</tr>';
   }).join('');
-
-  // Scroll suave até a tabela
-  wrap.scrollIntoView({ behavior:'smooth', block:'start' });
+  wrap.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
+// ── Init ──────────────────────────────────────────────────────────────────
 function initAnalise() {
-  if (analiseInited) { renderAnalise(); return; }
-
-  // Popula dados a partir do mesmo fetch do dashboard (já temos analiseRows)
-  // Se ainda não tem dados, busca do banco
-  if (analiseRows.length === 0) {
-    fetch(DASHBOARD_API + '/api/dashboard')
-      .then(function(res){ return res.json(); })
-      .then(function(rows){
-        // Mapear campos para garantir Local/Máquina
-        analiseRows = rows.map(function(r){
-          r['Local/Máquina'] = r['Local/Máquina'] || r['local_maquina'] || '';
-          return r;
-        });
-        populaFiltrosAnalise();
-        renderAnalise();
-        analiseInited = true;
-      })
-      .catch(function(e){ console.warn('initAnalise fetch:', e); });
-  } else {
-    populaFiltrosAnalise();
-    renderAnalise();
+  if (analiseRows.length > 0) {
+    buildAnMonthBar();
+    renderAnaliseSMT();
+    renderAnalisePTH();
     analiseInited = true;
+    return;
   }
-}
-
-function populaFiltrosAnalise() {
-  // Técnicos
-  var tecSet = new Set(analiseRows.map(function(r){ return r['Técnico']||''; }).filter(Boolean));
-  var sel = document.getElementById('an-tech-filter');
-  if (sel) {
-    var cur = sel.value;
-    sel.innerHTML = '<option value="">Todos os técnicos</option>';
-    Array.from(tecSet).sort().forEach(function(t){
-      sel.innerHTML += '<option value="'+t+'"'+(t===cur?' selected':'')+'>'+t+'</option>';
+  // Fallback: buscar direto do banco se ainda não tem dados
+  document.getElementById('an-smt-list').innerHTML = '<div style="text-align:center;color:var(--text2);padding:32px;font-family:IBM Plex Mono,monospace;font-size:11px">⏳ Carregando...</div>';
+  document.getElementById('an-pth-list').innerHTML = '<div style="text-align:center;color:var(--text2);padding:32px;font-family:IBM Plex Mono,monospace;font-size:11px">⏳ Carregando...</div>';
+  fetch(DASHBOARD_API + '/api/dashboard')
+    .then(function(res){ return res.json(); })
+    .then(function(rows){
+      analiseRows = rows.map(function(r){ r['Local/Máquina']=r['Local/Máquina']||r['local_maquina']||''; return r; });
+      buildAnMonthBar();
+      renderAnaliseSMT();
+      renderAnalisePTH();
+      analiseInited = true;
+    })
+    .catch(function(e){
+      document.getElementById('an-smt-list').innerHTML = '<div style="text-align:center;color:var(--accent2);padding:32px">❌ Erro ao carregar dados</div>';
+      document.getElementById('an-pth-list').innerHTML = '';
     });
-  }
-  // Meses
-  var mesSet = new Set();
-  analiseRows.forEach(function(r){
-    var da = r['Data Abertura']||''; if(da.length>=7){ var p=da.split('/'); mesSet.add(p[2]+'-'+p[1]); }
-  });
-  var MES_L = {'01':'Jan','02':'Fev','03':'Mar','04':'Abr','05':'Mai','06':'Jun','07':'Jul','08':'Ago','09':'Set','10':'Out','11':'Nov','12':'Dez'};
-  var selM = document.getElementById('an-month-filter');
-  if (selM) {
-    var curM = selM.value;
-    selM.innerHTML = '<option value="">Todos os meses</option>';
-    Array.from(mesSet).sort().reverse().forEach(function(m){
-      var parts = m.split('-');
-      var lbl = (MES_L[parts[1]]||parts[1]) + '/' + parts[0];
-      selM.innerHTML += '<option value="'+m+'"'+(m===curM?' selected':'')+'>'+lbl+'</option>';
-    });
-  }
 }
 
 // =========================================================================
@@ -1789,7 +1709,6 @@ window.addEventListener('load', function() {
         updateHeader('pci');
         var st = document.getElementById('fetchStatus');
         if (st) st.textContent = '✅ ' + rows.length + ' chamados carregados';
-        // Alimentar análise
         analiseRows = rows.map(function(r){ r['Local/Máquina']=r['Local/Máquina']||r['local_maquina']||''; return r; });
         fetchAbertos();
         startAbertosAutoRefresh();
