@@ -227,6 +227,7 @@
   <div class="nav-tab" onclick="showPage('tempo',event)">⏱ Tempos &amp; SLA</div>
   <div class="nav-tab" onclick="showPage('distribuicao',event)">🗓 Distribuição</div>
   <div class="nav-tab" onclick="showPage('recomendacoes',event)">💡 Recomendações</div>
+  <div class="nav-tab" onclick="showPage('abertos',event)" id="tab-pci-abertos">🔴 Abertos <span id="pci-abertos-badge" style="background:var(--accent2);color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;margin-left:4px;display:none">0</span></div>
 </nav>
 
 <!-- PAGE: OVERVIEW -->
@@ -355,6 +356,7 @@
   <div class="insight-box">
     <h3>🎯 Resumo Executivo</h3>
     <p id="pci-resumo-exec">Use o botão <strong style="color:var(--accent3)">🔄 Atualizar Online</strong> para carregar os dados do banco e gerar a análise automaticamente.</p>
+  <div id="pci-rec-dynamic"></div>
   </div>
   <div class="grid-2">
     <div>
@@ -385,6 +387,29 @@
     </tbody></table>
   </div>
 </div>
+<!-- PAGE: ABERTOS PCI -->
+<div class="page" id="page-abertos">
+  <div class="section-title">Chamados em Aberto — PCI / Processos</div>
+  <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px;flex-wrap:wrap;">
+    <div class="stat-pill"><span class="val" id="pci-open-total" style="color:var(--accent2)">—</span><span class="lbl">EM ABERTO</span></div>
+    <div class="stat-pill"><span class="val" id="pci-open-aceite" style="color:var(--accent4)">—</span><span class="lbl">AGUARDANDO ACEITE</span></div>
+    <div class="stat-pill"><span class="val" id="pci-open-atend" style="color:var(--accent3)">—</span><span class="lbl">EM ATENDIMENTO</span></div>
+    <button onclick="fetchAbertos()" class="import-btn" style="border-color:var(--accent3);color:var(--accent3);margin-left:auto">🔄 Atualizar</button>
+  </div>
+  <div class="chart-wrap" style="overflow-x:auto;">
+    <table class="cmp-table" id="pci-abertos-table">
+      <thead><tr>
+        <th>ID</th><th>ÁREA SOLICITANTE</th><th>TÉCNICO</th><th>STATUS</th>
+        <th>DATA ABERTURA</th><th>HORA</th><th>TEMPO ABERTO</th><th>PROBLEMA</th>
+      </tr></thead>
+      <tbody id="pci-abertos-body">
+        <tr><td colspan="8" style="text-align:center;color:var(--text2);padding:32px">
+          Clique em 🔄 Atualizar para carregar os chamados em aberto
+        </td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 </div><!-- /pci-wrapper -->
 
 <!-- ═══════════════════════════════════════════════════════════════════════
@@ -397,6 +422,7 @@
   <div class="nav-tab" onclick="montShowPage('mont-tempo',event)">⏱ Tempos &amp; SLA</div>
   <div class="nav-tab" onclick="montShowPage('mont-distribuicao',event)">🗓 Distribuição</div>
   <div class="nav-tab" onclick="montShowPage('mont-recomendacoes',event)">💡 Recomendações</div>
+  <div class="nav-tab" onclick="montShowPage('mont-abertos',event)" id="tab-mont-abertos">🔴 Abertos <span id="mont-abertos-badge" style="background:var(--accent2);color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;margin-left:4px;display:none">0</span></div>
 </nav>
 <div class="page active" id="mont-overview">
   <div class="section-title">KPIs Gerais do Time — Montagem</div>
@@ -449,6 +475,29 @@
 <div class="page" id="mont-recomendacoes">
   <div class="section-title">Recomendações — Montagem</div>
   <div id="mont-recContent"></div>
+</div>
+<!-- PAGE: ABERTOS MONTAGEM -->
+<div class="page" id="mont-abertos">
+  <div class="section-title">Chamados em Aberto — Montagem</div>
+  <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px;flex-wrap:wrap;">
+    <div class="stat-pill"><span class="val" id="mont-open-total" style="color:var(--accent2)">—</span><span class="lbl">EM ABERTO</span></div>
+    <div class="stat-pill"><span class="val" id="mont-open-aceite" style="color:var(--accent4)">—</span><span class="lbl">AGUARDANDO ACEITE</span></div>
+    <div class="stat-pill"><span class="val" id="mont-open-atend" style="color:var(--accent3)">—</span><span class="lbl">EM ATENDIMENTO</span></div>
+    <button onclick="fetchAbertos()" class="import-btn" style="border-color:var(--accent3);color:var(--accent3);margin-left:auto">🔄 Atualizar</button>
+  </div>
+  <div class="chart-wrap" style="overflow-x:auto;">
+    <table class="cmp-table" id="mont-abertos-table">
+      <thead><tr>
+        <th>ID</th><th>ÁREA SOLICITANTE</th><th>TÉCNICO</th><th>STATUS</th>
+        <th>DATA ABERTURA</th><th>HORA</th><th>TEMPO ABERTO</th><th>PROBLEMA</th>
+      </tr></thead>
+      <tbody id="mont-abertos-body">
+        <tr><td colspan="8" style="text-align:center;color:var(--text2);padding:32px">
+          Clique em 🔄 Atualizar para carregar os chamados em aberto
+        </td></tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 </div><!-- /mont-wrapper -->
 
@@ -678,6 +727,8 @@ function showPage(id, ev) {
   if(id==='techs' && !document.getElementById('techDetail').innerHTML) renderTechDetail('Vitor');
   if(id==='tempo' && !chartsInited.tempo) { initTempoCharts(); chartsInited.tempo=true; }
   if(id==='distribuicao' && !chartsInited.distribuicao) { initDistribCharts(); chartsInited.distribuicao=true; }
+  if(id==='recomendacoes') buildPciRec();
+  if(id==='abertos') { fetchAbertos(); startAbertosAutoRefresh(); }
 }
 
 function selectTech(t) {
@@ -784,7 +835,7 @@ var MCD = { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ label
 
 function buildMonthFilter() {
   var months=MD.all_months; var labels={'2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun'};
-  var html='<div class="month-filter-bar"><button class="mf-btn active" data-month="all" onclick="setMontMonth(this)">Todos</button>';
+  var html='<div class="month-filter-bar" id="mont-month-filter"><button class="mf-btn active" data-month="all" onclick="setMontMonth(this)">Todos</button>';
   months.forEach(function(m){ html+='<button class="mf-btn" data-month="'+m+'" onclick="setMontMonth(this)">'+(labels[m]||m)+'</button>'; });
   return html+'</div>';
 }
@@ -809,9 +860,12 @@ function updateMontStats() {
 }
 
 function initMontagem() {
-  var overviewEl=document.getElementById('mont-overview');
-  var firstChild=overviewEl.querySelector('.section-title');
-  if(firstChild) firstChild.insertAdjacentHTML('afterend',buildMonthFilter());
+  // Inserir filtro de mês apenas uma vez
+  if (!document.getElementById('mont-month-filter')) {
+    var overviewEl=document.getElementById('mont-overview');
+    var firstChild=overviewEl.querySelector('.section-title');
+    if(firstChild) firstChild.insertAdjacentHTML('afterend',buildMonthFilter());
+  }
   updateMontStats(); drawMontTechCards(); drawMontOverviewCharts();
 }
 
@@ -925,6 +979,7 @@ function montShowPage(id,event){
   if(id==='mont-tempo'&&!montPageInited.tempo){initMontTempo();montPageInited.tempo=true;}
   if(id==='mont-distribuicao'&&!montPageInited.distrib){initMontDistrib();montPageInited.distrib=true;}
   if(id==='mont-recomendacoes'&&!montPageInited.rec){buildMontRec();montPageInited.rec=true;}
+  if(id==='mont-abertos'){ fetchAbertos(); startAbertosAutoRefresh(); }
 }
 
 // =========================================================================
@@ -1051,6 +1106,10 @@ function fetchDashboard(){
 
       updateHeader(currentArea);
       if(st)st.textContent='✅ '+rows.length+' chamados — PCI: '+pciRows.length+' | Mont: '+montRows.length;
+      // Recomendações PCI dinâmicas após atualização
+      if(document.getElementById('page-recomendacoes')&&document.getElementById('page-recomendacoes').classList.contains('active')) buildPciRec();
+      // Buscar abertos também
+      fetchAbertos();
       if(btn){btn.disabled=false;btn.textContent='🔄 Atualizar Online';}
       var ok=document.getElementById('importOk');
       if(ok){ok.style.display='inline';setTimeout(function(){ok.style.display='none';},4000);}
@@ -1060,6 +1119,222 @@ function fetchDashboard(){
       if(btn){btn.disabled=false;btn.textContent='🔄 Atualizar Online';}
       console.error('fetchDashboard error:',err);
     });
+}
+
+
+// =========================================================================
+// RECOMENDAÇÕES PCI DINÂMICAS
+// =========================================================================
+function buildPciRec() {
+  var activeTechs = PCI_TECHS_ORDER.filter(function(t){ return pciData.techs[t] && pciData.techs[t].total > 0; });
+  if (!activeTechs.length) return;
+  var d = pciData;
+
+  // Resumo executivo
+  var totalTime = d.all_months.length > 0 ?
+    (MES_LABELS[d.all_months[0]]||d.all_months[0]) + ' – ' + (MES_LABELS[d.all_months[d.all_months.length-1]]||d.all_months[d.all_months.length-1]) : 'período';
+  var resumo = '<div class="insight-box"><h3>🎯 Resumo Executivo</h3><p>' +
+    'O time de <strong style="color:var(--accent)">' + activeTechs.length + ' técnicos</strong> atendeu ' +
+    '<strong style="color:var(--accent)">' + d.team_total + ' chamados</strong> (' + totalTime + ') ' +
+    'com taxa de resolução de <strong style="color:var(--accent3)">' + d.taxa_all + '%</strong> ' +
+    'e tempo médio de <strong style="color:var(--accent4)">' + d.team_med + ' min</strong>.</p></div>';
+
+  // Pontos de atenção
+  var atencao = '';
+  // Técnicos com aceite > 30min
+  activeTechs.filter(function(t){ return d.techs[t].aceite > 30; }).forEach(function(t) {
+    atencao += '<div class="rec-card" style="--accent-color:var(--accent2)"><div class="rec-title">🔴 ' + t + ' — Tempo de Aceite Elevado</div>' +
+      '<div class="rec-body">Mediana de ' + d.techs[t].aceite + ' min (meta: 15 min). ' +
+      'Investigar sobrecarga no turno ' + (d.techs[t].shifts.T2 > d.techs[t].shifts.T1 ? 'T2' : 'T1') + '.</div></div>';
+  });
+  // Técnicos com expirados
+  activeTechs.filter(function(t){ return d.techs[t].expired > 0; }).forEach(function(t) {
+    atencao += '<div class="rec-card" style="--accent-color:var(--accent4)"><div class="rec-title">🟡 ' + t + ' — ' + d.techs[t].expired + ' Chamado(s) Expirado(s)</div>' +
+      '<div class="rec-body">Taxa de resolução ' + d.techs[t].taxa + '%. Criar processo de escalonamento preventivo.</div></div>';
+  });
+  // Técnicos com baixo volume (< 20% da média)
+  var mediaVol = d.team_total / activeTechs.length;
+  activeTechs.filter(function(t){ return d.techs[t].total < mediaVol * 0.25; }).forEach(function(t) {
+    atencao += '<div class="rec-card" style="--accent-color:var(--accent5)"><div class="rec-title">🟣 ' + t + ' — Volume Muito Baixo</div>' +
+      '<div class="rec-body">Apenas ' + d.techs[t].total + ' chamados vs média de ' + Math.round(mediaVol) + '. ' +
+      'Verificar limitação de atribuição ou período de integração.</div></div>';
+  });
+  if (!atencao) atencao = '<div class="rec-card" style="--accent-color:var(--accent3)"><div class="rec-title">✅ Sem pontos críticos</div>' +
+    '<div class="rec-body">Time operando dentro dos parâmetros de SLA.</div></div>';
+
+  // Boas práticas
+  var boas = '';
+  var byAceite = activeTechs.slice().sort(function(a,b){ return d.techs[a].aceite - d.techs[b].aceite; });
+  var best = byAceite[0];
+  boas += '<div class="rec-card" style="--accent-color:' + d.techs[best].color + '"><div class="rec-title">🟢 ' + best + ' — Referência de Aceite (' + d.techs[best].aceite + ' min)</div>' +
+    '<div class="rec-body">' + d.techs[best].taxa + '% de resolução com menor tempo de aceite do time.</div></div>';
+  activeTechs.filter(function(t){ return d.techs[t].taxa === 100 && t !== best; }).forEach(function(t) {
+    boas += '<div class="rec-card" style="--accent-color:' + d.techs[t].color + '"><div class="rec-title">🟢 ' + t + ' — 100% de Resolução</div>' +
+      '<div class="rec-body">' + d.techs[t].total + ' chamados sem nenhuma expiração.</div></div>';
+  });
+  // Cobertura T3
+  var t3techs = activeTechs.filter(function(t){ return d.techs[t].shifts.T3 > 0; });
+  if (t3techs.length === 1) {
+    boas += '<div class="rec-card" style="--accent-color:var(--accent)"><div class="rec-title">🔵 Cobertura T3 — Ponto Único</div>' +
+      '<div class="rec-body">Apenas ' + t3techs[0] + ' cobre o T3 (' + d.techs[t3techs[0]].shifts.T3 + ' chamados). ' +
+      'Considerar treinar backup para o turno noturno.</div></div>';
+  }
+
+  var el = document.getElementById('pci-rec-dynamic');
+  if (el) el.innerHTML = resumo +
+    '<div class="grid-2"><div><div class="section-title">⚠ Pontos de Atenção</div>' + atencao + '</div>' +
+    '<div><div class="section-title">✅ Boas Práticas</div>' + boas + '</div></div>';
+
+  // Atualizar resumo exec
+  var re = document.getElementById('pci-resumo-exec');
+  if (re) re.style.display = 'none';
+}
+
+// =========================================================================
+// CHAMADOS ABERTOS — tempo real
+// =========================================================================
+var abertosData = [];  // cache da última busca
+var abertosTimer = null;
+
+function fetchAbertos() {
+  fetch(DASHBOARD_API + '/api/abertos')
+    .then(function(res){ if(!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
+    .then(function(rows){
+      abertosData = rows;
+      renderAbertos(rows);
+      // Atualizar badges nas tabs
+      var pciOpen = rows.filter(function(r){ var s=r['Área Suporte']||''; return s==='Processos'||s==='Testes'; });
+      var montOpen = rows.filter(function(r){ var s=r['Área Suporte']||''; var sol=r['Área Solicitante']||''; return (s==='Processos'||s==='Testes')&&sol==='Montagem'; });
+      updateBadge('pci-abertos-badge',  pciOpen.length);
+      updateBadge('mont-abertos-badge', montOpen.length);
+    })
+    .catch(function(err){ console.warn('fetchAbertos:', err); });
+}
+
+function updateBadge(id, count) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = count;
+  el.style.display = count > 0 ? 'inline' : 'none';
+}
+
+var STATUS_COLORS = {
+  'Aberto':                'var(--accent4)',
+  'Em atendimento':        'var(--accent3)',
+  'Pausado':               'var(--accent5)',
+  'Aguardando Validação':  'var(--accent)',
+  'AGUARDANDO_LIBERACAO':  'var(--accent2)'
+};
+
+function statusBadge(s) {
+  var c = STATUS_COLORS[s] || 'var(--text2)';
+  var label = s === 'AGUARDANDO_LIBERACAO' ? 'Aguard. Liberação' : s;
+  return '<span style="background:' + c + '22;color:' + c + ';border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;white-space:nowrap">' + label + '</span>';
+}
+
+function tempoAberto(dataAb, horaAb) {
+  if (!dataAb || !horaAb) return '—';
+  try {
+    var parts = dataAb.split('/');
+    var dt = new Date(parts[2]+'-'+parts[1]+'-'+parts[0]+'T'+horaAb.substring(0,5));
+    if (isNaN(dt)) return '—';
+    var diff = Math.floor((Date.now() - dt.getTime()) / 60000);
+    if (diff < 60) return diff + ' min';
+    if (diff < 1440) return Math.floor(diff/60) + 'h ' + (diff%60) + 'min';
+    return Math.floor(diff/1440) + 'd ' + Math.floor((diff%1440)/60) + 'h';
+  } catch(e) { return '—'; }
+}
+
+function renderAbertos(rows) {
+  // ── PCI ──────────────────────────────────────────────────────────────
+  var pciRows = rows.filter(function(r){
+    var s = r['Área Suporte']||''; return s==='Processos'||s==='Testes';
+  });
+  var pciAberto  = pciRows.filter(function(r){ return r['Status']==='Aberto'; }).length;
+  var pciAtend   = pciRows.filter(function(r){ return r['Status']==='Em atendimento'; }).length;
+  var el;
+  el = document.getElementById('pci-open-total');  if(el) el.textContent = pciRows.length;
+  el = document.getElementById('pci-open-aceite'); if(el) el.textContent = pciAberto;
+  el = document.getElementById('pci-open-atend');  if(el) el.textContent = pciAtend;
+  var pciBody = document.getElementById('pci-abertos-body');
+  if (pciBody) {
+    if (!pciRows.length) {
+      pciBody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--accent3);padding:32px">✅ Nenhum chamado em aberto</td></tr>';
+    } else {
+      pciBody.innerHTML = pciRows.map(function(r) {
+        var tempo = tempoAberto(r['Data Abertura'], r['Hora Abertura']);
+        var tempoColor = '';
+        var mins = parseInt(tempo);
+        if (!isNaN(mins) && mins > 60) tempoColor = 'color:var(--accent4)';
+        if (!isNaN(mins) && mins > 120) tempoColor = 'color:var(--accent2)';
+        return '<tr>' +
+          '<td style="font-family:IBM Plex Mono,monospace;color:var(--text2)">#' + (r['ID']||'—') + '</td>' +
+          '<td>' + (r['Área Solicitante']||'—') + '</td>' +
+          '<td style="color:' + getTechColor(r['Técnico']) + ';font-weight:600">' + (r['Técnico']||'—') + '</td>' +
+          '<td>' + statusBadge(r['Status']||'') + '</td>' +
+          '<td style="font-family:IBM Plex Mono,monospace;font-size:12px">' + (r['Data Abertura']||'—') + '</td>' +
+          '<td style="font-family:IBM Plex Mono,monospace;font-size:12px">' + (r['Hora Abertura']||'—').substring(0,5) + '</td>' +
+          '<td style="font-family:IBM Plex Mono,monospace;' + tempoColor + '">' + tempo + '</td>' +
+          '<td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2);font-size:12px" title="' + (r['Problema']||'').replace(/"/g,"'") + '">' + (r['Problema']||'—').substring(0,60) + '</td>' +
+        '</tr>';
+      }).join('');
+    }
+  }
+
+  // ── Montagem ─────────────────────────────────────────────────────────
+  var montRows = rows.filter(function(r){
+    var s = r['Área Suporte']||''; var sol = r['Área Solicitante']||'';
+    return (s==='Processos'||s==='Testes') && sol==='Montagem';
+  });
+  var montAberto = montRows.filter(function(r){ return r['Status']==='Aberto'; }).length;
+  var montAtend  = montRows.filter(function(r){ return r['Status']==='Em atendimento'; }).length;
+  el = document.getElementById('mont-open-total');  if(el) el.textContent = montRows.length;
+  el = document.getElementById('mont-open-aceite'); if(el) el.textContent = montAberto;
+  el = document.getElementById('mont-open-atend');  if(el) el.textContent = montAtend;
+  var montBody = document.getElementById('mont-abertos-body');
+  if (montBody) {
+    if (!montRows.length) {
+      montBody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--accent3);padding:32px">✅ Nenhum chamado em aberto</td></tr>';
+    } else {
+      montBody.innerHTML = montRows.map(function(r) {
+        var tempo = tempoAberto(r['Data Abertura'], r['Hora Abertura']);
+        var tempoColor = '';
+        var mins = parseInt(tempo);
+        if (!isNaN(mins) && mins > 60) tempoColor = 'color:var(--accent4)';
+        if (!isNaN(mins) && mins > 120) tempoColor = 'color:var(--accent2)';
+        return '<tr>' +
+          '<td style="font-family:IBM Plex Mono,monospace;color:var(--text2)">#' + (r['ID']||'—') + '</td>' +
+          '<td>' + (r['Área Solicitante']||'—') + '</td>' +
+          '<td style="color:' + getMontTechColor(r['Técnico']) + ';font-weight:600">' + (r['Técnico']||'—') + '</td>' +
+          '<td>' + statusBadge(r['Status']||'') + '</td>' +
+          '<td style="font-family:IBM Plex Mono,monospace;font-size:12px">' + (r['Data Abertura']||'—') + '</td>' +
+          '<td style="font-family:IBM Plex Mono,monospace;font-size:12px">' + (r['Hora Abertura']||'—').substring(0,5) + '</td>' +
+          '<td style="font-family:IBM Plex Mono,monospace;' + tempoColor + '">' + tempo + '</td>' +
+          '<td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text2);font-size:12px" title="' + (r['Problema']||'').replace(/"/g,"'") + '">' + (r['Problema']||'—').substring(0,60) + '</td>' +
+        '</tr>';
+      }).join('');
+    }
+  }
+}
+
+function getTechColor(name) {
+  var idx = PCI_TECHS_ORDER.indexOf(name);
+  return idx >= 0 ? PCI_COLORS[idx] : 'var(--text)';
+}
+function getMontTechColor(name) {
+  var idx = MONT_TECHS_ORDER.indexOf(name);
+  var colors = ['#00c8ff','#38e08c','#ffc300','#ff5f40','#c97bff'];
+  return idx >= 0 ? colors[idx] : 'var(--text)';
+}
+
+// Auto-refresh a cada 60s quando a aba Abertos está visível
+function startAbertosAutoRefresh() {
+  if (abertosTimer) clearInterval(abertosTimer);
+  abertosTimer = setInterval(function() {
+    var pciAbertosVisible  = document.getElementById('page-abertos')  && document.getElementById('page-abertos').classList.contains('active');
+    var montAbertosVisible = document.getElementById('mont-abertos')  && document.getElementById('mont-abertos').classList.contains('active');
+    if (pciAbertosVisible || montAbertosVisible) fetchAbertos();
+  }, 60000);
 }
 
 // ── Init — auto-connect ao banco ──────────────────────────────────────────
@@ -1102,6 +1377,8 @@ window.addEventListener('load', function() {
         updateHeader('pci');
         var st = document.getElementById('fetchStatus');
         if (st) st.textContent = '✅ ' + rows.length + ' chamados carregados';
+        fetchAbertos();
+        startAbertosAutoRefresh();
       })
       .catch(function(err) {
         // Falhou — mostra tela de erro no lugar do loading
