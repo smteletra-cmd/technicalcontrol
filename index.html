@@ -1014,14 +1014,7 @@ function recomputeMont(rows){
 // FETCH DASHBOARD ONLINE — PATCH 3
 // Busca dados direto do servidor do bot sem precisar importar planilha
 // =========================================================================
-var DASHBOARD_API = (function(){
-  var origin = window.location.origin;
-  if(origin.startsWith('file://')||origin==='null'){
-    // Aberto como arquivo local: altere para o IP do servidor do bot se necessário
-    return 'http://localhost:7071';
-  }
-  return origin; // Bot servindo o HTML pelo /public — usa mesmo host
-})();
+var DASHBOARD_API = 'https://bot-chamados-tny4.onrender.com';
 
 function fetchDashboard(){
   var btn=document.getElementById('btnAtualizar');
