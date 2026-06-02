@@ -25,583 +25,148 @@
     --elciney: #ff5f40;
     --giselly: #c97bff;
   }
-
   * { margin:0; padding:0; box-sizing:border-box; }
-  
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Manrope', sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* Grid bg */
-  body::before {
-    content:'';
-    position:fixed;
-    inset:0;
-    background-image:
-      linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events:none;
-    z-index:0;
-  }
-
-  /* HEADER */
-  header {
-    position:relative;
-    z-index:10;
-    padding: 28px 40px 20px;
-    border-bottom: 1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background: linear-gradient(180deg, rgba(0,200,255,0.04) 0%, transparent 100%);
-  }
-  .header-left h1 {
-    font-family:'Syne', sans-serif;
-    font-weight:800;
-    font-size:22px;
-    letter-spacing:-0.5px;
-    color:var(--text);
-  }
+  body { background:var(--bg); color:var(--text); font-family:'Manrope',sans-serif; font-size:14px; line-height:1.6; overflow-x:hidden; }
+  body::before { content:''; position:fixed; inset:0; background-image: linear-gradient(rgba(0,200,255,0.03) 1px,transparent 1px), linear-gradient(90deg,rgba(0,200,255,0.03) 1px,transparent 1px); background-size:40px 40px; pointer-events:none; z-index:0; }
+  header { position:relative; z-index:10; padding:28px 40px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:linear-gradient(180deg,rgba(0,200,255,0.04) 0%,transparent 100%); }
+  .header-left h1 { font-family:'Syne',sans-serif; font-weight:800; font-size:22px; letter-spacing:-0.5px; color:var(--text); }
   .header-left h1 span { color:var(--accent); }
-  .header-left p {
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11px;
-    color:var(--text2);
-    margin-top:4px;
-  }
-  .header-right {
-    display:flex;
-    gap:24px;
-    align-items:center;
-  }
-  .stat-pill {
-    background: var(--surface);
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:8px 16px;
-    text-align:center;
-  }
-  .stat-pill .val {
-    font-family:'Syne', sans-serif;
-    font-size:20px;
-    font-weight:800;
-    color:var(--accent);
-    display:block;
-  }
-  .stat-pill .lbl {
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10px;
-    color:var(--text2);
-  }
-
-  /* NAV TABS */
-  .nav-tabs {
-    position:relative;
-    z-index:10;
-    display:flex;
-    gap:4px;
-    padding:16px 40px 0;
-    border-bottom:1px solid var(--border);
-    background:var(--bg);
-  }
-  .nav-tab {
-    padding:10px 20px;
-    cursor:pointer;
-    font-family:'Syne', sans-serif;
-    font-weight:600;
-    font-size:13px;
-    color:var(--text2);
-    border-radius:8px 8px 0 0;
-    border:1px solid transparent;
-    border-bottom:none;
-    transition:all 0.2s;
-    letter-spacing:0.3px;
-  }
+  .header-left p { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text2); margin-top:4px; }
+  .header-right { display:flex; gap:24px; align-items:center; }
+  .stat-pill { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:8px 16px; text-align:center; }
+  .stat-pill .val { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--accent); display:block; }
+  .stat-pill .lbl { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text2); }
+  .nav-tabs { position:relative; z-index:10; display:flex; gap:4px; padding:16px 40px 0; border-bottom:1px solid var(--border); background:var(--bg); }
+  .nav-tab { padding:10px 20px; cursor:pointer; font-family:'Syne',sans-serif; font-weight:600; font-size:13px; color:var(--text2); border-radius:8px 8px 0 0; border:1px solid transparent; border-bottom:none; transition:all 0.2s; letter-spacing:0.3px; }
   .nav-tab:hover { color:var(--text); background:var(--surface); }
-  .nav-tab.active {
-    color:var(--accent);
-    background:var(--surface);
-    border-color:var(--border);
-    border-bottom:1px solid var(--surface);
-    margin-bottom:-1px;
-  }
-
-  /* PAGES */
+  .nav-tab.active { color:var(--accent); background:var(--surface); border-color:var(--border); border-bottom:1px solid var(--surface); margin-bottom:-1px; }
   .page { display:none; padding:32px 40px; position:relative; z-index:5; }
   .page.active { display:block; }
-
-  /* SECTION TITLES */
-  .section-title {
-    font-family:'Syne', sans-serif;
-    font-weight:700;
-    font-size:13px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    color:var(--accent);
-    margin-bottom:16px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
-  .section-title::after {
-    content:'';
-    flex:1;
-    height:1px;
-    background:var(--border);
-  }
-
-  /* GRID LAYOUTS */
+  .section-title { font-family:'Syne',sans-serif; font-weight:700; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+  .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
   .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px; }
   .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
   .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:24px; }
   .grid-5 { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; margin-bottom:24px; }
-
-  /* CARDS */
-  .card {
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:20px;
-    position:relative;
-    overflow:hidden;
-    transition:border-color 0.2s;
-  }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; position:relative; overflow:hidden; transition:border-color 0.2s; }
   .card:hover { border-color:var(--text3); }
-  .card::before {
-    content:'';
-    position:absolute;
-    top:0;left:0;right:0;
-    height:2px;
-    background:var(--accent-color, var(--accent));
-  }
-  .card-title {
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10px;
-    color:var(--text2);
-    letter-spacing:1px;
-    text-transform:uppercase;
-    margin-bottom:10px;
-  }
-  .card-value {
-    font-family:'Syne', sans-serif;
-    font-weight:800;
-    font-size:32px;
-    color:var(--accent-color, var(--accent));
-    line-height:1;
-  }
-  .card-sub {
-    font-size:12px;
-    color:var(--text2);
-    margin-top:6px;
-  }
-
-  /* KPI BADGES */
-  .badge {
-    display:inline-block;
-    padding:2px 8px;
-    border-radius:4px;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10px;
-    font-weight:500;
-    margin-top:8px;
-  }
+  .card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--accent-color,var(--accent)); }
+  .card-title { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text2); letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
+  .card-value { font-family:'Syne',sans-serif; font-weight:800; font-size:32px; color:var(--accent-color,var(--accent)); line-height:1; }
+  .card-sub { font-size:12px; color:var(--text2); margin-top:6px; }
+  .badge { display:inline-block; padding:2px 8px; border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:500; margin-top:8px; }
   .badge-green { background:rgba(56,224,140,0.15); color:var(--accent3); }
   .badge-red { background:rgba(255,95,64,0.15); color:var(--accent2); }
   .badge-yellow { background:rgba(255,195,0,0.15); color:var(--accent4); }
   .badge-blue { background:rgba(0,200,255,0.15); color:var(--accent); }
-
-  /* TECH CARDS */
-  .tech-card {
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:24px;
-    position:relative;
-    overflow:hidden;
-    cursor:pointer;
-    transition:all 0.25s;
-  }
+  .tech-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; position:relative; overflow:hidden; cursor:pointer; transition:all 0.25s; }
   .tech-card:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,0,0,0.5); }
   .tech-card.selected { border-color:var(--t-color); box-shadow:0 0 0 1px var(--t-color); }
-  .tech-card::before {
-    content:'';
-    position:absolute;
-    top:0;left:0;right:0;
-    height:3px;
-    background:var(--t-color);
-  }
-  .tech-avatar {
-    width:48px;height:48px;
-    border-radius:50%;
-    background:linear-gradient(135deg, var(--t-color), rgba(0,0,0,0.5));
-    display:flex;align-items:center;justify-content:center;
-    font-family:'Syne', sans-serif;
-    font-weight:800;
-    font-size:18px;
-    color:#fff;
-    margin-bottom:16px;
-    box-shadow:0 0 20px rgba(0,0,0,0.5);
-  }
-  .tech-name {
-    font-family:'Syne', sans-serif;
-    font-weight:700;
-    font-size:18px;
-    color:var(--text);
-    margin-bottom:4px;
-  }
-  .tech-role {
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10px;
-    color:var(--text2);
-    letter-spacing:1px;
-    margin-bottom:16px;
-  }
-  .tech-kpis {
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-  }
-  .tech-kpi {
-    background:var(--surface2);
-    border-radius:8px;
-    padding:10px;
-  }
-  .tech-kpi .k-val {
-    font-family:'Syne', sans-serif;
-    font-weight:700;
-    font-size:20px;
-    color:var(--t-color);
-    display:block;
-  }
-  .tech-kpi .k-lbl {
-    font-family:'IBM Plex Mono', monospace;
-    font-size:9px;
-    color:var(--text3);
-    text-transform:uppercase;
-  }
-  .perf-bar {
-    margin-top:14px;
-    height:4px;
-    background:var(--surface2);
-    border-radius:2px;
-    overflow:hidden;
-  }
-  .perf-fill {
-    height:100%;
-    border-radius:2px;
-    background:var(--t-color);
-    transition:width 1s ease;
-  }
-
-  /* CHARTS */
-  .chart-wrap {
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:20px;
-    margin-bottom:16px;
-    overflow:hidden;
-  }
-  .chart-title {
-    font-family:'Syne', sans-serif;
-    font-weight:600;
-    font-size:13px;
-    color:var(--text);
-    margin-bottom:6px;
-  }
-  .chart-subtitle {
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10px;
-    color:var(--text2);
-    margin-bottom:16px;
-  }
-  /* Container que envolve o canvas — altura fixa para evitar esticamento */
-  .canvas-container {
-    position:relative;
-    width:100%;
-  }
-  canvas {
-    max-width:100%;
-    display:block;
-    max-height:320px;
-  }
-
-  /* HEATMAP */
-  .heatmap-grid {
-    display:grid;
-    grid-template-columns: 70px repeat(24,1fr);
-    gap:3px;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:9px;
-  }
-  .hm-label {
-    display:flex;align-items:center;justify-content:flex-end;
-    padding-right:8px;
-    color:var(--text2);
-    height:24px;
-  }
-  .hm-header {
-    display:flex;align-items:center;justify-content:center;
-    color:var(--text3);
-    font-size:8px;
-    height:20px;
-  }
-  .hm-cell {
-    height:24px;
-    border-radius:3px;
-    background:var(--surface2);
-    transition:all 0.2s;
-    cursor:default;
-    position:relative;
-  }
-  .hm-cell:hover::after {
-    content:attr(data-tip);
-    position:absolute;
-    bottom:calc(100% + 4px);
-    left:50%;
-    transform:translateX(-50%);
-    background:#0a1929;
-    border:1px solid var(--border);
-    padding:4px 8px;
-    border-radius:4px;
-    white-space:nowrap;
-    color:var(--text);
-    font-size:10px;
-    z-index:100;
-    pointer-events:none;
-  }
-
-  /* COMPARISON TABLE */
-  .cmp-table {
-    width:100%;
-    border-collapse:collapse;
-  }
-  .cmp-table th {
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    color:var(--text2);
-    padding:10px 14px;
-    text-align:left;
-    border-bottom:1px solid var(--border);
-  }
-  .cmp-table td {
-    padding:12px 14px;
-    border-bottom:1px solid rgba(26,45,69,0.5);
-    font-size:13px;
-    vertical-align:middle;
-  }
+  .tech-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--t-color); }
+  .tech-avatar { width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,var(--t-color),rgba(0,0,0,0.5)); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:18px; color:#fff; margin-bottom:16px; box-shadow:0 0 20px rgba(0,0,0,0.5); }
+  .tech-name { font-family:'Syne',sans-serif; font-weight:700; font-size:18px; color:var(--text); margin-bottom:4px; }
+  .tech-role { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text2); letter-spacing:1px; margin-bottom:16px; }
+  .tech-kpis { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .tech-kpi { background:var(--surface2); border-radius:8px; padding:10px; }
+  .tech-kpi .k-val { font-family:'Syne',sans-serif; font-weight:700; font-size:20px; color:var(--t-color); display:block; }
+  .tech-kpi .k-lbl { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--text3); text-transform:uppercase; }
+  .perf-bar { margin-top:14px; height:4px; background:var(--surface2); border-radius:2px; overflow:hidden; }
+  .perf-fill { height:100%; border-radius:2px; background:var(--t-color); transition:width 1s ease; }
+  .chart-wrap { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:16px; overflow:hidden; }
+  .chart-title { font-family:'Syne',sans-serif; font-weight:600; font-size:13px; color:var(--text); margin-bottom:6px; }
+  .chart-subtitle { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text2); margin-bottom:16px; }
+  .canvas-container { position:relative; width:100%; }
+  canvas { max-width:100%; display:block; max-height:320px; }
+  .heatmap-grid { display:grid; grid-template-columns:70px repeat(24,1fr); gap:3px; font-family:'IBM Plex Mono',monospace; font-size:9px; }
+  .hm-label { display:flex; align-items:center; justify-content:flex-end; padding-right:8px; color:var(--text2); height:24px; }
+  .hm-header { display:flex; align-items:center; justify-content:center; color:var(--text3); font-size:8px; height:20px; }
+  .hm-cell { height:24px; border-radius:3px; background:var(--surface2); transition:all 0.2s; cursor:default; position:relative; }
+  .hm-cell:hover::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 4px); left:50%; transform:translateX(-50%); background:#0a1929; border:1px solid var(--border); padding:4px 8px; border-radius:4px; white-space:nowrap; color:var(--text); font-size:10px; z-index:100; pointer-events:none; }
+  .cmp-table { width:100%; border-collapse:collapse; }
+  .cmp-table th { font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--text2); padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); }
+  .cmp-table td { padding:12px 14px; border-bottom:1px solid rgba(26,45,69,0.5); font-size:13px; vertical-align:middle; }
   .cmp-table tr:last-child td { border-bottom:none; }
   .cmp-table tr:hover td { background:rgba(255,255,255,0.02); }
-  .rank-badge {
-    display:inline-flex;
-    align-items:center;justify-content:center;
-    width:24px;height:24px;
-    border-radius:50%;
-    font-family:'Syne', sans-serif;
-    font-weight:800;
-    font-size:12px;
-  }
-
-  /* DONUT */
+  .rank-badge { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; font-family:'Syne',sans-serif; font-weight:800; font-size:12px; }
   .donut-wrap { position:relative; display:inline-flex; }
-
-  /* RECOMMENDATION CARDS */
-  .rec-card {
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-left:3px solid var(--accent-color, var(--accent));
-    border-radius:0 10px 10px 0;
-    padding:16px 20px;
-    margin-bottom:10px;
-  }
-  .rec-card .rec-title {
-    font-family:'Syne', sans-serif;
-    font-weight:700;
-    font-size:14px;
-    color:var(--text);
-    margin-bottom:4px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-  .rec-card .rec-body {
-    font-size:13px;
-    color:var(--text2);
-    line-height:1.7;
-  }
-
-  /* INSIGHT BOX */
-  .insight-box {
-    background:linear-gradient(135deg, rgba(0,200,255,0.05), rgba(56,224,140,0.03));
-    border:1px solid rgba(0,200,255,0.2);
-    border-radius:12px;
-    padding:20px 24px;
-    margin-bottom:24px;
-  }
-  .insight-box h3 {
-    font-family:'Syne', sans-serif;
-    font-weight:700;
-    font-size:14px;
-    color:var(--accent);
-    margin-bottom:10px;
-    display:flex;align-items:center;gap:8px;
-  }
-  .insight-box p {
-    font-size:13px;
-    color:var(--text2);
-    line-height:1.8;
-  }
-
-  /* LEGEND */
+  .rec-card { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent-color,var(--accent)); border-radius:0 10px 10px 0; padding:16px 20px; margin-bottom:10px; }
+  .rec-card .rec-title { font-family:'Syne',sans-serif; font-weight:700; font-size:14px; color:var(--text); margin-bottom:4px; display:flex; align-items:center; gap:8px; }
+  .rec-card .rec-body { font-size:13px; color:var(--text2); line-height:1.7; }
+  .insight-box { background:linear-gradient(135deg,rgba(0,200,255,0.05),rgba(56,224,140,0.03)); border:1px solid rgba(0,200,255,0.2); border-radius:12px; padding:20px 24px; margin-bottom:24px; }
+  .insight-box h3 { font-family:'Syne',sans-serif; font-weight:700; font-size:14px; color:var(--accent); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+  .insight-box p { font-size:13px; color:var(--text2); line-height:1.8; }
   .legend { display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; }
-  .legend-item { display:flex;align-items:center;gap:6px; font-size:12px; color:var(--text2); font-family:'IBM Plex Mono',monospace; }
-  .legend-dot { width:10px;height:10px;border-radius:50%; flex-shrink:0; }
-
-  /* SCROLL */
+  .legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text2); font-family:'IBM Plex Mono',monospace; }
+  .legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
   ::-webkit-scrollbar { width:6px; height:6px; }
   ::-webkit-scrollbar-track { background:var(--bg); }
   ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
-
-  /* TECH SELECTOR */
-  .tech-selector {
-    display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;
-  }
-  .tech-btn {
-    padding:6px 16px;
-    border-radius:20px;
-    border:1px solid var(--border);
-    background:var(--surface);
-    color:var(--text2);
-    cursor:pointer;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12px;
-    transition:all 0.2s;
-  }
+  .tech-selector { display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap; }
+  .tech-btn { padding:6px 16px; border-radius:20px; border:1px solid var(--border); background:var(--surface); color:var(--text2); cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:12px; transition:all 0.2s; }
   .tech-btn:hover { border-color:var(--text3); color:var(--text); }
-  .tech-btn.active {
-    border-color:var(--t-color);
-    background:rgba(0,0,0,0.3);
-    color:var(--t-color);
-    box-shadow:0 0 10px rgba(0,0,0,0.3);
-  }
-
-  /* Animated entry */
-  @keyframes fadeUp {
-    from { opacity:0; transform:translateY(16px); }
-    to { opacity:1; transform:translateY(0); }
-  }
-  .card, .chart-wrap, .tech-card, .rec-card {
-    animation: fadeUp 0.4s ease both;
-  }
-  .grid-5 .tech-card:nth-child(1) { animation-delay:0.05s; }
-  .grid-5 .tech-card:nth-child(2) { animation-delay:0.10s; }
-  .grid-5 .tech-card:nth-child(3) { animation-delay:0.15s; }
-  .grid-5 .tech-card:nth-child(4) { animation-delay:0.20s; }
-  .grid-5 .tech-card:nth-child(5) { animation-delay:0.25s; }
-
-  /* Loading overlay */
-  .loading {
-    position:fixed;inset:0;
-    background:var(--bg);
-    display:flex;align-items:center;justify-content:center;
-    z-index:1000;
-    flex-direction:column;
-    gap:16px;
-  }
+  .tech-btn.active { border-color:var(--t-color); background:rgba(0,0,0,0.3); color:var(--t-color); box-shadow:0 0 10px rgba(0,0,0,0.3); }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  .card,.chart-wrap,.tech-card,.rec-card { animation:fadeUp 0.4s ease both; }
+  .grid-5 .tech-card:nth-child(1){animation-delay:0.05s} .grid-5 .tech-card:nth-child(2){animation-delay:0.10s} .grid-5 .tech-card:nth-child(3){animation-delay:0.15s} .grid-5 .tech-card:nth-child(4){animation-delay:0.20s} .grid-5 .tech-card:nth-child(5){animation-delay:0.25s}
+  .loading { position:fixed; inset:0; background:var(--bg); display:flex; align-items:center; justify-content:center; z-index:1000; flex-direction:column; gap:16px; }
   .loading h2 { font-family:'Syne',sans-serif; font-weight:800; color:var(--accent); }
-  .loading-bar { width:200px;height:3px;background:var(--surface); border-radius:2px; overflow:hidden; }
-  .loading-fill { height:100%;background:var(--accent);animation:load 1.5s ease forwards; }
+  .loading-bar { width:200px; height:3px; background:var(--surface); border-radius:2px; overflow:hidden; }
+  .loading-fill { height:100%; background:var(--accent); animation:load 1.5s ease forwards; }
   @keyframes load { from{width:0} to{width:100%} }
-
-  .area-filter-bar{position:relative;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 40px;background:rgba(0,0,0,0.45);border-bottom:1px solid var(--border);backdrop-filter:blur(8px);}
-  .area-filter-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);letter-spacing:1px;}
-  .area-btn{padding:6px 22px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;font-family:'Syne',sans-serif;font-weight:600;font-size:13px;transition:all 0.2s;letter-spacing:0.3px;}
-  .area-btn:hover{color:var(--text);border-color:var(--text3);}
-  .area-btn.active-pci{border-color:var(--accent);color:var(--accent);background:rgba(0,200,255,0.08);box-shadow:0 0 14px rgba(0,200,255,0.15);}
-  .area-btn.active-mont{border-color:var(--accent3);color:var(--accent3);background:rgba(56,224,140,0.08);box-shadow:0 0 14px rgba(56,224,140,0.15);}
-  .import-btn{margin-left:auto;padding:6px 14px;border-radius:8px;border:1px dashed var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;transition:all 0.2s;}
-  .import-btn:hover{border-color:var(--accent4);color:var(--accent4);}
-  #fileInput{display:none;}
-  .import-ok{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent3);margin-left:6px;display:none;}
-  .imp-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:600;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
-  .imp-modal.show{display:flex;}
-  .imp-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;max-width:460px;width:90%;text-align:center;}
-  .imp-box h3{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:var(--text);margin-bottom:10px;}
-  .imp-box p{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:18px;}
-  .imp-prog{width:100%;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;}
-  .imp-fill{height:100%;background:var(--accent3);width:0;transition:width 0.3s;}
-  .imp-close{margin-top:18px;padding:8px 24px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;font-weight:600;}
-
-
-  /* ===== MONTH FILTER ===== */
-  .month-filter-bar {
-    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+  .area-filter-bar { position:relative; z-index:20; display:flex; align-items:center; gap:12px; padding:10px 40px; background:rgba(0,0,0,0.45); border-bottom:1px solid var(--border); backdrop-filter:blur(8px); flex-wrap:wrap; }
+  .area-filter-label { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text2); letter-spacing:1px; }
+  .area-btn { padding:6px 22px; border-radius:20px; border:1px solid var(--border); background:var(--surface); color:var(--text2); cursor:pointer; font-family:'Syne',sans-serif; font-weight:600; font-size:13px; transition:all 0.2s; letter-spacing:0.3px; }
+  .area-btn:hover { color:var(--text); border-color:var(--text3); }
+  .area-btn.active-pci { border-color:var(--accent); color:var(--accent); background:rgba(0,200,255,0.08); box-shadow:0 0 14px rgba(0,200,255,0.15); }
+  .area-btn.active-mont { border-color:var(--accent3); color:var(--accent3); background:rgba(56,224,140,0.08); box-shadow:0 0 14px rgba(56,224,140,0.15); }
+  .import-btn { padding:6px 14px; border-radius:8px; border:1px dashed var(--border); background:transparent; color:var(--text2); cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:11px; transition:all 0.2s; }
+  .import-btn:hover { border-color:var(--accent4); color:var(--accent4); }
+  #fileInput { display:none; }
+  .import-ok { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--accent3); margin-left:6px; display:none; }
+  .imp-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:600; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
+  .imp-modal.show { display:flex; }
+  .imp-box { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:32px; max-width:460px; width:90%; text-align:center; }
+  .imp-box h3 { font-family:'Syne',sans-serif; font-weight:800; font-size:17px; color:var(--text); margin-bottom:10px; }
+  .imp-box p { font-size:13px; color:var(--text2); line-height:1.7; margin-bottom:18px; }
+  .imp-prog { width:100%; height:4px; background:var(--surface2); border-radius:2px; overflow:hidden; }
+  .imp-fill { height:100%; background:var(--accent3); width:0; transition:width 0.3s; }
+  .imp-close { margin-top:18px; padding:8px 24px; border-radius:8px; border:1px solid var(--border); background:var(--surface2); color:var(--text); cursor:pointer; font-family:'Syne',sans-serif; font-size:13px; font-weight:600; }
+  .month-filter-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+  .mf-btn { padding:5px 14px; border-radius:16px; border:1px solid var(--border); background:var(--surface); color:var(--text2); cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:11px; transition:all 0.2s; }
+  .mf-btn:hover { color:var(--text); border-color:var(--text3); }
+  .mf-btn.active { border-color:var(--accent3); color:var(--accent3); background:rgba(56,224,140,0.1); }
+  .chart-box { position:relative; width:100%; height:200px; }
+  .chart-box canvas { position:absolute; inset:0; }
+  @media (max-width:768px) {
+    header { flex-direction:column; gap:16px; padding:16px 16px 12px; }
+    .header-right { flex-wrap:wrap; gap:10px; width:100%; }
+    .stat-pill { flex:1; min-width:80px; padding:6px 10px; }
+    .stat-pill .val { font-size:16px; }
+    .area-filter-bar { padding:8px 16px; }
+    .nav-tabs { padding:12px 16px 0; gap:2px; overflow-x:auto; flex-wrap:nowrap; }
+    .nav-tab { padding:8px 12px; font-size:11px; white-space:nowrap; }
+    .page { padding:16px; }
+    .grid-4,.grid-3,.grid-2 { grid-template-columns:1fr 1fr; gap:10px; }
+    .tech-kpis { grid-template-columns:1fr 1fr; gap:6px; }
+    .tech-avatar { width:36px; height:36px; font-size:14px; }
+    .tech-name { font-size:15px; }
+    .card-value { font-size:24px; }
+    .heatmap-grid { grid-template-columns:55px repeat(24,1fr); gap:2px; }
+    .hm-label { font-size:8px; padding-right:4px; }
+    .hm-header { font-size:7px; }
+    .hm-cell { height:18px; }
+    .cmp-table th,.cmp-table td { padding:8px 8px; font-size:11px; }
+    #mont-tech-cards { grid-template-columns:1fr 1fr !important; }
+    .tech-card { padding:16px; }
+    .rec-card { padding:12px 14px; }
+    .insight-box { padding:14px 16px; }
   }
-  .mf-btn {
-    padding: 5px 14px; border-radius: 16px; border: 1px solid var(--border);
-    background: var(--surface); color: var(--text2); cursor: pointer;
-    font-family: 'IBM Plex Mono', monospace; font-size: 11px; transition: all 0.2s;
+  @media (max-width:480px) {
+    .grid-4,.grid-3,.grid-2 { grid-template-columns:1fr; }
+    #mont-tech-cards { grid-template-columns:1fr !important; }
+    .stat-pill { min-width:70px; }
+    .nav-tab { font-size:10px; padding:7px 10px; }
   }
-  .mf-btn:hover { color: var(--text); border-color: var(--text3); }
-  .mf-btn.active { border-color: var(--accent3); color: var(--accent3); background: rgba(56,224,140,0.1); }
-
-  /* ===== CHART BOX (altura fixa para não esticar) ===== */
-  .chart-box { position: relative; width: 100%; height: 200px; }
-  .chart-box canvas { position: absolute; inset: 0; }
-
-  /* ===== MOBILE ===== */
-  @media (max-width: 768px) {
-    header { flex-direction: column; gap: 16px; padding: 16px 16px 12px; }
-    .header-right { flex-wrap: wrap; gap: 10px; width: 100%; }
-    .stat-pill { flex: 1; min-width: 80px; padding: 6px 10px; }
-    .stat-pill .val { font-size: 16px; }
-
-    .area-filter-bar { padding: 8px 16px; flex-wrap: wrap; gap: 8px; }
-    .import-btn { margin-left: 0; }
-
-    .nav-tabs { padding: 12px 16px 0; gap: 2px; overflow-x: auto; flex-wrap: nowrap; }
-    .nav-tab { padding: 8px 12px; font-size: 11px; white-space: nowrap; }
-
-    .page { padding: 16px; }
-
-    .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr 1fr; gap: 10px; }
-    .grid-4 .card:nth-child(n+3) { }
-
-    .tech-kpis { grid-template-columns: 1fr 1fr; gap: 6px; }
-    .tech-avatar { width: 36px; height: 36px; font-size: 14px; }
-    .tech-name { font-size: 15px; }
-    .card-value { font-size: 24px; }
-
-    .heatmap-grid { grid-template-columns: 55px repeat(24, 1fr); gap: 2px; }
-    .hm-label { font-size: 8px; padding-right: 4px; }
-    .hm-header { font-size: 7px; }
-    .hm-cell { height: 18px; }
-
-    .cmp-table th, .cmp-table td { padding: 8px 8px; font-size: 11px; }
-
-    #mont-tech-cards { grid-template-columns: 1fr 1fr !important; }
-    .tech-card { padding: 16px; }
-
-    .rec-card { padding: 12px 14px; }
-    .insight-box { padding: 14px 16px; }
-  }
-
-  @media (max-width: 480px) {
-    .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
-    #mont-tech-cards { grid-template-columns: 1fr !important; }
-    .header-right { gap: 8px; }
-    .stat-pill { min-width: 70px; }
-    .nav-tab { font-size: 10px; padding: 7px 10px; }
-  }
-
 </style>
 </head>
 <body>
@@ -612,7 +177,6 @@
   <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);">Processando chamados do time...</p>
 </div>
 
-
 <div class="imp-modal" id="impModal">
   <div class="imp-box">
     <h3>📂 Importar Planilha</h3>
@@ -621,321 +185,158 @@
     <button class="imp-close" onclick="document.getElementById('impModal').classList.remove('show')">Fechar</button>
   </div>
 </div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     BARRA DE FILTROS / AÇÕES
+════════════════════════════════════════════════════════════════════════ -->
 <div class="area-filter-bar">
   <span class="area-filter-label">ÁREA:</span>
   <button class="area-btn active-pci" id="btnPCI"  onclick="switchArea('pci')">🔵 PCI</button>
   <button class="area-btn"            id="btnMont" onclick="switchArea('mont')">🟢 Montagem</button>
+  <!-- PATCH 1 ► botão atualizar online -->
+  <button class="import-btn" id="btnAtualizar" onclick="fetchDashboard()"
+          style="border-color:var(--accent3);color:var(--accent3);">
+    🔄 Atualizar Online
+  </button>
   <button class="import-btn" onclick="document.getElementById('fileInput').click()">📥 Importar Planilha</button>
   <input type="file" id="fileInput" accept=".xlsx,.xls" onchange="importFile(event)">
   <span class="import-ok" id="importOk">✅ Dados atualizados!</span>
+  <span id="fetchStatus" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);"></span>
 </div>
+
 <header>
   <div class="header-left">
     <h1>📟 Gestão de Chamados — <span>Processos</span></h1>
     <p id="hdr-sub">⬛ PERÍODO: FEV – JUN 2026 &nbsp;|&nbsp; <span id="hdr-techs">5</span> TÉCNICOS &nbsp;|&nbsp; 3 TURNOS &nbsp;|&nbsp; ATUALIZADO <span id="hdr-date">01/06/2026</span></p>
   </div>
   <div class="header-right">
-    <div class="stat-pill">
-      <span class="val" id="hdr-total">—</span>
-      <span class="lbl">CHAMADOS TIME</span>
-    </div>
-    <div class="stat-pill">
-      <span class="val" style="color:var(--accent3)" id="hdr-taxa">—</span>
-      <span class="lbl">TAXA RESOLUÇÃO</span>
-    </div>
-    <div class="stat-pill">
-      <span class="val" style="color:var(--accent4)" id="hdr-med">—</span>
-      <span class="lbl">TEMPO MÉDIO</span>
-    </div>
-    <div class="stat-pill">
-      <span class="val" style="color:var(--accent5)" id="hdr-geral">—</span>
-      <span class="lbl">TOTAL GERAL</span>
-    </div>
+    <div class="stat-pill"><span class="val" id="hdr-total">—</span><span class="lbl">CHAMADOS TIME</span></div>
+    <div class="stat-pill"><span class="val" style="color:var(--accent3)" id="hdr-taxa">—</span><span class="lbl">TAXA RESOLUÇÃO</span></div>
+    <div class="stat-pill"><span class="val" style="color:var(--accent4)" id="hdr-med">—</span><span class="lbl">TEMPO MÉDIO</span></div>
+    <div class="stat-pill"><span class="val" style="color:var(--accent5)" id="hdr-geral">—</span><span class="lbl">TOTAL GERAL</span></div>
   </div>
 </header>
 
+<!-- ═══════════════════════════════════════════════════════════════════════
+     ÁREA PCI
+════════════════════════════════════════════════════════════════════════ -->
 <div id="pci-wrapper">
 <nav class="nav-tabs" id="nav-pci">
-  <div class="nav-tab active" onclick="showPage('overview')">📊 Visão Geral</div>
-  <div class="nav-tab" onclick="showPage('techs')">👤 Por Técnico</div>
-  <div class="nav-tab" onclick="showPage('tempo')">⏱ Tempos & SLA</div>
-  <div class="nav-tab" onclick="showPage('distribuicao')">🗓 Distribuição</div>
-  <div class="nav-tab" onclick="showPage('recomendacoes')">💡 Recomendações</div>
+  <div class="nav-tab active" onclick="showPage('overview',event)">📊 Visão Geral</div>
+  <div class="nav-tab" onclick="showPage('techs',event)">👤 Por Técnico</div>
+  <div class="nav-tab" onclick="showPage('tempo',event)">⏱ Tempos &amp; SLA</div>
+  <div class="nav-tab" onclick="showPage('distribuicao',event)">🗓 Distribuição</div>
+  <div class="nav-tab" onclick="showPage('recomendacoes',event)">💡 Recomendações</div>
 </nav>
 
 <!-- PAGE: OVERVIEW -->
 <div class="page active" id="page-overview">
   <div class="section-title">KPIs Gerais do Time</div>
-
   <div class="grid-5">
-    <!-- Vitor -->
     <div class="tech-card" style="--t-color:var(--vitor)" onclick="selectTech('Vitor')" data-tech="Vitor">
-      <div class="tech-avatar">V</div>
-      <div class="tech-name">Vitor</div>
-      <div class="tech-role">PROCESSOS · T1+T2</div>
+      <div class="tech-avatar">V</div><div class="tech-name">Vitor</div><div class="tech-role">PROCESSOS · T1+T2</div>
       <div class="tech-kpis">
-        <div class="tech-kpi">
-          <span class="k-val">264</span>
-          <span class="k-lbl">Chamados</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val">97.7%</span>
-          <span class="k-lbl">Resolução</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val">16.5m</span>
-          <span class="k-lbl">Aceite med.</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val">32.5m</span>
-          <span class="k-lbl">Total med.</span>
-        </div>
+        <div class="tech-kpi"><span class="k-val">264</span><span class="k-lbl">Chamados</span></div>
+        <div class="tech-kpi"><span class="k-val">97.7%</span><span class="k-lbl">Resolução</span></div>
+        <div class="tech-kpi"><span class="k-val">16.5m</span><span class="k-lbl">Aceite med.</span></div>
+        <div class="tech-kpi"><span class="k-val">32.5m</span><span class="k-lbl">Total med.</span></div>
       </div>
       <div class="perf-bar"><div class="perf-fill" style="width:97.7%"></div></div>
     </div>
-    <!-- Iago -->
     <div class="tech-card" style="--t-color:var(--iago)" onclick="selectTech('Iago')" data-tech="Iago">
-      <div class="tech-avatar" style="color:#fff">I</div>
-      <div class="tech-name">Iago</div>
-      <div class="tech-role">PROCESSOS · T3</div>
+      <div class="tech-avatar">I</div><div class="tech-name">Iago</div><div class="tech-role">PROCESSOS · T3</div>
       <div class="tech-kpis">
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--iago)">224</span>
-          <span class="k-lbl">Chamados</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--iago)">100%</span>
-          <span class="k-lbl">Resolução</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--iago)">2m</span>
-          <span class="k-lbl">Aceite med.</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--iago)">14m</span>
-          <span class="k-lbl">Total med.</span>
-        </div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--iago)">224</span><span class="k-lbl">Chamados</span></div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--iago)">100%</span><span class="k-lbl">Resolução</span></div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--iago)">2m</span><span class="k-lbl">Aceite med.</span></div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--iago)">14m</span><span class="k-lbl">Total med.</span></div>
       </div>
       <div class="perf-bar"><div class="perf-fill" style="width:100%;background:var(--iago)"></div></div>
     </div>
-    <!-- Ricardo -->
     <div class="tech-card" style="--t-color:var(--ricardo)" onclick="selectTech('Ricardo')" data-tech="Ricardo">
-      <div class="tech-avatar">R</div>
-      <div class="tech-name">Ricardo</div>
-      <div class="tech-role">PROCESSOS · T2</div>
+      <div class="tech-avatar">R</div><div class="tech-name">Ricardo</div><div class="tech-role">PROCESSOS · T2</div>
       <div class="tech-kpis">
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--ricardo)">183</span>
-          <span class="k-lbl">Chamados</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--ricardo)">100%</span>
-          <span class="k-lbl">Resolução</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--ricardo)">52m</span>
-          <span class="k-lbl">Aceite med.</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--ricardo)">96m</span>
-          <span class="k-lbl">Total med.</span>
-        </div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--ricardo)">183</span><span class="k-lbl">Chamados</span></div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--ricardo)">100%</span><span class="k-lbl">Resolução</span></div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--ricardo)">52m</span><span class="k-lbl">Aceite med.</span></div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--ricardo)">96m</span><span class="k-lbl">Total med.</span></div>
       </div>
       <div class="perf-bar"><div class="perf-fill" style="width:100%;background:var(--ricardo)"></div></div>
     </div>
-    <!-- Elciney -->
     <div class="tech-card" style="--t-color:var(--elciney)" onclick="selectTech('Elciney')" data-tech="Elciney">
-      <div class="tech-avatar">E</div>
-      <div class="tech-name">Elciney</div>
-      <div class="tech-role">PROCESSOS · T1</div>
+      <div class="tech-avatar">E</div><div class="tech-name">Elciney</div><div class="tech-role">PROCESSOS · T1</div>
       <div class="tech-kpis">
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--elciney)">58</span>
-          <span class="k-lbl">Chamados</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--elciney)">100%</span>
-          <span class="k-lbl">Resolução</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--elciney)">14.5m</span>
-          <span class="k-lbl">Aceite med.</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--elciney)">23.5m</span>
-          <span class="k-lbl">Total med.</span>
-        </div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--elciney)">58</span><span class="k-lbl">Chamados</span></div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--elciney)">100%</span><span class="k-lbl">Resolução</span></div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--elciney)">14.5m</span><span class="k-lbl">Aceite med.</span></div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--elciney)">23.5m</span><span class="k-lbl">Total med.</span></div>
       </div>
       <div class="perf-bar"><div class="perf-fill" style="width:100%;background:var(--elciney)"></div></div>
     </div>
-    <!-- Giselly -->
     <div class="tech-card" style="--t-color:var(--giselly)" onclick="selectTech('Giselly')" data-tech="Giselly">
-      <div class="tech-avatar">G</div>
-      <div class="tech-name">Giselly</div>
-      <div class="tech-role">PROCESSOS · T1+T2</div>
+      <div class="tech-avatar">G</div><div class="tech-name">Giselly</div><div class="tech-role">PROCESSOS · T1+T2</div>
       <div class="tech-kpis">
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--giselly)">23</span>
-          <span class="k-lbl">Chamados</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--giselly)">100%</span>
-          <span class="k-lbl">Resolução</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--giselly)">16m</span>
-          <span class="k-lbl">Aceite med.</span>
-        </div>
-        <div class="tech-kpi">
-          <span class="k-val" style="color:var(--giselly)">75m</span>
-          <span class="k-lbl">Total med.</span>
-        </div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--giselly)">23</span><span class="k-lbl">Chamados</span></div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--giselly)">100%</span><span class="k-lbl">Resolução</span></div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--giselly)">16m</span><span class="k-lbl">Aceite med.</span></div>
+        <div class="tech-kpi"><span class="k-val" style="color:var(--giselly)">75m</span><span class="k-lbl">Total med.</span></div>
       </div>
       <div class="perf-bar"><div class="perf-fill" style="width:70%;background:var(--giselly)"></div></div>
     </div>
   </div>
-
   <div class="grid-2">
-    <div class="chart-wrap">
-      <div class="chart-title">📈 Volume de Chamados — Evolução Semanal</div>
-      <div class="chart-subtitle">Todos os técnicos | Semanas ISO</div>
-      <canvas id="chartWeekly" height="220"></canvas>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">🥧 Distribuição por Área Solicitante</div>
-      <div class="chart-subtitle">Total do time | SMT, PTH, Check SMT, Engenharia</div>
-      <canvas id="chartArea" height="220"></canvas>
-    </div>
+    <div class="chart-wrap"><div class="chart-title">📈 Volume de Chamados — Evolução Semanal</div><div class="chart-subtitle">Todos os técnicos | Semanas ISO</div><canvas id="chartWeekly" height="220"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">🥧 Distribuição por Área Solicitante</div><div class="chart-subtitle">Total do time | SMT, PTH, Check SMT, Engenharia</div><canvas id="chartArea" height="220"></canvas></div>
   </div>
-
   <div class="grid-3">
-    <div class="chart-wrap">
-      <div class="chart-title">📊 Chamados por Técnico</div>
-      <div class="chart-subtitle">Participação no volume total</div>
-      <canvas id="chartTechVolume" height="200"></canvas>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">⚡ Tempo Médio Total (min) por Técnico</div>
-      <div class="chart-subtitle">Mediana — aceite + resolução</div>
-      <canvas id="chartTechTime" height="200"></canvas>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">🎯 Taxa de Resolução (%)</div>
-      <div class="chart-subtitle">Chamados finalizados vs expirados</div>
-      <canvas id="chartResolucao" height="200"></canvas>
-    </div>
+    <div class="chart-wrap"><div class="chart-title">📊 Chamados por Técnico</div><div class="chart-subtitle">Participação no volume total</div><canvas id="chartTechVolume" height="200"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">⚡ Tempo Médio Total (min) por Técnico</div><div class="chart-subtitle">Mediana — aceite + resolução</div><canvas id="chartTechTime" height="200"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">🎯 Taxa de Resolução (%)</div><div class="chart-subtitle">Chamados finalizados vs expirados</div><canvas id="chartResolucao" height="200"></canvas></div>
   </div>
 </div>
 
 <!-- PAGE: TÉCNICOS -->
 <div class="page" id="page-techs">
   <div class="tech-selector" id="techSelector">
-    <button class="tech-btn active" style="--t-color:var(--vitor)" onclick="switchTechDetail('Vitor', this)">Vitor</button>
-    <button class="tech-btn" style="--t-color:var(--iago)" onclick="switchTechDetail('Iago', this)">Iago</button>
-    <button class="tech-btn" style="--t-color:var(--ricardo)" onclick="switchTechDetail('Ricardo', this)">Ricardo</button>
-    <button class="tech-btn" style="--t-color:var(--elciney)" onclick="switchTechDetail('Elciney', this)">Elciney</button>
-    <button class="tech-btn" style="--t-color:var(--giselly)" onclick="switchTechDetail('Giselly', this)">Giselly</button>
+    <button class="tech-btn active" style="--t-color:var(--vitor)" onclick="switchTechDetail('Vitor',this)">Vitor</button>
+    <button class="tech-btn" style="--t-color:var(--iago)" onclick="switchTechDetail('Iago',this)">Iago</button>
+    <button class="tech-btn" style="--t-color:var(--ricardo)" onclick="switchTechDetail('Ricardo',this)">Ricardo</button>
+    <button class="tech-btn" style="--t-color:var(--elciney)" onclick="switchTechDetail('Elciney',this)">Elciney</button>
+    <button class="tech-btn" style="--t-color:var(--giselly)" onclick="switchTechDetail('Giselly',this)">Giselly</button>
   </div>
-
-  <div id="techDetail"><!-- Injected --></div>
+  <div id="techDetail"></div>
 </div>
 
 <!-- PAGE: TEMPOS -->
 <div class="page" id="page-tempo">
   <div class="section-title">Análise de SLA e Tempos de Atendimento</div>
-
   <div class="grid-4">
-    <div class="card" style="--accent-color:var(--iago)">
-      <div class="card-title">MELHOR TEMPO ACEITE</div>
-      <div class="card-value">2 min</div>
-      <div class="card-sub">Iago — mediana</div>
-      <span class="badge badge-green">🏆 LÍDER</span>
-    </div>
-    <div class="card" style="--accent-color:var(--iago)">
-      <div class="card-title">MELHOR TEMPO TOTAL</div>
-      <div class="card-value">14 min</div>
-      <div class="card-sub">Iago — mediana total</div>
-      <span class="badge badge-green">🏆 MAIS RÁPIDO</span>
-    </div>
-    <div class="card" style="--accent-color:var(--accent4)">
-      <div class="card-title">MAIOR TEMPO ACEITE</div>
-      <div class="card-value">52 min</div>
-      <div class="card-sub">Ricardo — mediana</div>
-      <span class="badge badge-yellow">⚠ ATENÇÃO</span>
-    </div>
-    <div class="card" style="--accent-color:var(--accent2)">
-      <div class="card-title">MAIOR TEMPO TOTAL</div>
-      <div class="card-value">96 min</div>
-      <div class="card-sub">Ricardo — mediana total</div>
-      <span class="badge badge-yellow">📋 COMPLEXIDADE ALTA</span>
-    </div>
+    <div class="card" style="--accent-color:var(--iago)"><div class="card-title">MELHOR TEMPO ACEITE</div><div class="card-value">2 min</div><div class="card-sub">Iago — mediana</div><span class="badge badge-green">🏆 LÍDER</span></div>
+    <div class="card" style="--accent-color:var(--iago)"><div class="card-title">MELHOR TEMPO TOTAL</div><div class="card-value">14 min</div><div class="card-sub">Iago — mediana total</div><span class="badge badge-green">🏆 MAIS RÁPIDO</span></div>
+    <div class="card" style="--accent-color:var(--accent4)"><div class="card-title">MAIOR TEMPO ACEITE</div><div class="card-value">52 min</div><div class="card-sub">Ricardo — mediana</div><span class="badge badge-yellow">⚠ ATENÇÃO</span></div>
+    <div class="card" style="--accent-color:var(--accent2)"><div class="card-title">MAIOR TEMPO TOTAL</div><div class="card-value">96 min</div><div class="card-sub">Ricardo — mediana total</div><span class="badge badge-yellow">📋 COMPLEXIDADE ALTA</span></div>
   </div>
-
   <div class="grid-2">
-    <div class="chart-wrap">
-      <div class="chart-title">📊 Tempo de Aceite por Técnico (min)</div>
-      <div class="chart-subtitle">Mediana — do chamado ao primeiro aceite</div>
-      <canvas id="chartAceite" height="240"></canvas>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">🔧 Tempo de Resolução por Técnico (min)</div>
-      <div class="chart-subtitle">Mediana — do aceite ao fechamento</div>
-      <canvas id="chartResolTime" height="240"></canvas>
-    </div>
+    <div class="chart-wrap"><div class="chart-title">📊 Tempo de Aceite por Técnico (min)</div><div class="chart-subtitle">Mediana — do chamado ao primeiro aceite</div><canvas id="chartAceite" height="240"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">🔧 Tempo de Resolução por Técnico (min)</div><div class="chart-subtitle">Mediana — do aceite ao fechamento</div><canvas id="chartResolTime" height="240"></canvas></div>
   </div>
-
+  <div class="chart-wrap"><div class="chart-title">📉 Comparativo Completo de Tempos — Aceite | Resolução | Total</div><div class="chart-subtitle">Valores em minutos (mediana) | Meta aceite ≤ 15min | Meta total ≤ 60min</div><canvas id="chartComparativo" height="200"></canvas></div>
   <div class="chart-wrap">
-    <div class="chart-title">📉 Comparativo Completo de Tempos — Aceite | Resolução | Total</div>
-    <div class="chart-subtitle">Valores em minutos (mediana) | Meta aceite ≤ 15min | Meta total ≤ 60min</div>
-    <canvas id="chartComparativo" height="200"></canvas>
-  </div>
-
-  <div class="chart-wrap">
-    <div class="chart-title">🏆 Ranking de Eficiência</div>
-    <div class="chart-subtitle">Pontuação combinada: volume × resolução ÷ tempo total</div>
-    <table class="cmp-table">
-      <thead>
-        <tr>
-          <th>RANK</th>
-          <th>TÉCNICO</th>
-          <th>CHAMADOS</th>
-          <th>RESOLUÇÃO</th>
-          <th>ACEITE MED.</th>
-          <th>RESOL. MED.</th>
-          <th>TOTAL MED.</th>
-          <th>SCORE</th>
-        </tr>
-      </thead>
-      <tbody id="rankingBody"></tbody>
-    </table>
+    <div class="chart-title">🏆 Ranking de Eficiência</div><div class="chart-subtitle">Pontuação combinada: volume × resolução ÷ tempo total</div>
+    <table class="cmp-table"><thead><tr><th>RANK</th><th>TÉCNICO</th><th>CHAMADOS</th><th>RESOLUÇÃO</th><th>ACEITE MED.</th><th>RESOL. MED.</th><th>TOTAL MED.</th><th>SCORE</th></tr></thead><tbody id="rankingBody"></tbody></table>
   </div>
 </div>
 
 <!-- PAGE: DISTRIBUIÇÃO -->
 <div class="page" id="page-distribuicao">
   <div class="section-title">Distribuição por Turno, Horário e Dia da Semana</div>
-
   <div class="grid-3">
-    <div class="chart-wrap">
-      <div class="chart-title">🌗 Distribuição por Turno</div>
-      <div class="chart-subtitle">T1: 06h-14h | T2: 14h-22h | T3: 22h-06h</div>
-      <canvas id="chartTurnos" height="220"></canvas>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">📅 Chamados por Dia da Semana</div>
-      <div class="chart-subtitle">Volume acumulado do time</div>
-      <canvas id="chartDia" height="220"></canvas>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">📆 Evolução Mensal</div>
-      <div class="chart-subtitle">Fev — Jun 2026 por técnico</div>
-      <canvas id="chartMensal" height="220"></canvas>
-    </div>
+    <div class="chart-wrap"><div class="chart-title">🌗 Distribuição por Turno</div><div class="chart-subtitle">T1: 06h-14h | T2: 14h-22h | T3: 22h-06h</div><canvas id="chartTurnos" height="220"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">📅 Chamados por Dia da Semana</div><div class="chart-subtitle">Volume acumulado do time</div><canvas id="chartDia" height="220"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">📆 Evolução Mensal</div><div class="chart-subtitle">Fev — Jun 2026 por técnico</div><canvas id="chartMensal" height="220"></canvas></div>
   </div>
-
   <div class="chart-wrap">
-    <div class="chart-title">🗺 Heatmap de Atividade — Técnico × Hora do Dia</div>
-    <div class="chart-subtitle">Quantidade de chamados por hora (00h–23h)</div>
+    <div class="chart-title">🗺 Heatmap de Atividade — Técnico × Hora do Dia</div><div class="chart-subtitle">Quantidade de chamados por hora (00h–23h)</div>
     <div id="heatmapContainer" style="overflow-x:auto;padding-bottom:8px;"></div>
     <div class="legend" style="margin-top:12px;">
       <div class="legend-item"><div class="legend-dot" style="background:rgba(0,200,255,0.8)"></div>Vitor</div>
@@ -945,140 +346,55 @@
       <div class="legend-item"><div class="legend-dot" style="background:rgba(201,123,255,0.8)"></div>Giselly</div>
     </div>
   </div>
-
-  <div class="chart-wrap">
-    <div class="chart-title">🏭 Área Solicitante por Técnico</div>
-    <div class="chart-subtitle">Especialização de cada membro do time</div>
-    <canvas id="chartAreaTech" height="250"></canvas>
-  </div>
+  <div class="chart-wrap"><div class="chart-title">🏭 Área Solicitante por Técnico</div><div class="chart-subtitle">Especialização de cada membro do time</div><canvas id="chartAreaTech" height="250"></canvas></div>
 </div>
 
 <!-- PAGE: RECOMENDAÇÕES -->
 <div class="page" id="page-recomendacoes">
   <div class="section-title">Análise e Recomendações para o Gestor</div>
-
   <div class="insight-box">
     <h3>🎯 Resumo Executivo</h3>
     <p>O time de 5 técnicos atendeu <strong style="color:var(--accent)">752 chamados</strong> nos últimos 2 meses com taxa de resolução de <strong style="color:var(--accent3)">99.3%</strong>. Destaque positivo para Iago (100% resolução, 2 min aceite) e Ricardo (100% resolução, maior volume no turno 2). Ponto de atenção: <strong style="color:var(--accent4)">Giselly tem baixo volume relativo (23 chamados)</strong>, sugerindo potencial subutilização ou fase de integração. Ricardo apresenta tempo de aceite elevado (52 min mediana), o que pode indicar sobrecarga ou necessidade de reorganização de prioridades.</p>
   </div>
-
   <div class="grid-2">
     <div>
       <div class="section-title">⚠ Pontos de Atenção</div>
-
-      <div class="rec-card" style="--accent-color:var(--accent2)">
-        <div class="rec-title">🔴 Ricardo — Tempo de Aceite Elevado</div>
-        <div class="rec-body">Mediana de 52 minutos para aceitar chamados é o maior do time. Mesmo com 100% de resolução, a demora no primeiro contato pode impactar a produção. Investigar se há sobrecarga ou falta de priorização no início do turno 2.</div>
-      </div>
-
-      <div class="rec-card" style="--accent-color:var(--accent4)">
-        <div class="rec-title">🟡 Giselly — Volume Muito Baixo</div>
-        <div class="rec-body">Apenas 23 chamados em 2 meses vs. 183+ dos outros técnicos. Verificar se há limitação de atribuição de chamados, período de adaptação ou potencial não explorado. Pode ser gradualmente exposta a mais áreas além do PTH.</div>
-      </div>
-
-      <div class="rec-card" style="--accent-color:var(--accent4)">
-        <div class="rec-title">🟡 Vitor — 6 Chamados Expirados</div>
-        <div class="rec-body">Único técnico com chamados expirados (97.7% resolução vs. 100% dos demais). Analisar quais contextos geraram expiração para criar processo de escalonamento preventivo no T1/T2.</div>
-      </div>
-
-      <div class="rec-card" style="--accent-color:var(--accent5)">
-        <div class="rec-title">🟣 Giselly — Tempo Total Elevado</div>
-        <div class="rec-body">Mediana de 75 minutos para resolução total, 2.3× mais que Iago. Para o volume baixo que tem, pode indicar chamados mais complexos de PTH ou necessidade de mentoria técnica.</div>
-      </div>
+      <div class="rec-card" style="--accent-color:var(--accent2)"><div class="rec-title">🔴 Ricardo — Tempo de Aceite Elevado</div><div class="rec-body">Mediana de 52 minutos para aceitar chamados é o maior do time. Mesmo com 100% de resolução, a demora no primeiro contato pode impactar a produção. Investigar se há sobrecarga ou falta de priorização no início do turno 2.</div></div>
+      <div class="rec-card" style="--accent-color:var(--accent4)"><div class="rec-title">🟡 Giselly — Volume Muito Baixo</div><div class="rec-body">Apenas 23 chamados em 2 meses vs. 183+ dos outros técnicos. Verificar se há limitação de atribuição de chamados, período de adaptação ou potencial não explorado.</div></div>
+      <div class="rec-card" style="--accent-color:var(--accent4)"><div class="rec-title">🟡 Vitor — 6 Chamados Expirados</div><div class="rec-body">Único técnico com chamados expirados (97.7% resolução vs. 100% dos demais). Analisar quais contextos geraram expiração para criar processo de escalonamento preventivo no T1/T2.</div></div>
+      <div class="rec-card" style="--accent-color:var(--accent5)"><div class="rec-title">🟣 Giselly — Tempo Total Elevado</div><div class="rec-body">Mediana de 75 minutos para resolução total, 2.3× mais que Iago. Para o volume baixo que tem, pode indicar chamados mais complexos de PTH ou necessidade de mentoria técnica.</div></div>
     </div>
-
     <div>
       <div class="section-title">✅ Boas Práticas e Oportunidades</div>
-
-      <div class="rec-card" style="--accent-color:var(--accent3)">
-        <div class="rec-title">🟢 Iago — Referência de Eficiência no T3</div>
-        <div class="rec-body">100% de resolução, 2 min de aceite, 14 min total. Domina SMT e PTH. Excelente candidato a mentor ou referência para padronização de processos noturnos. Considerar envolvê-lo em treinamentos do time.</div>
-      </div>
-
-      <div class="rec-card" style="--accent-color:var(--accent3)">
-        <div class="rec-title">🟢 Elciney — Alta Eficiência no T1</div>
-        <div class="rec-body">100% de resolução, 23.5 min total mediana no T1. Volume moderado (58) com ótimo desempenho. Considerar ampliar sua atuação para além do foco em SMT, incluindo Check SMT e Engenharia.</div>
-      </div>
-
-      <div class="rec-card" style="--accent-color:var(--accent)">
-        <div class="rec-title">🔵 Cobertura do T3 — Atenção ao Turno da Madrugada</div>
-        <div class="rec-body">Iago concentra 82% dos atendimentos no T3. Risco de ponto único de falha no turno noturno. Considerar treinar um 2º técnico com cobertura parcial para o T3 em dias críticos.</div>
-      </div>
-
-      <div class="rec-card" style="--accent-color:var(--accent)">
-        <div class="rec-title">🔵 Especialização por Área — Potencial de Cruzamento</div>
-        <div class="rec-body">Vitor domina SMT/Check SMT, Iago atua em SMT+PTH, Ricardo em todas as áreas. Giselly quase exclusivamente PTH. Criar matriz de polivalência para garantir cobertura cruzada entre áreas nas trocas de turno.</div>
-      </div>
+      <div class="rec-card" style="--accent-color:var(--accent3)"><div class="rec-title">🟢 Iago — Referência de Eficiência no T3</div><div class="rec-body">100% de resolução, 2 min de aceite, 14 min total. Domina SMT e PTH. Excelente candidato a mentor ou referência para padronização de processos noturnos.</div></div>
+      <div class="rec-card" style="--accent-color:var(--accent3)"><div class="rec-title">🟢 Elciney — Alta Eficiência no T1</div><div class="rec-body">100% de resolução, 23.5 min total mediana no T1. Volume moderado (58) com ótimo desempenho. Considerar ampliar sua atuação para além do foco em SMT.</div></div>
+      <div class="rec-card" style="--accent-color:var(--accent)"><div class="rec-title">🔵 Cobertura do T3 — Atenção ao Turno da Madrugada</div><div class="rec-body">Iago concentra 82% dos atendimentos no T3. Risco de ponto único de falha no turno noturno. Considerar treinar um 2º técnico com cobertura parcial para o T3 em dias críticos.</div></div>
+      <div class="rec-card" style="--accent-color:var(--accent)"><div class="rec-title">🔵 Especialização por Área — Potencial de Cruzamento</div><div class="rec-body">Vitor domina SMT/Check SMT, Iago atua em SMT+PTH, Ricardo em todas as áreas. Giselly quase exclusivamente PTH. Criar matriz de polivalência para garantir cobertura cruzada entre áreas nas trocas de turno.</div></div>
     </div>
   </div>
-
   <div class="section-title">📋 Plano de Ação Sugerido</div>
   <div class="chart-wrap">
-    <table class="cmp-table">
-      <thead>
-        <tr>
-          <th>PRIORIDADE</th>
-          <th>AÇÃO</th>
-          <th>RESPONSÁVEL</th>
-          <th>PRAZO</th>
-          <th>IMPACTO ESPERADO</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="badge badge-red">ALTA</span></td>
-          <td>Investigar causas dos 52 min de aceite do Ricardo</td>
-          <td style="color:var(--ricardo)">Ricardo + Gestor</td>
-          <td>2 semanas</td>
-          <td>Redução SLA T2 em ~30%</td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-red">ALTA</span></td>
-          <td>Treinar backup para T3 (cobertura do Iago)</td>
-          <td style="color:var(--text2)">Gestor + RH</td>
-          <td>1 mês</td>
-          <td>Elimina SPOF noturno</td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-yellow">MÉDIA</span></td>
-          <td>Ampliar volume da Giselly com PTH + Check SMT</td>
-          <td style="color:var(--giselly)">Giselly + Iago (mentor)</td>
-          <td>3 semanas</td>
-          <td>+50% volume, melhor aproveitamento</td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-yellow">MÉDIA</span></td>
-          <td>Processo de escalonamento para chamados próx. expirar</td>
-          <td style="color:var(--vitor)">Vitor + time</td>
-          <td>2 semanas</td>
-          <td>Elevar Vitor a 100% resolução</td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-blue">BAIXA</span></td>
-          <td>Criar matriz de polivalência SMT×PTH×Engenharia</td>
-          <td style="color:var(--text2)">Gestor</td>
-          <td>6 semanas</td>
-          <td>Flexibilidade operacional total</td>
-        </tr>
-        <tr>
-          <td><span class="badge badge-blue">BAIXA</span></td>
-          <td>Reconhecer publicamente Iago e Ricardo (metas 100%)</td>
-          <td style="color:var(--text2)">Gestor</td>
-          <td>Imediato</td>
-          <td>Motivação e retenção</td>
-        </tr>
-      </tbody>
-    </table>
+    <table class="cmp-table"><thead><tr><th>PRIORIDADE</th><th>AÇÃO</th><th>RESPONSÁVEL</th><th>PRAZO</th><th>IMPACTO ESPERADO</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge badge-red">ALTA</span></td><td>Investigar causas dos 52 min de aceite do Ricardo</td><td style="color:var(--ricardo)">Ricardo + Gestor</td><td>2 semanas</td><td>Redução SLA T2 em ~30%</td></tr>
+      <tr><td><span class="badge badge-red">ALTA</span></td><td>Treinar backup para T3 (cobertura do Iago)</td><td style="color:var(--text2)">Gestor + RH</td><td>1 mês</td><td>Elimina SPOF noturno</td></tr>
+      <tr><td><span class="badge badge-yellow">MÉDIA</span></td><td>Ampliar volume da Giselly com PTH + Check SMT</td><td style="color:var(--giselly)">Giselly + Iago (mentor)</td><td>3 semanas</td><td>+50% volume, melhor aproveitamento</td></tr>
+      <tr><td><span class="badge badge-yellow">MÉDIA</span></td><td>Processo de escalonamento para chamados próx. expirar</td><td style="color:var(--vitor)">Vitor + time</td><td>2 semanas</td><td>Elevar Vitor a 100% resolução</td></tr>
+      <tr><td><span class="badge badge-blue">BAIXA</span></td><td>Criar matriz de polivalência SMT×PTH×Engenharia</td><td style="color:var(--text2)">Gestor</td><td>6 semanas</td><td>Flexibilidade operacional total</td></tr>
+      <tr><td><span class="badge badge-blue">BAIXA</span></td><td>Reconhecer publicamente Iago e Ricardo (metas 100%)</td><td style="color:var(--text2)">Gestor</td><td>Imediato</td><td>Motivação e retenção</td></tr>
+    </tbody></table>
   </div>
 </div>
-
 </div><!-- /pci-wrapper -->
 
+<!-- ═══════════════════════════════════════════════════════════════════════
+     ÁREA MONTAGEM
+════════════════════════════════════════════════════════════════════════ -->
 <div id="mont-wrapper" style="display:none">
 <nav class="nav-tabs" id="nav-mont" style="display:none">
   <div class="nav-tab active" onclick="montShowPage('mont-overview',event)">📊 Visão Geral</div>
   <div class="nav-tab" onclick="montShowPage('mont-techs',event)">👤 Por Técnico</div>
-  <div class="nav-tab" onclick="montShowPage('mont-tempo',event)">⏱ Tempos & SLA</div>
+  <div class="nav-tab" onclick="montShowPage('mont-tempo',event)">⏱ Tempos &amp; SLA</div>
   <div class="nav-tab" onclick="montShowPage('mont-distribuicao',event)">🗓 Distribuição</div>
   <div class="nav-tab" onclick="montShowPage('mont-recomendacoes',event)">💡 Recomendações</div>
 </nav>
@@ -1139,68 +455,56 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-// ===== DATA =====
-// ===== PCI STATIC SEED DATA (used on first load, replaced on import) =====
+// =========================================================================
+// DADOS SEED — PCI
+// Substituídos automaticamente ao usar "Atualizar Online" ou "Importar Planilha"
+// =========================================================================
 const PCI_SEED = {
-  Vitor:   { total:264, finalized:258, expired:6,  taxa:97.7, aceite:16.5, resolucao:4,  total_t:32.5, color:'#00c8ff', areas:{SMT:191,'Check SMT':48,PTH:25}, monthly:{'2026-02':24,'2026-03':65,'2026-04':105,'2026-05':65,'2026-06':5}, weekly:{7:5,8:16,9:3,10:8,11:23,12:4,13:24,14:6,15:26,16:23,17:45,18:11,19:24,20:14,21:19,22:8,23:5}, shifts:{T1:156,T2:104,T3:4}, causa:{'Técnico':234,Operacional:30}, dow:{0:40,1:46,2:57,3:43,4:51,5:27,6:0}, hm:{5:4,6:20,7:32,8:24,9:28,10:14,11:11,12:12,13:15,14:8,15:26,16:11,17:14,18:16,19:11,20:9,21:9} },
-  Iago:    { total:224, finalized:224, expired:0,  taxa:100,  aceite:2,    resolucao:6,  total_t:14,   color:'#38e08c', areas:{SMT:100,PTH:92,'Check SMT':26,Engenharia:5,Montagem:1}, monthly:{'2026-02':25,'2026-03':47,'2026-04':57,'2026-05':95,'2026-06':0}, weekly:{7:12,8:10,9:3,10:8,11:8,12:5,13:18,14:15,15:17,16:9,17:13,18:16,19:18,20:34,21:22,22:16,23:0}, shifts:{T1:1,T2:39,T3:184}, causa:{'Técnico':216,Operacional:8}, dow:{0:25,1:41,2:39,3:33,4:28,5:35,6:23}, hm:{0:30,1:22,2:18,3:10,4:8,5:5,6:1,14:5,15:8,16:7,17:6,18:5,19:4,20:3,21:1,22:25,23:30} },
-  Ricardo: { total:183, finalized:183, expired:0,  taxa:100,  aceite:52,   resolucao:11, total_t:96,   color:'#ffc300', areas:{SMT:95,'Check SMT':38,PTH:35,Engenharia:15}, monthly:{'2026-02':2,'2026-03':46,'2026-04':26,'2026-05':109,'2026-06':0}, weekly:{7:2,8:0,9:0,10:0,11:8,12:9,13:21,14:15,15:4,16:0,17:0,18:15,19:31,20:25,21:32,22:21,23:0}, shifts:{T1:15,T2:166,T3:2}, causa:{'Técnico':171,Operacional:12}, dow:{0:32,1:34,2:42,3:32,4:21,5:19,6:3}, hm:{6:2,7:3,8:3,14:22,15:28,16:30,17:26,18:24,19:20,20:15,21:12,22:2} },
-  Elciney: { total:58,  finalized:58,  expired:0,  taxa:100,  aceite:14.5, resolucao:4,  total_t:23.5, color:'#ff5f40', areas:{SMT:50,PTH:8}, monthly:{'2026-02':3,'2026-03':3,'2026-04':51,'2026-05':1,'2026-06':0}, weekly:{7:0,8:2,9:1,10:2,11:0,12:1,13:0,14:0,15:10,16:19,17:18,18:4,19:0,20:0,21:0,22:1,23:0}, shifts:{T1:57,T2:1,T3:0}, causa:{'Técnico':49,Operacional:9}, dow:{0:9,1:7,2:7,3:11,4:17,5:7,6:0}, hm:{6:9,7:10,8:14,9:5,10:11,11:3,12:2,13:3,14:1} },
-  Giselly: { total:23,  finalized:23,  expired:0,  taxa:100,  aceite:16,   resolucao:16, total_t:75,   color:'#c97bff', areas:{PTH:22,SMT:1}, monthly:{'2026-02':0,'2026-03':3,'2026-04':13,'2026-05':7,'2026-06':0}, weekly:{7:0,8:0,9:0,10:0,11:0,12:2,13:1,14:1,15:2,16:4,17:3,18:3,19:2,20:3,21:1,22:1,23:0}, shifts:{T1:13,T2:10,T3:0}, causa:{'Técnico':18,Operacional:5}, dow:{0:2,1:3,2:3,3:2,4:7,5:6,6:0}, hm:{7:1,8:4,9:2,10:1,11:2,12:2,13:1,14:2,15:6,16:2} }
+  Vitor:   { total:264, finalized:258, expired:6,  taxa:97.7, aceite:16.5, resolucao:4,  total_t:32.5, color:'#00c8ff', areas:{SMT:191,'Check SMT':48,PTH:25}, monthly:{'2026-02':24,'2026-03':65,'2026-04':105,'2026-05':65,'2026-06':5}, weekly:{7:5,8:16,9:3,10:8,11:23,12:4,13:24,14:6,15:26,16:23,17:45,18:11,19:24,20:14,21:19,22:8,23:5}, shifts:{T1:156,T2:104,T3:4}, causa:{'Técnico':234,Operacional:30}, dow:{Mon:40,Tue:46,Wed:57,Thu:43,Fri:51,Sat:27,Sun:0}, hm:{5:4,6:20,7:32,8:24,9:28,10:14,11:11,12:12,13:15,14:8,15:26,16:11,17:14,18:16,19:11,20:9,21:9} },
+  Iago:    { total:224, finalized:224, expired:0,  taxa:100,  aceite:2,    resolucao:6,  total_t:14,   color:'#38e08c', areas:{SMT:100,PTH:92,'Check SMT':26,Engenharia:5,Montagem:1}, monthly:{'2026-02':25,'2026-03':47,'2026-04':57,'2026-05':95,'2026-06':0}, weekly:{7:12,8:10,9:3,10:8,11:8,12:5,13:18,14:15,15:17,16:9,17:13,18:16,19:18,20:34,21:22,22:16,23:0}, shifts:{T1:1,T2:39,T3:184}, causa:{'Técnico':216,Operacional:8}, dow:{Mon:25,Tue:41,Wed:39,Thu:33,Fri:28,Sat:35,Sun:23}, hm:{0:30,1:22,2:18,3:10,4:8,5:5,6:1,14:5,15:8,16:7,17:6,18:5,19:4,20:3,21:1,22:25,23:30} },
+  Ricardo: { total:183, finalized:183, expired:0,  taxa:100,  aceite:52,   resolucao:11, total_t:96,   color:'#ffc300', areas:{SMT:95,'Check SMT':38,PTH:35,Engenharia:15}, monthly:{'2026-02':2,'2026-03':46,'2026-04':26,'2026-05':109,'2026-06':0}, weekly:{7:2,8:0,9:0,10:0,11:8,12:9,13:21,14:15,15:4,16:0,17:0,18:15,19:31,20:25,21:32,22:21,23:0}, shifts:{T1:15,T2:166,T3:2}, causa:{'Técnico':171,Operacional:12}, dow:{Mon:32,Tue:34,Wed:42,Thu:32,Fri:21,Sat:19,Sun:3}, hm:{6:2,7:3,8:3,14:22,15:28,16:30,17:26,18:24,19:20,20:15,21:12,22:2} },
+  Elciney: { total:58,  finalized:58,  expired:0,  taxa:100,  aceite:14.5, resolucao:4,  total_t:23.5, color:'#ff5f40', areas:{SMT:50,PTH:8}, monthly:{'2026-02':3,'2026-03':3,'2026-04':51,'2026-05':1,'2026-06':0}, weekly:{7:0,8:2,9:1,10:2,11:0,12:1,13:0,14:0,15:10,16:19,17:18,18:4,19:0,20:0,21:0,22:1,23:0}, shifts:{T1:57,T2:1,T3:0}, causa:{'Técnico':49,Operacional:9}, dow:{Mon:9,Tue:7,Wed:7,Thu:11,Fri:17,Sat:7,Sun:0}, hm:{6:9,7:10,8:14,9:5,10:11,11:3,12:2,13:3,14:1} },
+  Giselly: { total:23,  finalized:23,  expired:0,  taxa:100,  aceite:16,   resolucao:16, total_t:75,   color:'#c97bff', areas:{PTH:22,SMT:1}, monthly:{'2026-02':0,'2026-03':3,'2026-04':13,'2026-05':7,'2026-06':0}, weekly:{7:0,8:0,9:0,10:0,11:0,12:2,13:1,14:1,15:2,16:4,17:3,18:3,19:2,20:3,21:1,22:1,23:0}, shifts:{T1:13,T2:10,T3:0}, causa:{'Técnico':18,Operacional:5}, dow:{Mon:2,Tue:3,Wed:3,Thu:2,Fri:7,Sat:6,Sun:0}, hm:{7:1,8:4,9:2,10:1,11:2,12:2,13:1,14:2,15:6,16:2} }
 };
 const PCI_TECHS_ORDER = ['Vitor','Iago','Ricardo','Elciney','Giselly'];
 const PCI_COLORS = ['#00c8ff','#38e08c','#ffc300','#ff5f40','#c97bff'];
 
-// Live PCI data (mutated on import)
 let pciData = {
   techs: JSON.parse(JSON.stringify(PCI_SEED)),
-  team_total: 752,
-  taxa_all: 99.3,
-  team_med: 28,
-  total_geral: 3629,
+  team_total: 752, taxa_all: 99.3, team_med: 28, total_geral: 3629,
   all_months: ['2026-02','2026-03','2026-04','2026-05','2026-06'],
   all_weeks:  [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
 };
 
 const MES_LABELS = {'2026-01':'Jan','2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun','2026-07':'Jul','2026-08':'Ago','2026-09':'Set','2026-10':'Out','2026-11':'Nov','2026-12':'Dez'};
-
-// month filter: 'all' or 'YYYY-MM'
 let pciMonthFilter = 'all';
 let pciChartInstances = {};
 
 function pciChart(id, cfg) {
   if (pciChartInstances[id]) pciChartInstances[id].destroy();
-  const el = document.getElementById(id);
-  if (!el) return null;
+  const el = document.getElementById(id); if (!el) return null;
   pciChartInstances[id] = new Chart(el.getContext('2d'), cfg);
   return pciChartInstances[id];
 }
 
-const techs = PCI_TECHS_ORDER;
-const CHART_DEFAULTS = {
-  color: '#e4f0ff',
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: { legend: { labels: { color:'#7a9bb5', font:{family:'IBM Plex Mono', size:10}, boxWidth:12 } } }
-};
-
 Chart.defaults.color = '#7a9bb5';
 Chart.defaults.borderColor = '#1a2d45';
+const CHART_DEFAULTS = {
+  color:'#e4f0ff', responsive:true, maintainAspectRatio:false,
+  plugins:{ legend:{ labels:{ color:'#7a9bb5', font:{family:'IBM Plex Mono',size:10}, boxWidth:12 } } }
+};
 
-// ===== HEADER UPDATE =====
+// ── Header ────────────────────────────────────────────────────────────────
 function updateHeader(area) {
   const d = area === 'pci' ? pciData : MONT_DATA;
   const techCount = area === 'pci'
     ? PCI_TECHS_ORDER.filter(t => d.techs[t] && d.techs[t].total > 0).length
     : MONT_TECHS.length;
-
   document.getElementById('hdr-total').textContent = d.team_total;
   document.getElementById('hdr-taxa').textContent  = d.taxa_all + '%';
   document.getElementById('hdr-med').textContent   = d.team_med + ' min';
   document.getElementById('hdr-geral').textContent = d.total_geral || d.team_total;
   document.getElementById('hdr-techs').textContent = techCount;
-
-  // Period from months
   const months = d.all_months || [];
   if (months.length) {
     const first = MES_LABELS[months[0]] || months[0];
@@ -1211,25 +515,21 @@ function updateHeader(area) {
   }
 }
 
-// ===== MONTH FILTER =====
+// ── Filtro de mês PCI ─────────────────────────────────────────────────────
 function buildPciMonthFilter() {
   let bar = document.getElementById('pci-month-filter');
   if (!bar) {
     bar = document.createElement('div');
-    bar.className = 'month-filter-bar';
-    bar.id = 'pci-month-filter';
+    bar.className = 'month-filter-bar'; bar.id = 'pci-month-filter';
     const overview = document.getElementById('page-overview');
-    const sectionTitle = overview.querySelector('.section-title');
-    sectionTitle.insertAdjacentElement('afterend', bar);
+    overview.querySelector('.section-title').insertAdjacentElement('afterend', bar);
   }
   bar.innerHTML = '';
-
   const allBtn = document.createElement('button');
   allBtn.className = 'mf-btn' + (pciMonthFilter === 'all' ? ' active' : '');
   allBtn.textContent = 'Todos';
   allBtn.addEventListener('click', function(){ setPciMonth('all', allBtn); });
   bar.appendChild(allBtn);
-
   pciData.all_months.forEach(function(m) {
     const btn = document.createElement('button');
     btn.className = 'mf-btn' + (pciMonthFilter === m ? ' active' : '');
@@ -1240,14 +540,12 @@ function buildPciMonthFilter() {
 }
 
 function setPciMonth(month, btn) {
-  document.querySelectorAll('#pci-month-filter .mf-btn').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active');
-  pciMonthFilter = month;
-  ['chartWeekly','chartArea','chartTechVolume','chartTechTime','chartResolucao'].forEach(function(id){
-    if(pciChartInstances[id]){ pciChartInstances[id].destroy(); delete pciChartInstances[id]; }
+  document.querySelectorAll('#pci-month-filter .mf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active'); pciMonthFilter = month;
+  ['chartWeekly','chartArea','chartTechVolume','chartTechTime','chartResolucao'].forEach(id => {
+    if (pciChartInstances[id]) { pciChartInstances[id].destroy(); delete pciChartInstances[id]; }
   });
-  initOverviewCharts();
-  updatePciTechCards();
+  initOverviewCharts(); updatePciTechCards();
 }
 
 function getPciActiveTechs() {
@@ -1262,127 +560,58 @@ function getPciTotal(t) {
 
 function updatePciTechCards() {
   const activeTechs = getPciActiveTechs();
-  document.querySelectorAll('#page-overview .tech-card').forEach(function(card) {
-    const techName = card.getAttribute('data-tech');
-    if (!techName) return;
-    const show = activeTechs.indexOf(techName) >= 0;
-    card.style.display = show ? '' : 'none';
-    // Update the first k-val (chamados count)
+  document.querySelectorAll('#page-overview .tech-card').forEach(card => {
+    const techName = card.getAttribute('data-tech'); if (!techName) return;
+    card.style.display = activeTechs.indexOf(techName) >= 0 ? '' : 'none';
     const kvals = card.querySelectorAll('.k-val');
     if (kvals.length > 0) kvals[0].textContent = getPciTotal(techName);
   });
 }
 
-// ===== OVERVIEW CHARTS =====
+// ── Overview charts ───────────────────────────────────────────────────────
 function initOverviewCharts() {
   const activeTechs = getPciActiveTechs();
   const months = pciData.all_months;
   const weeks  = pciData.all_weeks;
-
   let chartLabels, chartDatasets;
   if (pciMonthFilter === 'all') {
     chartLabels = weeks.map(w => `S${w}`);
-    chartDatasets = activeTechs.map(t => ({
-      label: t,
-      data: weeks.map(w => pciData.techs[t].weekly[w] || 0),
-      borderColor: pciData.techs[t].color, backgroundColor: pciData.techs[t].color+'22',
-      borderWidth:2, pointRadius:3, tension:0.4, fill:false
-    }));
+    chartDatasets = activeTechs.map(t => ({ label:t, data:weeks.map(w => pciData.techs[t].weekly[w]||0), borderColor:pciData.techs[t].color, backgroundColor:pciData.techs[t].color+'22', borderWidth:2, pointRadius:3, tension:0.4, fill:false }));
   } else {
-    chartLabels = months.map(m => MES_LABELS[m] || m);
-    chartDatasets = activeTechs.map(t => ({
-      label: t,
-      data: months.map(m => pciData.techs[t].monthly[m] || 0),
-      borderColor: pciData.techs[t].color, backgroundColor: pciData.techs[t].color+'22',
-      borderWidth:2, pointRadius:3, tension:0.4, fill:false
-    }));
+    chartLabels = months.map(m => MES_LABELS[m]||m);
+    chartDatasets = activeTechs.map(t => ({ label:t, data:months.map(m => pciData.techs[t].monthly[m]||0), borderColor:pciData.techs[t].color, backgroundColor:pciData.techs[t].color+'22', borderWidth:2, pointRadius:3, tension:0.4, fill:false }));
   }
-
-  pciChart('chartWeekly', {
-    type:'line', data:{ labels:chartLabels, datasets:chartDatasets },
-    options:{...CHART_DEFAULTS, plugins:{...CHART_DEFAULTS.plugins}}
-  });
-
+  pciChart('chartWeekly', { type:'line', data:{ labels:chartLabels, datasets:chartDatasets }, options:{...CHART_DEFAULTS} });
   const areaTotals = {};
   activeTechs.forEach(t => {
-    const ratio = pciMonthFilter === 'all' ? 1 : (getPciTotal(t) / (pciData.techs[t].total || 1));
-    Object.entries(pciData.techs[t].areas).forEach(([a,v]) => {
-      areaTotals[a] = (areaTotals[a] || 0) + Math.round(v * ratio);
-    });
+    const ratio = pciMonthFilter === 'all' ? 1 : (getPciTotal(t) / (pciData.techs[t].total||1));
+    Object.entries(pciData.techs[t].areas).forEach(([a,v]) => { areaTotals[a] = (areaTotals[a]||0) + Math.round(v*ratio); });
   });
-  pciChart('chartArea', {
-    type:'doughnut',
-    data:{ labels:Object.keys(areaTotals), datasets:[{ data:Object.values(areaTotals),
-      backgroundColor:['#00c8ff99','#38e08c99','#ffc30099','#c97bff99','#ff5f4099','#ff9f4399'],
-      borderColor:'#0d1520', borderWidth:3 }] },
-    options:{...CHART_DEFAULTS, cutout:'65%', plugins:{...CHART_DEFAULTS.plugins}}
-  });
-
-  pciChart('chartTechVolume', {
-    type:'bar',
-    data:{ labels:activeTechs, datasets:[{ data:activeTechs.map(t => getPciTotal(t)),
-      backgroundColor:activeTechs.map(t => pciData.techs[t].color+'cc'), borderRadius:6 }] },
-    options:{...CHART_DEFAULTS, plugins:{legend:{display:false}},
-      scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'}}}}
-  });
-
-  pciChart('chartTechTime', {
-    type:'bar',
-    data:{ labels:activeTechs, datasets:[{ data:activeTechs.map(t => pciData.techs[t].total_t),
-      backgroundColor:activeTechs.map(t => pciData.techs[t].color+'cc'), borderRadius:6 }] },
-    options:{...CHART_DEFAULTS, plugins:{legend:{display:false}},
-      scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'}}}}
-  });
-
+  pciChart('chartArea', { type:'doughnut', data:{ labels:Object.keys(areaTotals), datasets:[{ data:Object.values(areaTotals), backgroundColor:['#00c8ff99','#38e08c99','#ffc30099','#c97bff99','#ff5f4099','#ff9f4399'], borderColor:'#0d1520', borderWidth:3 }] }, options:{...CHART_DEFAULTS, cutout:'65%'} });
+  pciChart('chartTechVolume', { type:'bar', data:{ labels:activeTechs, datasets:[{ data:activeTechs.map(t => getPciTotal(t)), backgroundColor:activeTechs.map(t => pciData.techs[t].color+'cc'), borderRadius:6 }] }, options:{...CHART_DEFAULTS, plugins:{legend:{display:false}}, scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'}}}} });
+  pciChart('chartTechTime', { type:'bar', data:{ labels:activeTechs, datasets:[{ data:activeTechs.map(t => pciData.techs[t].total_t), backgroundColor:activeTechs.map(t => pciData.techs[t].color+'cc'), borderRadius:6 }] }, options:{...CHART_DEFAULTS, plugins:{legend:{display:false}}, scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'}}}} });
   const minTaxa = Math.min(...activeTechs.map(t => pciData.techs[t].taxa));
-  pciChart('chartResolucao', {
-    type:'bar',
-    data:{ labels:activeTechs, datasets:[{ data:activeTechs.map(t => pciData.techs[t].taxa),
-      backgroundColor:activeTechs.map(t => pciData.techs[t].color+'cc'), borderRadius:6 }] },
-    options:{...CHART_DEFAULTS, plugins:{legend:{display:false}},
-      scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},
-              y:{min:Math.max(80,minTaxa-5), max:101, ticks:{color:'#7a9bb5'}}}}
-  });
+  pciChart('chartResolucao', { type:'bar', data:{ labels:activeTechs, datasets:[{ data:activeTechs.map(t => pciData.techs[t].taxa), backgroundColor:activeTechs.map(t => pciData.techs[t].color+'cc'), borderRadius:6 }] }, options:{...CHART_DEFAULTS, plugins:{legend:{display:false}}, scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{min:Math.max(80,minTaxa-5),max:101,ticks:{color:'#7a9bb5'}}}} });
 }
 
-// ===== TECH DETAIL =====
+// ── Tech detail ───────────────────────────────────────────────────────────
 let currentTech = 'Vitor';
-
 function switchTechDetail(tech, btn) {
   currentTech = tech;
   document.querySelectorAll('.tech-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderTechDetail(tech);
+  btn.classList.add('active'); renderTechDetail(tech);
 }
 
 function renderTechDetail(tech) {
-  const d = pciData.techs[tech];
-  const c = d.color;
+  const d = pciData.techs[tech]; const c = d.color;
   const months = pciData.all_months;
-  const mesArr = months.map(m => MES_LABELS[m] || m);
-
+  const mesArr = months.map(m => MES_LABELS[m]||m);
   document.getElementById('techDetail').innerHTML = `
     <div class="grid-4">
-      <div class="card" style="--accent-color:${c}">
-        <div class="card-title">TOTAL CHAMADOS</div>
-        <div class="card-value">${d.total}</div>
-        <div class="card-sub">Período completo</div>
-      </div>
-      <div class="card" style="--accent-color:${c}">
-        <div class="card-title">TAXA RESOLUÇÃO</div>
-        <div class="card-value">${d.taxa}%</div>
-        <span class="badge ${d.taxa===100?'badge-green':'badge-yellow'}">${d.taxa===100?'✅ PERFEITO':'⚠ ATENÇÃO'}</span>
-      </div>
-      <div class="card" style="--accent-color:${c}">
-        <div class="card-title">TEMPO ACEITE MED.</div>
-        <div class="card-value">${d.aceite}m</div>
-        <span class="badge ${d.aceite<=15?'badge-green':d.aceite<=30?'badge-yellow':'badge-red'}">${d.aceite<=15?'✅ OK':d.aceite<=30?'⚠ REGULAR':'❌ ALTO'}</span>
-      </div>
-      <div class="card" style="--accent-color:${c}">
-        <div class="card-title">TEMPO TOTAL MED.</div>
-        <div class="card-value">${d.total_t}m</div>
-        <span class="badge ${d.total_t<=30?'badge-green':d.total_t<=60?'badge-yellow':'badge-red'}">${d.total_t<=30?'✅ EXCELENTE':d.total_t<=60?'⚠ BOM':'📋 COMPLEXO'}</span>
-      </div>
+      <div class="card" style="--accent-color:${c}"><div class="card-title">TOTAL CHAMADOS</div><div class="card-value">${d.total}</div><div class="card-sub">Período completo</div></div>
+      <div class="card" style="--accent-color:${c}"><div class="card-title">TAXA RESOLUÇÃO</div><div class="card-value">${d.taxa}%</div><span class="badge ${d.taxa===100?'badge-green':'badge-yellow'}">${d.taxa===100?'✅ PERFEITO':'⚠ ATENÇÃO'}</span></div>
+      <div class="card" style="--accent-color:${c}"><div class="card-title">TEMPO ACEITE MED.</div><div class="card-value">${d.aceite}m</div><span class="badge ${d.aceite<=15?'badge-green':d.aceite<=30?'badge-yellow':'badge-red'}">${d.aceite<=15?'✅ OK':d.aceite<=30?'⚠ REGULAR':'❌ ALTO'}</span></div>
+      <div class="card" style="--accent-color:${c}"><div class="card-title">TEMPO TOTAL MED.</div><div class="card-value">${d.total_t}m</div><span class="badge ${d.total_t<=30?'badge-green':d.total_t<=60?'badge-yellow':'badge-red'}">${d.total_t<=30?'✅ EXCELENTE':d.total_t<=60?'⚠ BOM':'📋 COMPLEXO'}</span></div>
     </div>
     <div class="grid-2">
       <div class="chart-wrap"><div class="chart-title">🏭 Áreas Atendidas</div><div class="chart-subtitle">Distribuição por área solicitante</div><div class="chart-box"><canvas id="techAreaChart"></canvas></div></div>
@@ -1393,83 +622,40 @@ function renderTechDetail(tech) {
       <div class="chart-wrap"><div class="chart-title">🎯 Causa Raiz</div><div class="chart-subtitle">Problema técnico vs. erro operacional</div><div class="chart-box"><canvas id="techCausaChart"></canvas></div></div>
     </div>
     <div class="chart-wrap"><div class="chart-title">📅 Dias da Semana</div><div class="chart-subtitle">Distribuição ao longo da semana</div><div class="chart-box"><canvas id="techDiaChart"></canvas></div></div>`;
-
   setTimeout(() => {
-    new Chart(document.getElementById('techAreaChart').getContext('2d'),{
-      type:'doughnut', data:{labels:Object.keys(d.areas),datasets:[{data:Object.values(d.areas),backgroundColor:[c+'cc',c+'88',c+'55',c+'33',c+'22'],borderColor:'#0d1520',borderWidth:3}]},
-      options:{...CHART_DEFAULTS,cutout:'60%',plugins:{...CHART_DEFAULTS.plugins}}});
-    new Chart(document.getElementById('techTurnoChart').getContext('2d'),{
-      type:'bar', data:{labels:['T1','T2','T3'],datasets:[{data:[d.shifts.T1,d.shifts.T2,d.shifts.T3],backgroundColor:[c+'cc',c+'88',c+'55'],borderRadius:6}]},
-      options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
-    new Chart(document.getElementById('techMesChart').getContext('2d'),{
-      type:'bar', data:{labels:mesArr,datasets:[{data:months.map(m=>d.monthly[m]||0),backgroundColor:c+'cc',borderRadius:6}]},
-      options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
-    new Chart(document.getElementById('techCausaChart').getContext('2d'),{
-      type:'doughnut', data:{labels:['Prob. Técnico','Erro Operacional'],datasets:[{data:[d.causa['Técnico']||d.causa.Tecnico||0,d.causa.Operacional||0],backgroundColor:[c+'cc','#ff5f4099'],borderColor:'#0d1520',borderWidth:3}]},
-      options:{...CHART_DEFAULTS,cutout:'60%',plugins:{...CHART_DEFAULTS.plugins}}});
-    const diasOrder=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-    new Chart(document.getElementById('techDiaChart').getContext('2d'),{
-      type:'bar', data:{labels:['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],datasets:[{data:diasOrder.map(dd=>d.dow&&d.dow[dd]||0),backgroundColor:c+'cc',borderRadius:6}]},
-      options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
+    new Chart(document.getElementById('techAreaChart').getContext('2d'),{type:'doughnut',data:{labels:Object.keys(d.areas),datasets:[{data:Object.values(d.areas),backgroundColor:[c+'cc',c+'88',c+'55',c+'33',c+'22'],borderColor:'#0d1520',borderWidth:3}]},options:{...CHART_DEFAULTS,cutout:'60%'}});
+    new Chart(document.getElementById('techTurnoChart').getContext('2d'),{type:'bar',data:{labels:['T1','T2','T3'],datasets:[{data:[d.shifts.T1,d.shifts.T2,d.shifts.T3],backgroundColor:[c+'cc',c+'88',c+'55'],borderRadius:6}]},options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
+    new Chart(document.getElementById('techMesChart').getContext('2d'),{type:'bar',data:{labels:mesArr,datasets:[{data:months.map(m=>d.monthly[m]||0),backgroundColor:c+'cc',borderRadius:6}]},options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
+    new Chart(document.getElementById('techCausaChart').getContext('2d'),{type:'doughnut',data:{labels:['Prob. Técnico','Erro Operacional'],datasets:[{data:[d.causa['Técnico']||d.causa.Tecnico||0,d.causa.Operacional||0],backgroundColor:[c+'cc','#ff5f4099'],borderColor:'#0d1520',borderWidth:3}]},options:{...CHART_DEFAULTS,cutout:'60%'}});
+    const dowKeys=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    new Chart(document.getElementById('techDiaChart').getContext('2d'),{type:'bar',data:{labels:['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],datasets:[{data:dowKeys.map(k=>d.dow&&d.dow[k]||0),backgroundColor:c+'cc',borderRadius:6}]},options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
   }, 50);
 }
 
-// ===== TEMPO CHARTS =====
+// ── Tempos ────────────────────────────────────────────────────────────────
 function initTempoCharts() {
   const activeTechs = PCI_TECHS_ORDER.filter(t => pciData.techs[t]);
-  new Chart(document.getElementById('chartAceite').getContext('2d'),{
-    type:'bar', data:{labels:activeTechs,datasets:[{label:'Aceite (min)',data:activeTechs.map(t=>pciData.techs[t].aceite),backgroundColor:activeTechs.map(t=>pciData.techs[t].color+'cc'),borderRadius:6},{label:'Meta (15 min)',data:activeTechs.map(()=>15),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},
-    options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'},title:{display:true,text:'Minutos',color:'#7a9bb5'}}}}});
-  new Chart(document.getElementById('chartResolTime').getContext('2d'),{
-    type:'bar', data:{labels:activeTechs,datasets:[{label:'Resolução (min)',data:activeTechs.map(t=>pciData.techs[t].resolucao),backgroundColor:activeTechs.map(t=>pciData.techs[t].color+'cc'),borderRadius:6}]},
-    options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
-  new Chart(document.getElementById('chartComparativo').getContext('2d'),{
-    type:'bar', data:{labels:activeTechs,datasets:[
-      {label:'Aceite',data:activeTechs.map(t=>pciData.techs[t].aceite),backgroundColor:'#00c8ff77',borderRadius:4},
-      {label:'Resolução',data:activeTechs.map(t=>pciData.techs[t].resolucao),backgroundColor:'#38e08c77',borderRadius:4},
-      {label:'Total',data:activeTechs.map(t=>pciData.techs[t].total_t),backgroundColor:'#ffc30077',borderRadius:4},
-      {label:'Meta total (60min)',data:activeTechs.map(()=>60),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}
-    ]},
-    options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
-
-  const ranking = activeTechs.map(t => {
-    const d = pciData.techs[t];
-    return {name:t,color:d.color,total:d.total,taxa:d.taxa,aceite:d.aceite,resolucao:d.resolucao,total_t:d.total_t,score:Math.round((d.total*d.taxa)/(d.total_t+1))};
-  }).sort((a,b) => b.score-a.score);
-  const rc = ['#ffd700','#c0c0c0','#cd7f32','#7a9bb5','#3d5a75'];
+  new Chart(document.getElementById('chartAceite').getContext('2d'),{type:'bar',data:{labels:activeTechs,datasets:[{label:'Aceite (min)',data:activeTechs.map(t=>pciData.techs[t].aceite),backgroundColor:activeTechs.map(t=>pciData.techs[t].color+'cc'),borderRadius:6},{label:'Meta (15 min)',data:activeTechs.map(()=>15),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'},title:{display:true,text:'Minutos',color:'#7a9bb5'}}}}});
+  new Chart(document.getElementById('chartResolTime').getContext('2d'),{type:'bar',data:{labels:activeTechs,datasets:[{label:'Resolução (min)',data:activeTechs.map(t=>pciData.techs[t].resolucao),backgroundColor:activeTechs.map(t=>pciData.techs[t].color+'cc'),borderRadius:6}]},options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
+  new Chart(document.getElementById('chartComparativo').getContext('2d'),{type:'bar',data:{labels:activeTechs,datasets:[{label:'Aceite',data:activeTechs.map(t=>pciData.techs[t].aceite),backgroundColor:'#00c8ff77',borderRadius:4},{label:'Resolução',data:activeTechs.map(t=>pciData.techs[t].resolucao),backgroundColor:'#38e08c77',borderRadius:4},{label:'Total',data:activeTechs.map(t=>pciData.techs[t].total_t),backgroundColor:'#ffc30077',borderRadius:4},{label:'Meta total (60min)',data:activeTechs.map(()=>60),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
+  const ranking = activeTechs.map(t => { const d=pciData.techs[t]; return {name:t,color:d.color,total:d.total,taxa:d.taxa,aceite:d.aceite,resolucao:d.resolucao,total_t:d.total_t,score:Math.round((d.total*d.taxa)/(d.total_t+1))}; }).sort((a,b)=>b.score-a.score);
+  const rc=['#ffd700','#c0c0c0','#cd7f32','#7a9bb5','#3d5a75'];
   document.getElementById('rankingBody').innerHTML = ranking.map((r,i) =>
-    `<tr><td><span class="rank-badge" style="background:${rc[i%rc.length]}22;color:${rc[i%rc.length]}">${i+1}</span></td>
-    <td style="color:${r.color};font-weight:700;font-family:'Syne',sans-serif">${r.name}</td>
-    <td>${r.total}</td><td><span class="badge ${r.taxa===100?'badge-green':'badge-yellow'}">${r.taxa}%</span></td>
-    <td>${r.aceite} min</td><td>${r.resolucao} min</td><td>${r.total_t} min</td>
-    <td><span style="color:${r.color};font-weight:700">${r.score}</span></td></tr>`
+    `<tr><td><span class="rank-badge" style="background:${rc[i%rc.length]}22;color:${rc[i%rc.length]}">${i+1}</span></td><td style="color:${r.color};font-weight:700;font-family:'Syne',sans-serif">${r.name}</td><td>${r.total}</td><td><span class="badge ${r.taxa===100?'badge-green':'badge-yellow'}">${r.taxa}%</span></td><td>${r.aceite} min</td><td>${r.resolucao} min</td><td>${r.total_t} min</td><td><span style="color:${r.color};font-weight:700">${r.score}</span></td></tr>`
   ).join('');
 }
 
-// ===== DISTRIBUTION CHARTS =====
+// ── Distribuição ─────────────────────────────────────────────────────────
 function initDistribCharts() {
   const activeTechs = PCI_TECHS_ORDER.filter(t => pciData.techs[t]);
   const months = pciData.all_months;
-  const mesArr = months.map(m => MES_LABELS[m] || m);
-  const weeks  = pciData.all_weeks;
+  const mesArr = months.map(m => MES_LABELS[m]||m);
+  new Chart(document.getElementById('chartTurnos').getContext('2d'),{type:'bar',data:{labels:['T1 (06-14h)','T2 (14-22h)','T3 (22-06h)'],datasets:activeTechs.map(t=>({label:t,data:[pciData.techs[t].shifts.T1,pciData.techs[t].shifts.T2,pciData.techs[t].shifts.T3],backgroundColor:pciData.techs[t].color+'cc',borderRadius:4}))},options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
+  const dowKeys=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const diasTotal = dowKeys.map(k => activeTechs.reduce((s,t) => s+(pciData.techs[t].dow&&pciData.techs[t].dow[k]||0),0));
+  new Chart(document.getElementById('chartDia').getContext('2d'),{type:'bar',data:{labels:['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],datasets:[{data:diasTotal,backgroundColor:diasTotal.map((_,i)=>i<5?'#00c8ff99':'#ffc30099'),borderRadius:6}]},options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
+  new Chart(document.getElementById('chartMensal').getContext('2d'),{type:'bar',data:{labels:mesArr,datasets:activeTechs.map(t=>({label:t,data:months.map(m=>pciData.techs[t].monthly[m]||0),backgroundColor:pciData.techs[t].color+'cc',stack:'s',borderRadius:2}))},options:{...CHART_DEFAULTS,scales:{x:{stacked:true,ticks:{color:'#7a9bb5'}},y:{stacked:true,ticks:{color:'#7a9bb5'}}}}});
 
-  new Chart(document.getElementById('chartTurnos').getContext('2d'),{
-    type:'bar', data:{labels:['T1 (06-14h)','T2 (14-22h)','T3 (22-06h)'],
-      datasets:activeTechs.map(t=>({label:t,data:[pciData.techs[t].shifts.T1,pciData.techs[t].shifts.T2,pciData.techs[t].shifts.T3],backgroundColor:pciData.techs[t].color+'cc',borderRadius:4}))},
-    options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
-
-  const diasOrder=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const diasTotal=diasOrder.map(d=>activeTechs.reduce((s,t)=>s+(pciData.techs[t].dow&&pciData.techs[t].dow[d]||0),0));
-  new Chart(document.getElementById('chartDia').getContext('2d'),{
-    type:'bar', data:{labels:['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],datasets:[{data:diasTotal,backgroundColor:diasTotal.map((_,i)=>i<5?'#00c8ff99':'#ffc30099'),borderRadius:6}]},
-    options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
-
-  new Chart(document.getElementById('chartMensal').getContext('2d'),{
-    type:'bar', data:{labels:mesArr,
-      datasets:activeTechs.map(t=>({label:t,data:months.map(m=>pciData.techs[t].monthly[m]||0),backgroundColor:pciData.techs[t].color+'cc',stack:'s',borderRadius:2}))},
-    options:{...CHART_DEFAULTS,scales:{x:{stacked:true,ticks:{color:'#7a9bb5'}},y:{stacked:true,ticks:{color:'#7a9bb5'}}}}});
-
-  // Heatmap via DOM
   function hexRgb(h){return[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)].join(',');}
   const maxes={};
   activeTechs.forEach(t=>{maxes[t]=Math.max(1,...Object.values(pciData.techs[t].hm||{}));});
@@ -1479,190 +665,92 @@ function initDistribCharts() {
   for(let h=0;h<24;h++){const hh=document.createElement('div');hh.className='hm-header';hh.textContent=String(h).padStart(2,'0')+'h';hmDiv.appendChild(hh);}
   activeTechs.forEach(t=>{
     const lbl=document.createElement('div');lbl.className='hm-label';lbl.textContent=t;hmDiv.appendChild(lbl);
-    for(let h=0;h<24;h++){
-      const v=(pciData.techs[t].hm&&pciData.techs[t].hm[h])||0;const a=v/maxes[t];
-      const cell=document.createElement('div');cell.className='hm-cell';
-      cell.style.background=a>0?`rgba(${hexRgb(pciData.techs[t].color)},${Math.max(0.05,a*0.85)})`:'rgba(255,255,255,0.03)';
-      cell.setAttribute('data-tip',`${t} ${String(h).padStart(2,'0')}h: ${v}`);
-      hmDiv.appendChild(cell);
-    }
+    for(let h=0;h<24;h++){const v=(pciData.techs[t].hm&&pciData.techs[t].hm[h])||0;const a=v/maxes[t];const cell=document.createElement('div');cell.className='hm-cell';cell.style.background=a>0?`rgba(${hexRgb(pciData.techs[t].color)},${Math.max(0.05,a*0.85)})`:'rgba(255,255,255,0.03)';cell.setAttribute('data-tip',`${t} ${String(h).padStart(2,'0')}h: ${v}`);hmDiv.appendChild(cell);}
   });
   hmEl.innerHTML='';hmEl.appendChild(hmDiv);
-  const legEl=document.getElementById('heatmapContainer');
   const legDiv=document.createElement('div');legDiv.className='legend';legDiv.style.marginTop='12px';
   legDiv.innerHTML=activeTechs.map(t=>`<div class="legend-item"><div class="legend-dot" style="background:${pciData.techs[t].color}"></div>${t}</div>`).join('');
-  legEl.insertAdjacentElement('afterend',legDiv);
+  hmEl.insertAdjacentElement('afterend',legDiv);
 
   const allAreas=[...new Set(activeTechs.flatMap(t=>Object.keys(pciData.techs[t].areas)))];
-  new Chart(document.getElementById('chartAreaTech').getContext('2d'),{
-    type:'bar', data:{labels:allAreas,datasets:activeTechs.map(t=>({label:t,data:allAreas.map(a=>pciData.techs[t].areas[a]||0),backgroundColor:pciData.techs[t].color+'cc',stack:'s',borderRadius:2}))},
-    options:{...CHART_DEFAULTS,scales:{x:{stacked:true,ticks:{color:'#7a9bb5'}},y:{stacked:true,ticks:{color:'#7a9bb5'}}}}});
+  new Chart(document.getElementById('chartAreaTech').getContext('2d'),{type:'bar',data:{labels:allAreas,datasets:activeTechs.map(t=>({label:t,data:allAreas.map(a=>pciData.techs[t].areas[a]||0),backgroundColor:pciData.techs[t].color+'cc',stack:'s',borderRadius:2}))},options:{...CHART_DEFAULTS,scales:{x:{stacked:true,ticks:{color:'#7a9bb5'}},y:{stacked:true,ticks:{color:'#7a9bb5'}}}}});
 }
 
-// ===== NAVIGATION =====
+// ── Navegação PCI ─────────────────────────────────────────────────────────
 let chartsInited = { overview:false, tempo:false, distribuicao:false };
 
-function showPage(id) {
+function showPage(id, ev) {
   document.querySelectorAll('#pci-wrapper .page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('#nav-pci .nav-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById(`page-${id}`).classList.add('active');
-  event.target.classList.add('active');
+  if(ev && ev.target) ev.target.classList.add('active');
   if(id==='techs' && !document.getElementById('techDetail').innerHTML) renderTechDetail('Vitor');
   if(id==='tempo' && !chartsInited.tempo) { initTempoCharts(); chartsInited.tempo=true; }
   if(id==='distribuicao' && !chartsInited.distribuicao) { initDistribCharts(); chartsInited.distribuicao=true; }
 }
 
 function selectTech(t) {
-  showPage('techs');
+  showPage('techs', null);
   document.querySelectorAll('#nav-pci .nav-tab')[1].classList.add('active');
   document.querySelectorAll('#nav-pci .nav-tab')[0].classList.remove('active');
-  const btn = document.querySelector(`.tech-btn[data-tech="${t}"]`);
+  const btn = document.querySelector(`.tech-btn[onclick*="${t}"]`);
   if(btn) switchTechDetail(t, btn);
 }
 
-// ===== RECOMPUTE PCI FROM ROWS =====
+// ── recomputePci ──────────────────────────────────────────────────────────
 function recomputePci(rows) {
   function pn(v){const n=parseFloat(v);return isNaN(n)?null:n;}
   function med(arr){if(!arr.length)return 0;const s=[...arr].sort((a,b)=>a-b);const m=Math.floor(s.length/2);return s.length%2?Math.round(s[m]*10)/10:Math.round((s[m-1]+s[m])/2*10)/10;}
-
+  const dowKeys=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   const allMonths=new Set(),allWeeks=new Set(),tm={};
   rows.forEach(function(r){
-    const t=r['Técnico']||'';
-    if(PCI_TECHS_ORDER.indexOf(t)<0)return;
+    const t=r['Técnico']||''; if(PCI_TECHS_ORDER.indexOf(t)<0)return;
     if(!tm[t])tm[t]={total:0,fin:0,exp:0,areas:{},monthly:{},weekly:{},shifts:{T1:0,T2:0,T3:0},dow:{},hm:{},causa:{'Técnico':0,Operacional:0},aV:[],rV:[],tV:[]};
-    const td=tm[t];td.total++;
-    const sf=r['Status Final']||'';if(sf==='Finalizado')td.fin++;if(sf.indexOf('Expirado')===0)td.exp++;
-    const cr=r['Causa Raiz']||'';if(cr==='Problema Técnico')td.causa['Técnico']++;else if(cr==='Erro Operacional')td.causa.Operacional++;
-    const sol=r['Área Solicitante']||'';if(sol)td.areas[sol]=(td.areas[sol]||0)+1;
-    let h=null,dw=null,mes=null,sem=null;
+    const td=tm[t]; td.total++;
+    const sf=r['Status Final']||''; if(sf==='Finalizado')td.fin++; if(sf.indexOf('Expirado')===0)td.exp++;
+    const cr=r['Causa Raiz']||''; if(cr==='Problema Técnico')td.causa['Técnico']++; else if(cr==='Erro Operacional')td.causa.Operacional++;
+    const sol=r['Área Solicitante']||''; if(sol)td.areas[sol]=(td.areas[sol]||0)+1;
+    let h=null,mes=null,sem=null;
     try{
-      const ds=r['Data Abertura']||'';let dd;
+      const ds=r['Data Abertura']||''; let dd;
       if(typeof ds==='string'&&ds.indexOf('/')>=0){const p=ds.split('/');dd=new Date(p[2]+'-'+p[1]+'-'+p[0]);}
       else if(typeof ds==='number'){dd=new Date(Math.round((ds-25569)*86400*1000));}
       else dd=new Date(ds);
       if(!isNaN(dd)){
-        const dw2=dd.getDay();dw=dw2===0?6:dw2-1;
-        const dowKeys=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+        const dw2=dd.getDay(); const dw=dw2===0?6:dw2-1;
         td.dow[dowKeys[dw]]=(td.dow[dowKeys[dw]]||0)+1;
-        mes=dd.getFullYear()+'-'+String(dd.getMonth()+1).padStart(2,'0');allMonths.add(mes);
-        const tmp=new Date(dd);tmp.setHours(0,0,0,0);tmp.setDate(tmp.getDate()+3-(tmp.getDay()+6)%7);
-        const w1=new Date(tmp.getFullYear(),0,4);sem=1+Math.round(((tmp-w1)/86400000-3+(w1.getDay()+6)%7)/7);allWeeks.add(sem);
+        mes=dd.getFullYear()+'-'+String(dd.getMonth()+1).padStart(2,'0'); allMonths.add(mes);
+        const tmp=new Date(dd); tmp.setHours(0,0,0,0); tmp.setDate(tmp.getDate()+3-(tmp.getDay()+6)%7);
+        const w1=new Date(tmp.getFullYear(),0,4); sem=1+Math.round(((tmp-w1)/86400000-3+(w1.getDay()+6)%7)/7); allWeeks.add(sem);
       }
     }catch(ex){}
-    const ts=r['Hora Abertura']||'';if(typeof ts==='string'&&ts.indexOf(':')>=0)h=parseInt(ts.split(':')[0]);
+    const ts=r['Hora Abertura']||''; if(typeof ts==='string'&&ts.indexOf(':')>=0)h=parseInt(ts.split(':')[0]);
     if(mes)td.monthly[mes]=(td.monthly[mes]||0)+1;
     if(sem)td.weekly[sem]=(td.weekly[sem]||0)+1;
-    if(h!==null){if(h>=6&&h<=13)td.shifts.T1++;else if(h>=14&&h<=21)td.shifts.T2++;else td.shifts.T3++;td.hm[h]=(td.hm[h]||0)+1;}
+    if(h!==null){if(h>=6&&h<=13)td.shifts.T1++; else if(h>=14&&h<=21)td.shifts.T2++; else td.shifts.T3++; td.hm[h]=(td.hm[h]||0)+1;}
     const ac=pn(r['Tempo Abertura→Aceite (min)']||r['Tempo Abertura->Aceite (min)']);
     const re=pn(r['Tempo Aceite→Finalização (min)']||r['Tempo Aceite->Finalizacao (min)']);
     const to=pn(r['Tempo Total (min)']);
-    if(ac!==null)td.aV.push(ac);if(re!==null)td.rV.push(re);if(to!==null)td.tV.push(to);
+    if(ac!==null)td.aV.push(ac); if(re!==null)td.rV.push(re); if(to!==null)td.tV.push(to);
   });
-
   const techs={};
   PCI_TECHS_ORDER.forEach(function(t,i){
-    if(!tm[t])return;const td=tm[t];
-    techs[t]=Object.assign({},td,{
-      taxa:td.total>0?Math.round(td.fin/td.total*1000)/10:0,
-      aceite:med(td.aV),resolucao:med(td.rV),total_t:med(td.tV),
-      color:PCI_COLORS[i]
-    });
-    delete techs[t].aV;delete techs[t].rV;delete techs[t].tV;
+    if(!tm[t])return; const td=tm[t];
+    techs[t]=Object.assign({},td,{taxa:td.total>0?Math.round(td.fin/td.total*1000)/10:0,aceite:med(td.aV),resolucao:med(td.rV),total_t:med(td.tV),color:PCI_COLORS[i]});
+    delete techs[t].aV; delete techs[t].rV; delete techs[t].tV;
   });
-
   const allTot=rows.map(r=>pn(r['Tempo Total (min)'])).filter(v=>v!==null);
   const finAll=rows.filter(r=>r['Status Final']==='Finalizado').length;
   const teamTotal=rows.length;
-  return {
-    techs, team_total:teamTotal,
-    taxa_all:teamTotal>0?Math.round(finAll/teamTotal*1000)/10:0,
-    team_med:med(allTot),
-    total_geral:teamTotal,
-    all_months:[...allMonths].sort(),
-    all_weeks:[...allWeeks].sort((a,b)=>a-b)
-  };
+  return {techs,team_total:teamTotal,taxa_all:teamTotal>0?Math.round(finAll/teamTotal*1000)/10:0,team_med:med(allTot),total_geral:teamTotal,all_months:[...allMonths].sort(),all_weeks:[...allWeeks].sort((a,b)=>a-b)};
 }
 
-// ===== IMPORTAR PLANILHA =====
-function importFile(event) {
-  const file=event.target.files[0];if(!file)return;
-  const modal=document.getElementById('impModal');
-  const fill=document.getElementById('impFill');
-  const msg=document.getElementById('impMsg');
-  modal.classList.add('show');msg.textContent='Lendo arquivo Excel...';fill.style.width='20%';
+// =========================================================================
+// DADOS SEED — MONTAGEM
+// =========================================================================
+const MONT_DATA = {"techs":{"Dariany":{"total":40,"fin":39,"exp":1,"taxa":97.5,"aceite":4.0,"resolucao":7.0,"total_t":16.0,"areas":{"Montagem":40},"suporte":{"Testes":40},"monthly":{"2026-02":3,"2026-03":2,"2026-04":11,"2026-05":23,"2026-06":1},"weekly":{"7":1,"8":2,"10":2,"15":3,"16":4,"17":1,"18":3,"19":6,"20":13,"21":2,"22":2,"23":1},"shifts":{"T1":34,"T2":2,"T3":4},"dow":{"0":3,"1":8,"2":13,"3":8,"4":3,"5":5,"6":0},"hm":{"5":4,"6":4,"7":5,"8":5,"9":7,"10":5,"12":5,"13":3,"15":1,"20":1},"causa":{"Tecnico":22,"Operacional":18},"color":"#00c8ff"},"Samuel":{"total":24,"fin":23,"exp":1,"taxa":95.8,"aceite":29.5,"resolucao":0.5,"total_t":42.0,"areas":{"Montagem":24},"suporte":{"Testes":13,"Processos":11},"monthly":{"2026-02":0,"2026-03":2,"2026-04":14,"2026-05":8,"2026-06":0},"weekly":{"13":2,"14":1,"15":2,"16":4,"17":6,"18":1,"19":5,"20":3},"shifts":{"T1":18,"T2":6,"T3":0},"dow":{"0":3,"1":3,"2":6,"3":4,"4":6,"5":2,"6":0},"hm":{"6":1,"7":1,"8":1,"9":4,"10":4,"11":2,"12":5,"14":1,"15":2,"16":1,"17":2},"causa":{"Tecnico":17,"Operacional":7},"color":"#38e08c"},"Danyel":{"total":16,"fin":16,"exp":0,"taxa":100.0,"aceite":6.0,"resolucao":3.0,"total_t":18.0,"areas":{"Montagem":16},"suporte":{"Processos":10,"Testes":6},"monthly":{"2026-02":0,"2026-03":1,"2026-04":11,"2026-05":4,"2026-06":0},"weekly":{"13":1,"15":3,"16":2,"17":5,"18":1,"19":2,"21":2},"shifts":{"T1":1,"T2":15,"T3":0},"dow":{"0":3,"1":4,"2":2,"3":1,"4":2,"5":4,"6":0},"hm":{"10":1,"14":3,"15":4,"16":1,"17":2,"18":2,"19":1,"20":1,"21":1},"causa":{"Tecnico":6,"Operacional":10},"color":"#ffc300"},"Cassia":{"total":10,"fin":10,"exp":0,"taxa":100.0,"aceite":8.0,"resolucao":3.0,"total_t":15.5,"areas":{"Montagem":10},"suporte":{"Testes":8,"Processos":2},"monthly":{"2026-02":1,"2026-03":0,"2026-04":3,"2026-05":6,"2026-06":0},"weekly":{"8":1,"14":2,"15":1,"18":2,"20":2,"21":1,"22":1},"shifts":{"T1":0,"T2":2,"T3":8},"dow":{"0":0,"1":4,"2":2,"3":0,"4":2,"5":1,"6":1},"hm":{"1":2,"3":3,"15":2,"22":2,"23":1},"causa":{"Tecnico":10,"Operacional":0},"color":"#ff5f40"},"Johny":{"total":2,"fin":2,"exp":0,"taxa":100.0,"aceite":16.0,"resolucao":20.5,"total_t":36.5,"areas":{"Montagem":2},"suporte":{"Testes":1,"Processos":1},"monthly":{"2026-02":0,"2026-03":0,"2026-04":0,"2026-05":2,"2026-06":0},"weekly":{"20":1,"21":1},"shifts":{"T1":0,"T2":2,"T3":0},"dow":{"0":0,"1":1,"2":0,"3":0,"4":1,"5":0,"6":0},"hm":{"15":2},"causa":{"Tecnico":1,"Operacional":1},"color":"#c97bff"}},"team_total":92,"taxa_all":97.8,"team_med":17.0,"area_dist":{"Testes":68,"Processos":24},"weekly_all":{"7":1,"8":3,"10":2,"13":3,"14":3,"15":9,"16":10,"17":12,"18":7,"19":13,"20":19,"21":6,"22":3,"23":1},"all_months":["2026-02","2026-03","2026-04","2026-05","2026-06"],"all_weeks":[7,8,10,13,14,15,16,17,18,19,20,21,22,23]};
 
-  const reader=new FileReader();
-  reader.onload=function(e){
-    try{
-      fill.style.width='40%';msg.textContent='Processando dados...';
-      const wb=XLSX.read(e.target.result,{type:'array'});
-      const ws=wb.Sheets[wb.SheetNames[0]];
-      const rows=XLSX.utils.sheet_to_json(ws,{defval:''});
-
-      // --- Recompute PCI ---
-      fill.style.width='60%';msg.textContent='Calculando PCI...';
-      const pciRows=rows.filter(function(r){
-        const sup=r['Área Suporte']||'';
-        return sup==='Processos'||sup==='Testes';
-      });
-      if(pciRows.length>0){
-        const newPci=recomputePci(pciRows);
-        Object.assign(pciData,newPci);
-        // Reset PCI chart state
-        pciMonthFilter='all';
-        chartsInited={overview:false,tempo:false,distribuicao:false};
-        Object.keys(pciChartInstances).forEach(k=>{if(pciChartInstances[k])pciChartInstances[k].destroy();delete pciChartInstances[k];});
-        document.getElementById('techDetail').innerHTML='';
-        buildPciMonthFilter();
-        initOverviewCharts();
-        updatePciTechCards();
-      }
-
-      // --- Recompute Montagem ---
-      fill.style.width='80%';msg.textContent='Calculando Montagem...';
-      const montRows=rows.filter(function(r){
-        const sup=r['Área Suporte']||'';
-        const sol=r['Área Solicitante']||'';
-        const tec=r['Técnico']||'';
-        return(sup==='Processos'||sup==='Testes')&&sol==='Montagem'&&MONT_TECHS_ORDER.indexOf(tec)>=0;
-      });
-      if(montRows.length>0){
-        const newMont=recomputeMont(montRows);
-        Object.assign(MD,newMont);
-        montInited=false;montPageInited={};montCurrentTech=null;montMonthFilter='all';
-        Object.keys(montCharts).forEach(k=>{if(montCharts[k])montCharts[k].destroy();delete montCharts[k];});
-        if(currentArea==='mont'){initMontagem();montInited=true;}
-      }
-
-      // --- Update header for current area ---
-      fill.style.width='100%';
-      msg.textContent=`✅ Atualizado! ${rows.length} chamados — PCI: ${pciRows.length} | Montagem: ${montRows.length}`;
-      updateHeader(currentArea);
-
-      const ok=document.getElementById('importOk');
-      ok.style.display='inline';setTimeout(function(){ok.style.display='none';},4000);
-
-    }catch(err){msg.textContent='❌ Erro: '+err.message;console.error(err);}
-  };
-  reader.readAsArrayBuffer(file);event.target.value='';
-}
-
-// ===== INIT =====
-window.addEventListener('load', ()=>{
-  setTimeout(()=>{
-    document.getElementById('loading').style.opacity='0';
-    setTimeout(()=>document.getElementById('loading').style.display='none',400);
-    buildPciMonthFilter();
-    initOverviewCharts();
-    updateHeader('pci');
-  }, 1200);
-});
-
-
-// ===== MONTAGEM DATA =====
-const MONT_DATA = {"techs": {"Dariany": {"total": 40, "fin": 39, "exp": 1, "taxa": 97.5, "aceite": 4.0, "resolucao": 7.0, "total_t": 16.0, "areas": {"Montagem": 40}, "suporte": {"Testes": 40}, "monthly": {"2026-02": 3, "2026-03": 2, "2026-04": 11, "2026-05": 23, "2026-06": 1}, "weekly": {"7": 1, "8": 2, "10": 2, "13": 0, "14": 0, "15": 3, "16": 4, "17": 1, "18": 3, "19": 6, "20": 13, "21": 2, "22": 2, "23": 1}, "shifts": {"T1": 34, "T2": 2, "T3": 4}, "dow": {"0": 3, "1": 8, "2": 13, "3": 8, "4": 3, "5": 5, "6": 0}, "hm": {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 4, "6": 4, "7": 5, "8": 5, "9": 7, "10": 5, "11": 0, "12": 5, "13": 3, "14": 0, "15": 1, "16": 0, "17": 0, "18": 0, "19": 0, "20": 1, "21": 0, "22": 0, "23": 0}, "causa": {"Tecnico": 22, "Operacional": 18}, "color": "#00c8ff"}, "Samuel": {"total": 24, "fin": 23, "exp": 1, "taxa": 95.8, "aceite": 29.5, "resolucao": 0.5, "total_t": 42.0, "areas": {"Montagem": 24}, "suporte": {"Testes": 13, "Processos": 11}, "monthly": {"2026-02": 0, "2026-03": 2, "2026-04": 14, "2026-05": 8, "2026-06": 0}, "weekly": {"7": 0, "8": 0, "10": 0, "13": 2, "14": 1, "15": 2, "16": 4, "17": 6, "18": 1, "19": 5, "20": 3, "21": 0, "22": 0, "23": 0}, "shifts": {"T1": 18, "T2": 6, "T3": 0}, "dow": {"0": 3, "1": 3, "2": 6, "3": 4, "4": 6, "5": 2, "6": 0}, "hm": {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 1, "7": 1, "8": 1, "9": 4, "10": 4, "11": 2, "12": 5, "13": 0, "14": 1, "15": 2, "16": 1, "17": 2, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0}, "causa": {"Tecnico": 17, "Operacional": 7}, "color": "#38e08c"}, "Danyel": {"total": 16, "fin": 16, "exp": 0, "taxa": 100.0, "aceite": 6.0, "resolucao": 3.0, "total_t": 18.0, "areas": {"Montagem": 16}, "suporte": {"Processos": 10, "Testes": 6}, "monthly": {"2026-02": 0, "2026-03": 1, "2026-04": 11, "2026-05": 4, "2026-06": 0}, "weekly": {"7": 0, "8": 0, "10": 0, "13": 1, "14": 0, "15": 3, "16": 2, "17": 5, "18": 1, "19": 2, "20": 0, "21": 2, "22": 0, "23": 0}, "shifts": {"T1": 1, "T2": 15, "T3": 0}, "dow": {"0": 3, "1": 4, "2": 2, "3": 1, "4": 2, "5": 4, "6": 0}, "hm": {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 1, "11": 0, "12": 0, "13": 0, "14": 3, "15": 4, "16": 1, "17": 2, "18": 2, "19": 1, "20": 1, "21": 1, "22": 0, "23": 0}, "causa": {"Tecnico": 6, "Operacional": 10}, "color": "#ffc300"}, "Cassia": {"total": 10, "fin": 10, "exp": 0, "taxa": 100.0, "aceite": 8.0, "resolucao": 3.0, "total_t": 15.5, "areas": {"Montagem": 10}, "suporte": {"Testes": 8, "Processos": 2}, "monthly": {"2026-02": 1, "2026-03": 0, "2026-04": 3, "2026-05": 6, "2026-06": 0}, "weekly": {"7": 0, "8": 1, "10": 0, "13": 0, "14": 2, "15": 1, "16": 0, "17": 0, "18": 2, "19": 0, "20": 2, "21": 1, "22": 1, "23": 0}, "shifts": {"T1": 0, "T2": 2, "T3": 8}, "dow": {"0": 0, "1": 4, "2": 2, "3": 0, "4": 2, "5": 1, "6": 1}, "hm": {"0": 0, "1": 2, "2": 0, "3": 3, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 2, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 2, "23": 1}, "causa": {"Tecnico": 10, "Operacional": 0}, "color": "#ff5f40"}, "Johny": {"total": 2, "fin": 2, "exp": 0, "taxa": 100.0, "aceite": 16.0, "resolucao": 20.5, "total_t": 36.5, "areas": {"Montagem": 2}, "suporte": {"Testes": 1, "Processos": 1}, "monthly": {"2026-02": 0, "2026-03": 0, "2026-04": 0, "2026-05": 2, "2026-06": 0}, "weekly": {"7": 0, "8": 0, "10": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 1, "21": 1, "22": 0, "23": 0}, "shifts": {"T1": 0, "T2": 2, "T3": 0}, "dow": {"0": 0, "1": 1, "2": 0, "3": 0, "4": 1, "5": 0, "6": 0}, "hm": {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 2, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0}, "causa": {"Tecnico": 1, "Operacional": 1}, "color": "#c97bff"}}, "team_total": 92, "taxa_all": 97.8, "team_med": 17.0, "area_dist": {"Testes": 68, "Processos": 24}, "weekly_all": {"7": 1, "8": 3, "10": 2, "13": 3, "14": 3, "15": 9, "16": 10, "17": 12, "18": 7, "19": 13, "20": 19, "21": 6, "22": 3, "23": 1}, "all_months": ["2026-02", "2026-03", "2026-04", "2026-05", "2026-06"], "all_weeks": [7, 8, 10, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]};
-
-// ===== SWITCH AREA =====
+// ── Switch Área ───────────────────────────────────────────────────────────
 let currentArea = 'pci';
 let montInited = false;
 
@@ -1685,415 +773,211 @@ function switchArea(area) {
   updateHeader(area);
 }
 
-// ===== MONTAGEM CORE =====
+// =========================================================================
+// MONTAGEM
+// =========================================================================
 const MD = MONT_DATA;
 const MONT_TECHS_ORDER = ['Dariany','Samuel','Danyel','Cassia','Johny'];
 const MONT_TECHS = MONT_TECHS_ORDER.filter(function(t){ return MD.techs[t] && MD.techs[t].total > 0; });
-
-var montCharts = {}, montCurrentTech = null, montPageInited = {};
-var montMonthFilter = 'all'; // filtro de mês ativo
+var montCharts = {}, montCurrentTech = null, montPageInited = {}, montMonthFilter = 'all';
 
 function mChart(id, cfg) {
   if (montCharts[id]) montCharts[id].destroy();
   var el = document.getElementById(id); if (!el) return null;
-  montCharts[id] = new Chart(el.getContext('2d'), cfg);
-  return montCharts[id];
+  montCharts[id] = new Chart(el.getContext('2d'), cfg); return montCharts[id];
 }
-var MCD = { responsive: true, maintainAspectRatio: false,
-  plugins: { legend: { labels: { color:'#7a9bb5', font:{family:'IBM Plex Mono',size:10}, boxWidth:12 } } } };
-
-// --- Filtro de mês ---
-function getMontFilteredData() {
-  if (montMonthFilter === 'all') return MD;
-
-  // Recompute techs filtered to selected month
-  var filtered = {};
-  MONT_TECHS.forEach(function(t) {
-    var td = MD.techs[t];
-    var monthly = td.monthly[montMonthFilter] || 0;
-    // For month filter we scale proportionally (best we can with aggregated data)
-    // Actually we keep raw data and just adjust the weekly view
-    filtered[t] = Object.assign({}, td, {
-      total: monthly,
-      monthly: td.monthly
-    });
-  });
-  return MD; // full data, month filter applied in chart labels/datasets
-}
+var MCD = { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ labels:{ color:'#7a9bb5', font:{family:'IBM Plex Mono',size:10}, boxWidth:12 } } } };
 
 function buildMonthFilter() {
-  var months = MD.all_months;
-  var labels = {'2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun'};
-  var html = '<div class="month-filter-bar">';
-  html += '<button class="mf-btn active" data-month="all" onclick="setMontMonth(this)">Todos</button>';
-  months.forEach(function(m) {
-    var lbl = labels[m] || m;
-    html += '<button class="mf-btn" data-month="' + m + '" onclick="setMontMonth(this)">' + lbl + '</button>';
-  });
-  html += '</div>';
-  return html;
+  var months=MD.all_months; var labels={'2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun'};
+  var html='<div class="month-filter-bar"><button class="mf-btn active" data-month="all" onclick="setMontMonth(this)">Todos</button>';
+  months.forEach(function(m){ html+='<button class="mf-btn" data-month="'+m+'" onclick="setMontMonth(this)">'+(labels[m]||m)+'</button>'; });
+  return html+'</div>';
 }
 
 function setMontMonth(btn) {
   document.querySelectorAll('.mf-btn').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active');
-  montMonthFilter = btn.getAttribute('data-month');
-  // Reset and reinit overview charts
-  ['mont-chartWeekly','mont-chartArea','mont-chartTechVolume','mont-chartTechTime','mont-chartResolucao'].forEach(function(id){
-    if(montCharts[id]){ montCharts[id].destroy(); delete montCharts[id]; }
-  });
-  drawMontOverviewCharts();
-  // Update tech cards
-  drawMontTechCards();
-  // Update stats
-  updateMontStats();
+  btn.classList.add('active'); montMonthFilter=btn.getAttribute('data-month');
+  ['mont-chartWeekly','mont-chartArea','mont-chartTechVolume','mont-chartTechTime','mont-chartResolucao'].forEach(function(id){ if(montCharts[id]){montCharts[id].destroy();delete montCharts[id];} });
+  drawMontOverviewCharts(); drawMontTechCards(); updateMontStats();
 }
 
 function getTechsForMonth() {
-  // Returns filtered tech data for selected month
-  var techs = MONT_TECHS;
-  if (montMonthFilter === 'all') return techs.map(function(t){ return { name:t, d: MD.techs[t] }; });
-  return techs.map(function(t) {
-    var td = MD.techs[t];
-    var monthTotal = td.monthly[montMonthFilter] || 0;
-    // Scale times proportionally? No — keep same medians, just show month volume
-    return { name:t, d: Object.assign({}, td, { total: monthTotal }) };
-  }).filter(function(x){ return x.d.total > 0; });
+  if(montMonthFilter==='all') return MONT_TECHS.map(function(t){return{name:t,d:MD.techs[t]};});
+  return MONT_TECHS.map(function(t){return{name:t,d:Object.assign({},MD.techs[t],{total:MD.techs[t].monthly[montMonthFilter]||0})};}).filter(function(x){return x.d.total>0;});
 }
 
 function updateMontStats() {
-  var items = getTechsForMonth();
-  var total = items.reduce(function(s,x){ return s + x.d.total; }, 0);
-  document.getElementById('mont-stat-total').textContent = total;
-  // taxa and med only meaningful for 'all'
-  if (montMonthFilter === 'all') {
-    document.getElementById('mont-stat-taxa').textContent = MD.taxa_all + '%';
-    document.getElementById('mont-stat-med').textContent  = MD.team_med + ' min';
-  } else {
-    document.getElementById('mont-stat-taxa').textContent = '—';
-    document.getElementById('mont-stat-med').textContent  = '— min';
-  }
+  var items=getTechsForMonth(); var total=items.reduce(function(s,x){return s+x.d.total;},0);
+  document.getElementById('mont-stat-total').textContent=total;
+  if(montMonthFilter==='all'){document.getElementById('mont-stat-taxa').textContent=MD.taxa_all+'%';document.getElementById('mont-stat-med').textContent=MD.team_med+' min';}
+  else{document.getElementById('mont-stat-taxa').textContent='—';document.getElementById('mont-stat-med').textContent='— min';}
 }
 
-// --- Init ---
 function initMontagem() {
-  // Inject month filter bar
-  var overviewEl = document.getElementById('mont-overview');
-  var firstChild = overviewEl.querySelector('.section-title-row') || overviewEl.querySelector('.section-title');
-  if (firstChild) firstChild.insertAdjacentHTML('afterend', buildMonthFilter());
-
-  updateMontStats();
-  drawMontTechCards();
-  drawMontOverviewCharts();
+  var overviewEl=document.getElementById('mont-overview');
+  var firstChild=overviewEl.querySelector('.section-title');
+  if(firstChild) firstChild.insertAdjacentHTML('afterend',buildMonthFilter());
+  updateMontStats(); drawMontTechCards(); drawMontOverviewCharts();
 }
 
 function drawMontTechCards() {
-  var items = getTechsForMonth();
-  var container = document.getElementById('mont-tech-cards');
-  container.innerHTML = '';
-  items.forEach(function(item) {
-    var t = item.name, td = MD.techs[t]; // always use full medians
-    var dispTotal = item.d.total;
-    var sl = [td.shifts.T1>0?'T1':'', td.shifts.T2>0?'T2':'', td.shifts.T3>0?'T3':''].filter(Boolean).join('+')||'T1';
-    var card = document.createElement('div');
-    card.className = 'tech-card';
-    card.style.cssText = '--t-color:' + td.color;
-    card.setAttribute('data-tech', t);
-    card.innerHTML =
-      '<div class="tech-avatar">' + t.charAt(0) + '</div>' +
-      '<div class="tech-name">' + t + '</div>' +
-      '<div class="tech-role">MONTAGEM · ' + sl + '</div>' +
-      '<div class="tech-kpis">' +
-        '<div class="tech-kpi"><span class="k-val" style="color:' + td.color + '">' + dispTotal + '</span><span class="k-lbl">Chamados</span></div>' +
-        '<div class="tech-kpi"><span class="k-val" style="color:' + td.color + '">' + td.taxa + '%</span><span class="k-lbl">Resolução</span></div>' +
-        '<div class="tech-kpi"><span class="k-val" style="color:' + td.color + '">' + td.aceite + 'm</span><span class="k-lbl">Aceite med.</span></div>' +
-        '<div class="tech-kpi"><span class="k-val" style="color:' + td.color + '">' + td.total_t + 'm</span><span class="k-lbl">Total med.</span></div>' +
-      '</div>' +
-      '<div class="perf-bar"><div class="perf-fill" style="width:' + td.taxa + '%;background:' + td.color + '"></div></div>';
-    card.addEventListener('click', function(){ montSelectTech(t); });
+  var items=getTechsForMonth(); var container=document.getElementById('mont-tech-cards'); container.innerHTML='';
+  items.forEach(function(item){
+    var t=item.name,td=MD.techs[t],dispTotal=item.d.total;
+    var sl=[td.shifts.T1>0?'T1':'',td.shifts.T2>0?'T2':'',td.shifts.T3>0?'T3':''].filter(Boolean).join('+')||'T1';
+    var card=document.createElement('div'); card.className='tech-card'; card.style.cssText='--t-color:'+td.color; card.setAttribute('data-tech',t);
+    card.innerHTML='<div class="tech-avatar">'+t.charAt(0)+'</div><div class="tech-name">'+t+'</div><div class="tech-role">MONTAGEM · '+sl+'</div><div class="tech-kpis"><div class="tech-kpi"><span class="k-val" style="color:'+td.color+'">'+dispTotal+'</span><span class="k-lbl">Chamados</span></div><div class="tech-kpi"><span class="k-val" style="color:'+td.color+'">'+td.taxa+'%</span><span class="k-lbl">Resolução</span></div><div class="tech-kpi"><span class="k-val" style="color:'+td.color+'">'+td.aceite+'m</span><span class="k-lbl">Aceite med.</span></div><div class="tech-kpi"><span class="k-val" style="color:'+td.color+'">'+td.total_t+'m</span><span class="k-lbl">Total med.</span></div></div><div class="perf-bar"><div class="perf-fill" style="width:'+td.taxa+'%;background:'+td.color+'"></div></div>';
+    card.addEventListener('click',function(){montSelectTech(t);});
     container.appendChild(card);
   });
 }
 
 function drawMontOverviewCharts() {
-  var d = MD;
-  var items = getTechsForMonth();
-  var techs = items.map(function(x){ return x.name; });
-  var weeks = d.all_weeks;
-  var months = d.all_months;
-  var mesLbls = {'2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun'};
-
-  // Weekly chart — show only selected month's weeks if filtered
-  var weekLabels, weekData;
-  if (montMonthFilter === 'all') {
-    weekLabels = weeks.map(function(w){ return 'S'+w; });
-    weekData = techs.map(function(t) {
-      return { label:t, data:weeks.map(function(w){ return d.techs[t].weekly[w]||0; }),
-        borderColor:d.techs[t].color, backgroundColor:d.techs[t].color+'22',
-        borderWidth:2, pointRadius:3, tension:0.4, fill:false };
-    });
-  } else {
-    // Show monthly breakdown instead
-    weekLabels = months.map(function(m){ return mesLbls[m]||m; });
-    weekData = techs.map(function(t) {
-      return { label:t, data:months.map(function(m){ return d.techs[t].monthly[m]||0; }),
-        borderColor:d.techs[t].color, backgroundColor:d.techs[t].color+'22',
-        borderWidth:2, pointRadius:3, tension:0.4, fill:false };
-    });
-  }
-
-  mChart('mont-chartWeekly', { type:'line',
-    data:{ labels:weekLabels, datasets:weekData },
-    options: Object.assign({}, MCD)
-  });
-
-  mChart('mont-chartArea', { type:'doughnut',
-    data:{ labels:Object.keys(d.area_dist), datasets:[{
-      data:Object.values(d.area_dist),
-      backgroundColor:['#00c8ff99','#38e08c99','#ffc30099'],
-      borderColor:'#0d1520', borderWidth:3
-    }]},
-    options: Object.assign({}, MCD, { cutout:'65%' })
-  });
-
-  // Volume per tech (filtered)
-  var techTotals = techs.map(function(t){ return items.find(function(x){return x.name===t;}).d.total; });
-  mChart('mont-chartTechVolume', { type:'bar',
-    data:{ labels:techs, datasets:[{ data:techTotals,
-      backgroundColor:techs.map(function(t){ return d.techs[t].color+'cc'; }), borderRadius:6 }]},
-    options: Object.assign({}, MCD, { plugins:{legend:{display:false}},
-      scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})
-  });
-
-  mChart('mont-chartTechTime', { type:'bar',
-    data:{ labels:MONT_TECHS, datasets:[{ data:MONT_TECHS.map(function(t){ return d.techs[t].total_t; }),
-      backgroundColor:MONT_TECHS.map(function(t){ return d.techs[t].color+'cc'; }), borderRadius:6 }]},
-    options: Object.assign({}, MCD, { plugins:{legend:{display:false}},
-      scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})
-  });
-
-  var minT = Math.min.apply(null, MONT_TECHS.map(function(t){ return d.techs[t].taxa; }));
-  mChart('mont-chartResolucao', { type:'bar',
-    data:{ labels:MONT_TECHS, datasets:[{ data:MONT_TECHS.map(function(t){ return d.techs[t].taxa; }),
-      backgroundColor:MONT_TECHS.map(function(t){ return d.techs[t].color+'cc'; }), borderRadius:6 }]},
-    options: Object.assign({}, MCD, { plugins:{legend:{display:false}},
-      scales:{x:{ticks:{color:'#7a9bb5'}},y:{min:Math.max(80,minT-5),max:101,ticks:{color:'#7a9bb5'}}}})
-  });
+  var d=MD,items=getTechsForMonth(),techs=items.map(function(x){return x.name;});
+  var weeks=d.all_weeks,months=d.all_months,mesLbls={'2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun'};
+  var weekLabels,weekData;
+  if(montMonthFilter==='all'){weekLabels=weeks.map(function(w){return'S'+w;});weekData=techs.map(function(t){return{label:t,data:weeks.map(function(w){return d.techs[t].weekly[w]||0;}),borderColor:d.techs[t].color,backgroundColor:d.techs[t].color+'22',borderWidth:2,pointRadius:3,tension:0.4,fill:false};});}
+  else{weekLabels=months.map(function(m){return mesLbls[m]||m;});weekData=techs.map(function(t){return{label:t,data:months.map(function(m){return d.techs[t].monthly[m]||0;}),borderColor:d.techs[t].color,backgroundColor:d.techs[t].color+'22',borderWidth:2,pointRadius:3,tension:0.4,fill:false};});}
+  mChart('mont-chartWeekly',{type:'line',data:{labels:weekLabels,datasets:weekData},options:Object.assign({},MCD)});
+  mChart('mont-chartArea',{type:'doughnut',data:{labels:Object.keys(d.area_dist),datasets:[{data:Object.values(d.area_dist),backgroundColor:['#00c8ff99','#38e08c99','#ffc30099'],borderColor:'#0d1520',borderWidth:3}]},options:Object.assign({},MCD,{cutout:'65%'})});
+  var techTotals=techs.map(function(t){return items.find(function(x){return x.name===t;}).d.total;});
+  mChart('mont-chartTechVolume',{type:'bar',data:{labels:techs,datasets:[{data:techTotals,backgroundColor:techs.map(function(t){return d.techs[t].color+'cc';}),borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
+  mChart('mont-chartTechTime',{type:'bar',data:{labels:MONT_TECHS,datasets:[{data:MONT_TECHS.map(function(t){return d.techs[t].total_t;}),backgroundColor:MONT_TECHS.map(function(t){return d.techs[t].color+'cc';}),borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
+  var minT=Math.min.apply(null,MONT_TECHS.map(function(t){return d.techs[t].taxa;}));
+  mChart('mont-chartResolucao',{type:'bar',data:{labels:MONT_TECHS,datasets:[{data:MONT_TECHS.map(function(t){return d.techs[t].taxa;}),backgroundColor:MONT_TECHS.map(function(t){return d.techs[t].color+'cc';}),borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{min:Math.max(80,minT-5),max:101,ticks:{color:'#7a9bb5'}}}})});
 }
 
-// --- Por Técnico ---
-function montSelectTech(t) {
-  montShowPage('mont-techs', null);
-  montBuildSelector();
-  var btn = document.querySelector('#mont-techSelector .tech-btn[data-tech="' + t + '"]');
-  montSwitchTechDetail(t, btn);
+function montSelectTech(t){montShowPage('mont-techs',null);montBuildSelector();var btn=document.querySelector('#mont-techSelector .tech-btn[data-tech="'+t+'"]');montSwitchTechDetail(t,btn);}
+
+function montBuildSelector(){
+  var container=document.getElementById('mont-techSelector');container.innerHTML='';
+  MONT_TECHS.forEach(function(t){var btn=document.createElement('button');btn.className='tech-btn'+(t===montCurrentTech?' active':'');btn.style.cssText='--t-color:'+MD.techs[t].color;btn.setAttribute('data-tech',t);btn.textContent=t;btn.addEventListener('click',function(){montSwitchTechDetail(t,btn);});container.appendChild(btn);});
 }
 
-function montBuildSelector() {
-  var container = document.getElementById('mont-techSelector');
-  container.innerHTML = '';
-  MONT_TECHS.forEach(function(t) {
-    var btn = document.createElement('button');
-    btn.className = 'tech-btn' + (t === montCurrentTech ? ' active' : '');
-    btn.style.cssText = '--t-color:' + MD.techs[t].color;
-    btn.setAttribute('data-tech', t);
-    btn.textContent = t;
-    btn.addEventListener('click', function(){ montSwitchTechDetail(t, btn); });
-    container.appendChild(btn);
-  });
-}
+function montSwitchTechDetail(tech,btn){montCurrentTech=tech;document.querySelectorAll('#mont-techSelector .tech-btn').forEach(function(b){b.classList.remove('active');});if(btn)btn.classList.add('active');montRenderTechDetail(tech);}
 
-function montSwitchTechDetail(tech, btn) {
-  montCurrentTech = tech;
-  document.querySelectorAll('#mont-techSelector .tech-btn').forEach(function(b){ b.classList.remove('active'); });
-  if (btn) btn.classList.add('active');
-  montRenderTechDetail(tech);
-}
-
-function montRenderTechDetail(tech) {
-  var d = MD.techs[tech], c = d.color;
-  var months = MD.all_months;
-  var mesLbls = {'2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun'};
-  var mesArr = months.map(function(m){ return mesLbls[m]||m; });
-
-  var bAceite = d.aceite<=15?'badge-green':d.aceite<=30?'badge-yellow':'badge-red';
-  var tAceite = d.aceite<=15?'✅ OK':d.aceite<=30?'⚠ REGULAR':'❌ ALTO';
-  var bTotal  = d.total_t<=30?'badge-green':d.total_t<=60?'badge-yellow':'badge-red';
-  var tTotal  = d.total_t<=30?'✅ EXCELENTE':d.total_t<=60?'⚠ BOM':'📋 COMPLEXO';
-  var bTaxa   = d.taxa===100?'badge-green':d.taxa>=95?'badge-yellow':'badge-red';
-  var tTaxa   = d.taxa===100?'✅ PERFEITO':d.taxa>=95?'⚠ ATENÇÃO':'❌ CRÍTICO';
-
-  var detail = document.getElementById('mont-techDetail');
-  detail.innerHTML =
-    '<div class="grid-4">' +
-      '<div class="card" style="--accent-color:'+c+'"><div class="card-title">TOTAL CHAMADOS</div><div class="card-value">'+d.total+'</div><div class="card-sub">Período: Fev–Jun 2026</div></div>' +
-      '<div class="card" style="--accent-color:'+c+'"><div class="card-title">TAXA RESOLUÇÃO</div><div class="card-value">'+d.taxa+'%</div><span class="badge '+bTaxa+'">'+tTaxa+'</span></div>' +
-      '<div class="card" style="--accent-color:'+c+'"><div class="card-title">TEMPO ACEITE MED.</div><div class="card-value">'+d.aceite+'m</div><span class="badge '+bAceite+'">'+tAceite+'</span></div>' +
-      '<div class="card" style="--accent-color:'+c+'"><div class="card-title">TEMPO TOTAL MED.</div><div class="card-value">'+d.total_t+'m</div><span class="badge '+bTotal+'">'+tTotal+'</span></div>' +
-    '</div>' +
-    '<div class="grid-2">' +
-      '<div class="chart-wrap"><div class="chart-title">🏭 Área de Suporte</div><div class="chart-subtitle">Processos vs Testes</div><div class="chart-box"><canvas id="mTechAreaChart"></canvas></div></div>' +
-      '<div class="chart-wrap"><div class="chart-title">🌗 Distribuição por Turno</div><div class="chart-subtitle">T1 (06-14h) · T2 (14-22h) · T3 (22-06h)</div><div class="chart-box"><canvas id="mTechTurnoChart"></canvas></div></div>' +
-    '</div>' +
-    '<div class="grid-2">' +
-      '<div class="chart-wrap"><div class="chart-title">📆 Volume Mensal</div><div class="chart-subtitle">Fev–Jun 2026</div><div class="chart-box"><canvas id="mTechMesChart"></canvas></div></div>' +
-      '<div class="chart-wrap"><div class="chart-title">🎯 Causa Raiz</div><div class="chart-subtitle">Problema técnico vs. erro operacional</div><div class="chart-box"><canvas id="mTechCausaChart"></canvas></div></div>' +
-    '</div>' +
-    '<div class="chart-wrap"><div class="chart-title">📅 Dias da Semana</div><div class="chart-subtitle">Distribuição ao longo da semana</div><div class="chart-box"><canvas id="mTechDiaChart"></canvas></div></div>';
-
-  setTimeout(function() {
+function montRenderTechDetail(tech){
+  var d=MD.techs[tech],c=d.color,months=MD.all_months,mesLbls={'2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun'},mesArr=months.map(function(m){return mesLbls[m]||m;});
+  var bA=d.aceite<=15?'badge-green':d.aceite<=30?'badge-yellow':'badge-red',tA=d.aceite<=15?'✅ OK':d.aceite<=30?'⚠ REGULAR':'❌ ALTO';
+  var bT=d.total_t<=30?'badge-green':d.total_t<=60?'badge-yellow':'badge-red',tT=d.total_t<=30?'✅ EXCELENTE':d.total_t<=60?'⚠ BOM':'📋 COMPLEXO';
+  var bTx=d.taxa===100?'badge-green':d.taxa>=95?'badge-yellow':'badge-red',tTx=d.taxa===100?'✅ PERFEITO':d.taxa>=95?'⚠ ATENÇÃO':'❌ CRÍTICO';
+  var detail=document.getElementById('mont-techDetail');
+  detail.innerHTML='<div class="grid-4"><div class="card" style="--accent-color:'+c+'"><div class="card-title">TOTAL CHAMADOS</div><div class="card-value">'+d.total+'</div><div class="card-sub">Período: Fev–Jun 2026</div></div><div class="card" style="--accent-color:'+c+'"><div class="card-title">TAXA RESOLUÇÃO</div><div class="card-value">'+d.taxa+'%</div><span class="badge '+bTx+'">'+tTx+'</span></div><div class="card" style="--accent-color:'+c+'"><div class="card-title">TEMPO ACEITE MED.</div><div class="card-value">'+d.aceite+'m</div><span class="badge '+bA+'">'+tA+'</span></div><div class="card" style="--accent-color:'+c+'"><div class="card-title">TEMPO TOTAL MED.</div><div class="card-value">'+d.total_t+'m</div><span class="badge '+bT+'">'+tT+'</span></div></div><div class="grid-2"><div class="chart-wrap"><div class="chart-title">🏭 Área de Suporte</div><div class="chart-subtitle">Processos vs Testes</div><div class="chart-box"><canvas id="mTechAreaChart"></canvas></div></div><div class="chart-wrap"><div class="chart-title">🌗 Distribuição por Turno</div><div class="chart-subtitle">T1 · T2 · T3</div><div class="chart-box"><canvas id="mTechTurnoChart"></canvas></div></div></div><div class="grid-2"><div class="chart-wrap"><div class="chart-title">📆 Volume Mensal</div><div class="chart-subtitle">Fev–Jun 2026</div><div class="chart-box"><canvas id="mTechMesChart"></canvas></div></div><div class="chart-wrap"><div class="chart-title">🎯 Causa Raiz</div><div class="chart-subtitle">Técnico vs. Operacional</div><div class="chart-box"><canvas id="mTechCausaChart"></canvas></div></div></div><div class="chart-wrap"><div class="chart-title">📅 Dias da Semana</div><div class="chart-subtitle">Distribuição ao longo da semana</div><div class="chart-box"><canvas id="mTechDiaChart"></canvas></div></div>';
+  setTimeout(function(){
     mChart('mTechAreaChart',{type:'doughnut',data:{labels:Object.keys(d.suporte),datasets:[{data:Object.values(d.suporte),backgroundColor:[c+'cc',c+'66'],borderColor:'#0d1520',borderWidth:3}]},options:Object.assign({},MCD,{cutout:'60%'})});
     mChart('mTechTurnoChart',{type:'bar',data:{labels:['T1','T2','T3'],datasets:[{data:[d.shifts.T1,d.shifts.T2,d.shifts.T3],backgroundColor:[c+'cc',c+'88',c+'55'],borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
     mChart('mTechMesChart',{type:'bar',data:{labels:mesArr,datasets:[{data:months.map(function(m){return d.monthly[m]||0;}),backgroundColor:c+'cc',borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
     mChart('mTechCausaChart',{type:'doughnut',data:{labels:['Prob. Técnico','Erro Operacional'],datasets:[{data:[d.causa.Tecnico,d.causa.Operacional],backgroundColor:[c+'cc','#ff5f4099'],borderColor:'#0d1520',borderWidth:3}]},options:Object.assign({},MCD,{cutout:'60%'})});
     mChart('mTechDiaChart',{type:'bar',data:{labels:['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],datasets:[{data:[0,1,2,3,4,5,6].map(function(i){return d.dow[i]||0;}),backgroundColor:c+'cc',borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
-  }, 50);
+  },50);
 }
 
-// --- Tempos ---
-function initMontTempo() {
-  var techs = MONT_TECHS, d = MD;
-  var bya = [].concat(techs).sort(function(a,b){ return d.techs[a].aceite - d.techs[b].aceite; });
-  var byt = [].concat(techs).sort(function(a,b){ return d.techs[a].total_t - d.techs[b].total_t; });
-  var fast=bya[0], slow=bya[bya.length-1], fastT=byt[0], slowT=byt[byt.length-1];
-
-  document.getElementById('mont-tempoKpis').innerHTML =
-    '<div class="card" style="--accent-color:'+d.techs[fast].color+'"><div class="card-title">MELHOR TEMPO ACEITE</div><div class="card-value">'+d.techs[fast].aceite+' min</div><div class="card-sub">'+fast+' — mediana</div><span class="badge badge-green">🏆 LÍDER</span></div>' +
-    '<div class="card" style="--accent-color:'+d.techs[fastT].color+'"><div class="card-title">MELHOR TEMPO TOTAL</div><div class="card-value">'+d.techs[fastT].total_t+' min</div><div class="card-sub">'+fastT+' — mediana total</div><span class="badge badge-green">🏆 MAIS RÁPIDO</span></div>' +
-    '<div class="card" style="--accent-color:var(--accent4)"><div class="card-title">MAIOR TEMPO ACEITE</div><div class="card-value">'+d.techs[slow].aceite+' min</div><div class="card-sub">'+slow+' — mediana</div><span class="badge badge-yellow">⚠ ATENÇÃO</span></div>' +
-    '<div class="card" style="--accent-color:var(--accent2)"><div class="card-title">MAIOR TEMPO TOTAL</div><div class="card-value">'+d.techs[slowT].total_t+' min</div><div class="card-sub">'+slowT+' — mediana total</div><span class="badge badge-yellow">📋 COMPLEXIDADE ALTA</span></div>';
-
+function initMontTempo(){
+  var techs=MONT_TECHS,d=MD;
+  var bya=[].concat(techs).sort(function(a,b){return d.techs[a].aceite-d.techs[b].aceite;});
+  var byt=[].concat(techs).sort(function(a,b){return d.techs[a].total_t-d.techs[b].total_t;});
+  var fast=bya[0],slow=bya[bya.length-1],fastT=byt[0],slowT=byt[byt.length-1];
+  document.getElementById('mont-tempoKpis').innerHTML='<div class="card" style="--accent-color:'+d.techs[fast].color+'"><div class="card-title">MELHOR TEMPO ACEITE</div><div class="card-value">'+d.techs[fast].aceite+' min</div><div class="card-sub">'+fast+' — mediana</div><span class="badge badge-green">🏆 LÍDER</span></div><div class="card" style="--accent-color:'+d.techs[fastT].color+'"><div class="card-title">MELHOR TEMPO TOTAL</div><div class="card-value">'+d.techs[fastT].total_t+' min</div><div class="card-sub">'+fastT+' — mediana total</div><span class="badge badge-green">🏆 MAIS RÁPIDO</span></div><div class="card" style="--accent-color:var(--accent4)"><div class="card-title">MAIOR TEMPO ACEITE</div><div class="card-value">'+d.techs[slow].aceite+' min</div><div class="card-sub">'+slow+' — mediana</div><span class="badge badge-yellow">⚠ ATENÇÃO</span></div><div class="card" style="--accent-color:var(--accent2)"><div class="card-title">MAIOR TEMPO TOTAL</div><div class="card-value">'+d.techs[slowT].total_t+' min</div><div class="card-sub">'+slowT+' — mediana total</div><span class="badge badge-yellow">📋 COMPLEXIDADE ALTA</span></div>';
   mChart('mont-chartAceite',{type:'bar',data:{labels:techs,datasets:[{label:'Aceite (min)',data:techs.map(function(t){return d.techs[t].aceite;}),backgroundColor:techs.map(function(t){return d.techs[t].color+'cc';}),borderRadius:6},{label:'Meta (15min)',data:techs.map(function(){return 15;}),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},options:Object.assign({},MCD,{scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'},title:{display:true,text:'Minutos',color:'#7a9bb5'}}}})});
   mChart('mont-chartResolTime',{type:'bar',data:{labels:techs,datasets:[{label:'Resolução (min)',data:techs.map(function(t){return d.techs[t].resolucao;}),backgroundColor:techs.map(function(t){return d.techs[t].color+'cc';}),borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
   mChart('mont-chartComparativo',{type:'bar',data:{labels:techs,datasets:[{label:'Aceite',data:techs.map(function(t){return d.techs[t].aceite;}),backgroundColor:'#00c8ff77',borderRadius:4},{label:'Resolução',data:techs.map(function(t){return d.techs[t].resolucao;}),backgroundColor:'#38e08c77',borderRadius:4},{label:'Total',data:techs.map(function(t){return d.techs[t].total_t;}),backgroundColor:'#ffc30077',borderRadius:4},{label:'Meta total (60min)',data:techs.map(function(){return 60;}),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},options:Object.assign({},MCD,{scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
-
-  var rk = [].concat(techs).map(function(t){ var td=d.techs[t]; return {name:t,color:td.color,total:td.total,taxa:td.taxa,aceite:td.aceite,resolucao:td.resolucao,total_t:td.total_t,score:Math.round((td.total*td.taxa)/(td.total_t+1))}; }).sort(function(a,b){ return b.score-a.score; });
-  var rc = ['#ffd700','#c0c0c0','#cd7f32','#7a9bb5','#3d5a75'];
-  document.getElementById('mont-rankingBody').innerHTML = rk.map(function(r,i){
-    var bc = r.taxa===100?'badge-green':r.taxa>=95?'badge-yellow':'badge-red';
-    return '<tr><td><span class="rank-badge" style="background:'+rc[i%rc.length]+'22;color:'+rc[i%rc.length]+'">'+(i+1)+'</span></td><td style="color:'+r.color+';font-weight:700;font-family:Syne,sans-serif">'+r.name+'</td><td>'+r.total+'</td><td><span class="badge '+bc+'">'+r.taxa+'%</span></td><td>'+r.aceite+' min</td><td>'+r.resolucao+' min</td><td>'+r.total_t+' min</td><td><span style="color:'+r.color+';font-weight:700">'+r.score+'</span></td></tr>';
-  }).join('');
+  var rk=[].concat(techs).map(function(t){var td=d.techs[t];return{name:t,color:td.color,total:td.total,taxa:td.taxa,aceite:td.aceite,resolucao:td.resolucao,total_t:td.total_t,score:Math.round((td.total*td.taxa)/(td.total_t+1))};}).sort(function(a,b){return b.score-a.score;});
+  var rc=['#ffd700','#c0c0c0','#cd7f32','#7a9bb5','#3d5a75'];
+  document.getElementById('mont-rankingBody').innerHTML=rk.map(function(r,i){var bc=r.taxa===100?'badge-green':r.taxa>=95?'badge-yellow':'badge-red';return'<tr><td><span class="rank-badge" style="background:'+rc[i%rc.length]+'22;color:'+rc[i%rc.length]+'">'+(i+1)+'</span></td><td style="color:'+r.color+';font-weight:700;font-family:Syne,sans-serif">'+r.name+'</td><td>'+r.total+'</td><td><span class="badge '+bc+'">'+r.taxa+'%</span></td><td>'+r.aceite+' min</td><td>'+r.resolucao+' min</td><td>'+r.total_t+' min</td><td><span style="color:'+r.color+';font-weight:700">'+r.score+'</span></td></tr>';}).join('');
 }
 
-// --- Distribuição ---
-function initMontDistrib() {
-  var techs=MONT_TECHS, d=MD;
-  var months=d.all_months;
-  var mesLbls={'2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun'};
-  var mesArr=months.map(function(m){return mesLbls[m]||m;});
-  var weeks=d.all_weeks;
-
+function initMontDistrib(){
+  var techs=MONT_TECHS,d=MD,months=d.all_months,mesLbls={'2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun'},mesArr=months.map(function(m){return mesLbls[m]||m;});
   mChart('mont-chartTurnos',{type:'bar',data:{labels:['T1 (06-14h)','T2 (14-22h)','T3 (22-06h)'],datasets:techs.map(function(t){return{label:t,data:[d.techs[t].shifts.T1,d.techs[t].shifts.T2,d.techs[t].shifts.T3],backgroundColor:d.techs[t].color+'cc',borderRadius:4};})},options:Object.assign({},MCD,{scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
   var dow=[0,1,2,3,4,5,6].map(function(i){return techs.reduce(function(s,t){return s+(d.techs[t].dow[i]||0);},0);});
   mChart('mont-chartDia',{type:'bar',data:{labels:['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],datasets:[{data:dow,backgroundColor:dow.map(function(_,i){return i<5?'#00c8ff99':'#ffc30099';}),borderRadius:6}]},options:Object.assign({},MCD,{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}})});
   mChart('mont-chartMensal',{type:'bar',data:{labels:mesArr,datasets:techs.map(function(t){return{label:t,data:months.map(function(m){return d.techs[t].monthly[m]||0;}),backgroundColor:d.techs[t].color+'cc',stack:'s',borderRadius:2};})},options:Object.assign({},MCD,{scales:{x:{stacked:true,ticks:{color:'#7a9bb5'}},y:{stacked:true,ticks:{color:'#7a9bb5'}}}})});
-
   function hexRgb(h){return[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)].join(',');}
-  var mx={};
-  techs.forEach(function(t){mx[t]=Math.max.apply(null,[1].concat(Object.values(d.techs[t].hm)));});
+  var mx={};techs.forEach(function(t){mx[t]=Math.max.apply(null,[1].concat(Object.values(d.techs[t].hm)));});
   var hmEl=document.getElementById('mont-heatmapContainer');
-  var hmDiv=document.createElement('div'); hmDiv.className='heatmap-grid';
-  var hdr=document.createElement('div'); hdr.className='hm-header'; hmDiv.appendChild(hdr);
+  var hmDiv=document.createElement('div');hmDiv.className='heatmap-grid';
+  var hdr=document.createElement('div');hdr.className='hm-header';hmDiv.appendChild(hdr);
   for(var h=0;h<24;h++){var hh=document.createElement('div');hh.className='hm-header';hh.textContent=String(h).padStart(2,'0')+'h';hmDiv.appendChild(hh);}
   techs.forEach(function(t){
     var lbl=document.createElement('div');lbl.className='hm-label';lbl.textContent=t;hmDiv.appendChild(lbl);
-    for(var h=0;h<24;h++){
-      var v=d.techs[t].hm[h]||0;var a=v/mx[t];
-      var cell=document.createElement('div');cell.className='hm-cell';
-      cell.style.background=a>0?'rgba('+hexRgb(d.techs[t].color)+','+Math.max(0.05,a*0.85)+')':'rgba(255,255,255,0.03)';
-      cell.setAttribute('data-tip',t+' '+String(h).padStart(2,'0')+'h: '+v);
-      hmDiv.appendChild(cell);
-    }
+    for(var h=0;h<24;h++){var v=d.techs[t].hm[h]||0;var a=v/mx[t];var cell=document.createElement('div');cell.className='hm-cell';cell.style.background=a>0?'rgba('+hexRgb(d.techs[t].color)+','+Math.max(0.05,a*0.85)+')':'rgba(255,255,255,0.03)';cell.setAttribute('data-tip',t+' '+String(h).padStart(2,'0')+'h: '+v);hmDiv.appendChild(cell);}
   });
-  hmEl.innerHTML=''; hmEl.appendChild(hmDiv);
-
+  hmEl.innerHTML='';hmEl.appendChild(hmDiv);
   var leg=document.getElementById('mont-heatmapLegend');
-  leg.innerHTML=techs.map(function(t){return '<div class="legend-item"><div class="legend-dot" style="background:'+d.techs[t].color+'"></div>'+t+'</div>';}).join('');
-
+  leg.innerHTML=techs.map(function(t){return'<div class="legend-item"><div class="legend-dot" style="background:'+d.techs[t].color+'"></div>'+t+'</div>';}).join('');
   var allAreas=[...new Set(techs.reduce(function(a,t){return a.concat(Object.keys(d.techs[t].suporte));},[])) ];
   mChart('mont-chartAreaTech',{type:'bar',data:{labels:allAreas,datasets:techs.map(function(t){return{label:t,data:allAreas.map(function(a){return d.techs[t].suporte[a]||0;}),backgroundColor:d.techs[t].color+'cc',stack:'s',borderRadius:2};})},options:Object.assign({},MCD,{scales:{x:{stacked:true,ticks:{color:'#7a9bb5'}},y:{stacked:true,ticks:{color:'#7a9bb5'}}}})});
 }
 
-// --- Recomendações ---
-function buildMontRec() {
-  var techs=MONT_TECHS, d=MD;
+function buildMontRec(){
+  var techs=MONT_TECHS,d=MD;
   var bya=[].concat(techs).sort(function(a,b){return d.techs[a].aceite-d.techs[b].aceite;});
-  var fast=bya[0], slow=bya[bya.length-1];
-
-  var atencao = techs.filter(function(t){return d.techs[t].aceite>30;}).map(function(t){
-    return '<div class="rec-card" style="--accent-color:var(--accent2)"><div class="rec-title">🔴 '+t+' — Tempo de Aceite Elevado</div><div class="rec-body">Mediana de '+d.techs[t].aceite+'min, acima da meta de 15min. Investigar sobrecarga.</div></div>';
-  }).join('');
-  var taxa98 = techs.filter(function(t){return d.techs[t].taxa<98&&d.techs[t].total>=5;}).map(function(t){
-    return '<div class="rec-card" style="--accent-color:var(--accent4)"><div class="rec-title">🟡 '+t+' — Taxa Abaixo de 98%</div><div class="rec-body">'+d.techs[t].taxa+'% com '+d.techs[t].exp+' expirados. Criar escalonamento preventivo.</div></div>';
-  }).join('');
-  var baixoVol = techs.filter(function(t){return d.techs[t].total<5;}).map(function(t){
-    return '<div class="rec-card" style="--accent-color:var(--accent5)"><div class="rec-title">🟣 '+t+' — Volume Muito Baixo</div><div class="rec-body">Apenas '+d.techs[t].total+' chamados. Verificar limitação de atribuição.</div></div>';
-  }).join('');
-  var semProb = (atencao+taxa98+baixoVol)==='' ? '<div class="rec-card" style="--accent-color:var(--accent3)"><div class="rec-title">✅ Sem pontos críticos</div><div class="rec-body">Time operando dentro dos parâmetros.</div></div>' : '';
-  var boas100 = techs.filter(function(t){return d.techs[t].taxa===100&&d.techs[t].total>=5;}).map(function(t){
-    return '<div class="rec-card" style="--accent-color:'+d.techs[t].color+'"><div class="rec-title">🟢 '+t+' — 100% de Resolução</div><div class="rec-body">'+d.techs[t].total+' chamados sem nenhuma expiração.</div></div>';
-  }).join('');
-
-  document.getElementById('mont-recContent').innerHTML =
-    '<div class="insight-box"><h3>🎯 Resumo Executivo — Montagem</h3><p>O time de <strong style="color:var(--accent)">'+techs.length+' técnicos</strong> atendeu <strong style="color:var(--accent)">'+d.team_total+' chamados</strong> com taxa de <strong style="color:var(--accent3)">'+d.taxa_all+'%</strong> e tempo médio de <strong style="color:var(--accent4)">'+d.team_med+' min</strong>. Melhor aceite: <strong style="color:'+d.techs[fast].color+'">'+fast+' ('+d.techs[fast].aceite+'min)</strong>.'+(d.techs[slow].aceite>30?' <strong style="color:var(--accent4)">'+slow+' com aceite elevado ('+d.techs[slow].aceite+'min).</strong>':'')+'</p></div>' +
-    '<div class="grid-2"><div><div class="section-title">⚠ Pontos de Atenção</div>'+atencao+taxa98+baixoVol+semProb+'</div>' +
-    '<div><div class="section-title">✅ Boas Práticas</div>' +
-    '<div class="rec-card" style="--accent-color:'+d.techs[fast].color+'"><div class="rec-title">🟢 '+fast+' — Referência de Aceite ('+d.techs[fast].aceite+'min)</div><div class="rec-body">'+d.techs[fast].taxa+'% de resolução e menor tempo de aceite do time.</div></div>' +
-    boas100 +
-    '<div class="rec-card" style="--accent-color:var(--accent)"><div class="rec-title">🔵 Integração PCI ↔ Montagem</div><div class="rec-body">Garantir alinhamento entre os times para cobertura cruzada em Testes e Processos que atendem Montagem.</div></div></div></div>';
+  var fast=bya[0],slow=bya[bya.length-1];
+  var atencao=techs.filter(function(t){return d.techs[t].aceite>30;}).map(function(t){return'<div class="rec-card" style="--accent-color:var(--accent2)"><div class="rec-title">🔴 '+t+' — Tempo de Aceite Elevado</div><div class="rec-body">Mediana de '+d.techs[t].aceite+'min, acima da meta de 15min. Investigar sobrecarga.</div></div>';}).join('');
+  var taxa98=techs.filter(function(t){return d.techs[t].taxa<98&&d.techs[t].total>=5;}).map(function(t){return'<div class="rec-card" style="--accent-color:var(--accent4)"><div class="rec-title">🟡 '+t+' — Taxa Abaixo de 98%</div><div class="rec-body">'+d.techs[t].taxa+'% com '+d.techs[t].exp+' expirados. Criar escalonamento preventivo.</div></div>';}).join('');
+  var baixoVol=techs.filter(function(t){return d.techs[t].total<5;}).map(function(t){return'<div class="rec-card" style="--accent-color:var(--accent5)"><div class="rec-title">🟣 '+t+' — Volume Muito Baixo</div><div class="rec-body">Apenas '+d.techs[t].total+' chamados. Verificar limitação de atribuição.</div></div>';}).join('');
+  var semProb=(atencao+taxa98+baixoVol)===''?'<div class="rec-card" style="--accent-color:var(--accent3)"><div class="rec-title">✅ Sem pontos críticos</div><div class="rec-body">Time operando dentro dos parâmetros.</div></div>':'';
+  var boas100=techs.filter(function(t){return d.techs[t].taxa===100&&d.techs[t].total>=5;}).map(function(t){return'<div class="rec-card" style="--accent-color:'+d.techs[t].color+'"><div class="rec-title">🟢 '+t+' — 100% de Resolução</div><div class="rec-body">'+d.techs[t].total+' chamados sem nenhuma expiração.</div></div>';}).join('');
+  document.getElementById('mont-recContent').innerHTML='<div class="insight-box"><h3>🎯 Resumo Executivo — Montagem</h3><p>O time de <strong style="color:var(--accent)">'+techs.length+' técnicos</strong> atendeu <strong style="color:var(--accent)">'+d.team_total+' chamados</strong> com taxa de <strong style="color:var(--accent3)">'+d.taxa_all+'%</strong> e tempo médio de <strong style="color:var(--accent4)">'+d.team_med+' min</strong>. Melhor aceite: <strong style="color:'+d.techs[fast].color+'">'+fast+' ('+d.techs[fast].aceite+'min)</strong>'+(d.techs[slow].aceite>30?' <strong style="color:var(--accent4)">'+slow+' com aceite elevado ('+d.techs[slow].aceite+'min).</strong>':'')+'</p></div><div class="grid-2"><div><div class="section-title">⚠ Pontos de Atenção</div>'+atencao+taxa98+baixoVol+semProb+'</div><div><div class="section-title">✅ Boas Práticas</div><div class="rec-card" style="--accent-color:'+d.techs[fast].color+'"><div class="rec-title">🟢 '+fast+' — Referência de Aceite ('+d.techs[fast].aceite+'min)</div><div class="rec-body">'+d.techs[fast].taxa+'% de resolução e menor tempo de aceite do time.</div></div>'+boas100+'<div class="rec-card" style="--accent-color:var(--accent)"><div class="rec-title">🔵 Integração PCI ↔ Montagem</div><div class="rec-body">Garantir alinhamento entre os times para cobertura cruzada em Testes e Processos que atendem Montagem.</div></div></div></div>';
 }
 
-// --- Navegação ---
-function montShowPage(id, event) {
-  document.querySelectorAll('#mont-wrapper .page').forEach(function(p){ p.classList.remove('active'); });
-  document.querySelectorAll('#nav-mont .nav-tab').forEach(function(t){ t.classList.remove('active'); });
+function montShowPage(id,event){
+  document.querySelectorAll('#mont-wrapper .page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('#nav-mont .nav-tab').forEach(function(t){t.classList.remove('active');});
   document.getElementById(id).classList.add('active');
-  if (event && event.target) event.target.classList.add('active');
-  if (id==='mont-techs') {
-    montBuildSelector();
-    if (!montCurrentTech && MONT_TECHS.length) {
-      montCurrentTech = MONT_TECHS[0];
-      var btn = document.querySelector('#mont-techSelector .tech-btn');
-      if (btn) btn.classList.add('active');
-      montRenderTechDetail(montCurrentTech);
-    }
-  }
-  if (id==='mont-tempo'       && !montPageInited.tempo)  { initMontTempo();   montPageInited.tempo=true; }
-  if (id==='mont-distribuicao' && !montPageInited.distrib){ initMontDistrib(); montPageInited.distrib=true; }
-  if (id==='mont-recomendacoes'&& !montPageInited.rec)   { buildMontRec();    montPageInited.rec=true; }
+  if(event&&event.target)event.target.classList.add('active');
+  if(id==='mont-techs'){montBuildSelector();if(!montCurrentTech&&MONT_TECHS.length){montCurrentTech=MONT_TECHS[0];var btn=document.querySelector('#mont-techSelector .tech-btn');if(btn)btn.classList.add('active');montRenderTechDetail(montCurrentTech);}}
+  if(id==='mont-tempo'&&!montPageInited.tempo){initMontTempo();montPageInited.tempo=true;}
+  if(id==='mont-distribuicao'&&!montPageInited.distrib){initMontDistrib();montPageInited.distrib=true;}
+  if(id==='mont-recomendacoes'&&!montPageInited.rec){buildMontRec();montPageInited.rec=true;}
 }
 
-// ===== IMPORTAR PLANILHA =====
+// =========================================================================
+// IMPORTAR PLANILHA — versão única (corrigida)
+// Processa PCI + Montagem de uma só vez
+// =========================================================================
 function importFile(event) {
   var file=event.target.files[0]; if(!file)return;
-  var modal=document.getElementById('impModal');
-  var fill=document.getElementById('impFill');
-  var msg=document.getElementById('impMsg');
+  var modal=document.getElementById('impModal'),fill=document.getElementById('impFill'),msg=document.getElementById('impMsg');
   modal.classList.add('show'); msg.textContent='Lendo arquivo Excel...'; fill.style.width='20%';
   var reader=new FileReader();
   reader.onload=function(e){
     try{
-      fill.style.width='50%'; msg.textContent='Processando dados...';
+      fill.style.width='40%'; msg.textContent='Processando dados...';
       var wb=XLSX.read(e.target.result,{type:'array'});
       var ws=wb.Sheets[wb.SheetNames[0]];
       var rows=XLSX.utils.sheet_to_json(ws,{defval:''});
-      fill.style.width='80%'; msg.textContent='Recalculando métricas...';
-      var montRows=rows.filter(function(r){
-        var sup=r['Área Suporte']||'';
-        var sol=r['Área Solicitante']||'';
-        var tec=r['Técnico']||'';
-        return (sup==='Processos'||sup==='Testes') && sol==='Montagem' && MONT_TECHS_ORDER.indexOf(tec)>=0;
-      });
-      if(!montRows.length){msg.textContent='❌ Nenhum dado de Montagem encontrado.';return;}
-      var newMont=recomputeMont(montRows);
-      Object.assign(MD,newMont);
+
+      // ── PCI ──────────────────────────────────────────────────────────
+      fill.style.width='60%'; msg.textContent='Calculando PCI...';
+      var pciRows=rows.filter(function(r){var sup=r['Área Suporte']||'';return sup==='Processos'||sup==='Testes';});
+      if(pciRows.length>0){
+        var newPci=recomputePci(pciRows);
+        Object.assign(pciData,newPci);
+        pciMonthFilter='all';
+        chartsInited={overview:false,tempo:false,distribuicao:false};
+        Object.keys(pciChartInstances).forEach(function(k){if(pciChartInstances[k])pciChartInstances[k].destroy();delete pciChartInstances[k];});
+        document.getElementById('techDetail').innerHTML='';
+        buildPciMonthFilter(); initOverviewCharts(); updatePciTechCards();
+      }
+
+      // ── Montagem ─────────────────────────────────────────────────────
+      fill.style.width='80%'; msg.textContent='Calculando Montagem...';
+      var montRows=rows.filter(function(r){var sup=r['Área Suporte']||'';var sol=r['Área Solicitante']||'';var tec=r['Técnico']||'';return(sup==='Processos'||sup==='Testes')&&sol==='Montagem'&&MONT_TECHS_ORDER.indexOf(tec)>=0;});
+      if(montRows.length>0){
+        var newMont=recomputeMont(montRows);
+        Object.assign(MD,newMont);
+        montInited=false;montPageInited={};montCurrentTech=null;montMonthFilter='all';
+        Object.keys(montCharts).forEach(function(k){if(montCharts[k])montCharts[k].destroy();delete montCharts[k];});
+        if(currentArea==='mont'){initMontagem();montInited=true;}
+      }
+
       fill.style.width='100%';
-      msg.textContent='✅ Atualizado! '+rows.length+' chamados, '+montRows.length+' de Montagem.';
-      montInited=false; montPageInited={}; montCurrentTech=null; montMonthFilter='all';
-      Object.keys(montCharts).forEach(function(k){if(montCharts[k])montCharts[k].destroy();delete montCharts[k];});
-      if(currentArea==='mont'){initMontagem();montInited=true;}
+      msg.textContent='✅ Atualizado! '+rows.length+' chamados — PCI: '+pciRows.length+' | Montagem: '+montRows.length;
+      updateHeader(currentArea);
       var ok=document.getElementById('importOk');
-      ok.style.display='inline'; setTimeout(function(){ok.style.display='none';},4000);
+      ok.style.display='inline';setTimeout(function(){ok.style.display='none';},4000);
     }catch(err){msg.textContent='❌ Erro: '+err.message;console.error(err);}
   };
   reader.readAsArrayBuffer(file); event.target.value='';
@@ -2112,21 +996,9 @@ function recomputeMont(rows){
     var sup=r['Área Suporte']||'';if(sup)td.suporte[sup]=(td.suporte[sup]||0)+1;
     var sol=r['Área Solicitante']||'';if(sol)td.areas[sol]=(td.areas[sol]||0)+1;
     var h=null,dw=null,mes=null,sem=null;
-    try{
-      var ds=r['Data Abertura']||'';var dd;
-      if(typeof ds==='string'&&ds.indexOf('/')>=0){var p=ds.split('/');dd=new Date(p[2]+'-'+p[1]+'-'+p[0]);}
-      else if(typeof ds==='number'){dd=new Date(Math.round((ds-25569)*86400*1000));}
-      else dd=new Date(ds);
-      if(!isNaN(dd)){
-        var dw2=dd.getDay();dw=dw2===0?6:dw2-1;
-        mes=dd.getFullYear()+'-'+String(dd.getMonth()+1).padStart(2,'0');allMonths.add(mes);
-        var tmp=new Date(dd);tmp.setHours(0,0,0,0);tmp.setDate(tmp.getDate()+3-(tmp.getDay()+6)%7);
-        var w1=new Date(tmp.getFullYear(),0,4);sem=1+Math.round(((tmp-w1)/86400000-3+(w1.getDay()+6)%7)/7);allWeeks.add(sem);
-      }
-    }catch(ex){}
+    try{var ds=r['Data Abertura']||'';var dd;if(typeof ds==='string'&&ds.indexOf('/')>=0){var p=ds.split('/');dd=new Date(p[2]+'-'+p[1]+'-'+p[0]);}else if(typeof ds==='number'){dd=new Date(Math.round((ds-25569)*86400*1000));}else dd=new Date(ds);if(!isNaN(dd)){var dw2=dd.getDay();dw=dw2===0?6:dw2-1;mes=dd.getFullYear()+'-'+String(dd.getMonth()+1).padStart(2,'0');allMonths.add(mes);var tmp=new Date(dd);tmp.setHours(0,0,0,0);tmp.setDate(tmp.getDate()+3-(tmp.getDay()+6)%7);var w1=new Date(tmp.getFullYear(),0,4);sem=1+Math.round(((tmp-w1)/86400000-3+(w1.getDay()+6)%7)/7);allWeeks.add(sem);}}catch(ex){}
     var ts=r['Hora Abertura']||'';if(typeof ts==='string'&&ts.indexOf(':')>=0)h=parseInt(ts.split(':')[0]);
-    if(mes)td.monthly[mes]=(td.monthly[mes]||0)+1;
-    if(sem)td.weekly[sem]=(td.weekly[sem]||0)+1;
+    if(mes)td.monthly[mes]=(td.monthly[mes]||0)+1;if(sem)td.weekly[sem]=(td.weekly[sem]||0)+1;
     if(h!==null){if(h>=6&&h<=13)td.shifts.T1++;else if(h>=14&&h<=21)td.shifts.T2++;else td.shifts.T3++;td.hm[h]=(td.hm[h]||0)+1;}
     if(dw!==null)td.dow[dw]++;
     var ac=pn(r['Tempo Abertura→Aceite (min)']||r['Tempo Abertura->Aceite (min)']);
@@ -2136,21 +1008,83 @@ function recomputeMont(rows){
   });
   var CL=['#00c8ff','#38e08c','#ffc300','#ff5f40','#c97bff'];
   var techs={};
-  MONT_TECHS_ORDER.forEach(function(t,i){
-    if(!tm[t])return;var td=tm[t];
-    techs[t]=Object.assign({},td,{taxa:td.total>0?Math.round(td.fin/td.total*1000)/10:0,aceite:med(td.aV),resolucao:med(td.rV),total_t:med(td.tV),color:CL[i]});
-    delete techs[t].aV;delete techs[t].rV;delete techs[t].tV;
-  });
+  MONT_TECHS_ORDER.forEach(function(t,i){if(!tm[t])return;var td=tm[t];techs[t]=Object.assign({},td,{taxa:td.total>0?Math.round(td.fin/td.total*1000)/10:0,aceite:med(td.aV),resolucao:med(td.rV),total_t:med(td.tV),color:CL[i]});delete techs[t].aV;delete techs[t].rV;delete techs[t].tV;});
   var allTot=rows.map(function(r){return pn(r['Tempo Total (min)']);}).filter(function(v){return v!==null;});
   var fin=rows.filter(function(r){return r['Status Final']==='Finalizado';}).length;
   var aDist={};rows.forEach(function(r){var s=r['Área Suporte']||'';if(s)aDist[s]=(aDist[s]||0)+1;});
-  var wAll={};rows.forEach(function(r){
-    try{var ds=r['Data Abertura']||'';var dd;if(typeof ds==='string'&&ds.indexOf('/')>=0){var p=ds.split('/');dd=new Date(p[2]+'-'+p[1]+'-'+p[0]);}else if(typeof ds==='number'){dd=new Date(Math.round((ds-25569)*86400*1000));}else dd=new Date(ds);
-    if(!isNaN(dd)){var tmp=new Date(dd);tmp.setHours(0,0,0,0);tmp.setDate(tmp.getDate()+3-(tmp.getDay()+6)%7);var w1=new Date(tmp.getFullYear(),0,4);var wk=1+Math.round(((tmp-w1)/86400000-3+(w1.getDay()+6)%7)/7);wAll[wk]=(wAll[wk]||0)+1;}}catch(ex){}
-  });
+  var wAll={};rows.forEach(function(r){try{var ds=r['Data Abertura']||'';var dd;if(typeof ds==='string'&&ds.indexOf('/')>=0){var p=ds.split('/');dd=new Date(p[2]+'-'+p[1]+'-'+p[0]);}else if(typeof ds==='number'){dd=new Date(Math.round((ds-25569)*86400*1000));}else dd=new Date(ds);if(!isNaN(dd)){var tmp=new Date(dd);tmp.setHours(0,0,0,0);tmp.setDate(tmp.getDate()+3-(tmp.getDay()+6)%7);var w1=new Date(tmp.getFullYear(),0,4);var wk=1+Math.round(((tmp-w1)/86400000-3+(w1.getDay()+6)%7)/7);wAll[wk]=(wAll[wk]||0)+1;}}catch(ex){}});
   return{techs:techs,team_total:rows.length,taxa_all:rows.length>0?Math.round(fin/rows.length*1000)/10:0,team_med:med(allTot),area_dist:aDist,weekly_all:wAll,all_months:[...allMonths].sort(),all_weeks:[...allWeeks].sort(function(a,b){return a-b;})};
 }
 
+// =========================================================================
+// FETCH DASHBOARD ONLINE — PATCH 3
+// Busca dados direto do servidor do bot sem precisar importar planilha
+// =========================================================================
+var DASHBOARD_API = (function(){
+  var origin = window.location.origin;
+  if(origin.startsWith('file://')||origin==='null'){
+    // Aberto como arquivo local: altere para o IP do servidor do bot se necessário
+    return 'http://localhost:7071';
+  }
+  return origin; // Bot servindo o HTML pelo /public — usa mesmo host
+})();
+
+function fetchDashboard(){
+  var btn=document.getElementById('btnAtualizar');
+  var st=document.getElementById('fetchStatus');
+  if(btn){btn.disabled=true;btn.textContent='⏳ Buscando...';}
+  if(st){st.textContent='';}
+
+  fetch(DASHBOARD_API+'/api/dashboard')
+    .then(function(res){if(!res.ok)throw new Error('HTTP '+res.status);return res.json();})
+    .then(function(rows){
+      if(!rows||!rows.length)throw new Error('Nenhum dado retornado');
+
+      // ── PCI ──────────────────────────────────────────────────────────
+      var pciRows=rows.filter(function(r){var sup=r['Área Suporte']||'';return sup==='Processos'||sup==='Testes';});
+      if(pciRows.length>0){
+        var newPci=recomputePci(pciRows);
+        Object.assign(pciData,newPci);
+        pciMonthFilter='all';
+        chartsInited={overview:false,tempo:false,distribuicao:false};
+        Object.keys(pciChartInstances).forEach(function(k){if(pciChartInstances[k])pciChartInstances[k].destroy();delete pciChartInstances[k];});
+        document.getElementById('techDetail').innerHTML='';
+        buildPciMonthFilter();initOverviewCharts();updatePciTechCards();
+      }
+
+      // ── Montagem ─────────────────────────────────────────────────────
+      var montRows=rows.filter(function(r){var sup=r['Área Suporte']||'';var sol=r['Área Solicitante']||'';var tec=r['Técnico']||'';return(sup==='Processos'||sup==='Testes')&&sol==='Montagem'&&MONT_TECHS_ORDER.indexOf(tec)>=0;});
+      if(montRows.length>0){
+        var newMont=recomputeMont(montRows);
+        Object.assign(MD,newMont);
+        montInited=false;montPageInited={};montCurrentTech=null;montMonthFilter='all';
+        Object.keys(montCharts).forEach(function(k){if(montCharts[k])montCharts[k].destroy();delete montCharts[k];});
+        if(currentArea==='mont'){initMontagem();montInited=true;}
+      }
+
+      updateHeader(currentArea);
+      if(st)st.textContent='✅ '+rows.length+' chamados — PCI: '+pciRows.length+' | Mont: '+montRows.length;
+      if(btn){btn.disabled=false;btn.textContent='🔄 Atualizar Online';}
+      var ok=document.getElementById('importOk');
+      if(ok){ok.style.display='inline';setTimeout(function(){ok.style.display='none';},4000);}
+    })
+    .catch(function(err){
+      if(st)st.textContent='❌ '+err.message+' — verifique se o bot está rodando';
+      if(btn){btn.disabled=false;btn.textContent='🔄 Atualizar Online';}
+      console.error('fetchDashboard error:',err);
+    });
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────
+window.addEventListener('load',function(){
+  setTimeout(function(){
+    document.getElementById('loading').style.opacity='0';
+    setTimeout(function(){document.getElementById('loading').style.display='none';},400);
+    buildPciMonthFilter();
+    initOverviewCharts();
+    updateHeader('pci');
+  },1200);
+});
 </script>
 </body>
 </html>
