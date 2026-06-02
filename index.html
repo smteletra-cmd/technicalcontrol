@@ -291,7 +291,7 @@
   </div>
   <div class="grid-3">
     <div class="chart-wrap"><div class="chart-title">📊 Chamados por Técnico</div><div class="chart-subtitle">Participação no volume total</div><canvas id="chartTechVolume" height="200"></canvas></div>
-    <div class="chart-wrap"><div class="chart-title">⚡ Tempo Médio Total (min) por Técnico</div><div class="chart-subtitle">Mediana — aceite + resolução</div><canvas id="chartTechTime" height="200"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">⚡ Tempo Médio Total (min) por Técnico</div><div class="chart-subtitle">Mediana — aceite + resolução | Exclui Engenharia</div><canvas id="chartTechTime" height="200"></canvas></div>
     <div class="chart-wrap"><div class="chart-title">🎯 Taxa de Resolução (%)</div><div class="chart-subtitle">Chamados finalizados vs expirados</div><canvas id="chartResolucao" height="200"></canvas></div>
   </div>
 </div>
@@ -318,10 +318,10 @@
     <div class="card" style="--accent-color:var(--accent2)"><div class="card-title">MAIOR TEMPO TOTAL</div><div class="card-value">96 min</div><div class="card-sub">Ricardo — mediana total</div><span class="badge badge-yellow">📋 COMPLEXIDADE ALTA</span></div>
   </div>
   <div class="grid-2">
-    <div class="chart-wrap"><div class="chart-title">📊 Tempo de Aceite por Técnico (min)</div><div class="chart-subtitle">Mediana — do chamado ao primeiro aceite</div><canvas id="chartAceite" height="240"></canvas></div>
-    <div class="chart-wrap"><div class="chart-title">🔧 Tempo de Resolução por Técnico (min)</div><div class="chart-subtitle">Mediana — do aceite ao fechamento</div><canvas id="chartResolTime" height="240"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">📊 Tempo de Aceite por Técnico (min)</div><div class="chart-subtitle">Mediana — do chamado ao primeiro aceite | Exclui Engenharia</div><canvas id="chartAceite" height="240"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">🔧 Tempo de Resolução por Técnico (min)</div><div class="chart-subtitle">Mediana — do aceite ao fechamento | Exclui Engenharia</div><canvas id="chartResolTime" height="240"></canvas></div>
   </div>
-  <div class="chart-wrap"><div class="chart-title">📉 Comparativo Completo de Tempos — Aceite | Resolução | Total</div><div class="chart-subtitle">Valores em minutos (mediana) | Meta aceite ≤ 15min | Meta total ≤ 60min</div><canvas id="chartComparativo" height="200"></canvas></div>
+  <div class="chart-wrap"><div class="chart-title">📉 Comparativo Completo de Tempos — Aceite | Resolução | Total</div><div class="chart-subtitle">Valores em minutos (mediana) | Exclui Engenharia | Meta aceite ≤ 15min | Meta total ≤ 60min</div><canvas id="chartComparativo" height="200"></canvas></div>
   <div class="chart-wrap">
     <div class="chart-title">🏆 Ranking de Eficiência</div><div class="chart-subtitle">Pontuação combinada: volume × resolução ÷ tempo total</div>
     <table class="cmp-table"><thead><tr><th>RANK</th><th>TÉCNICO</th><th>CHAMADOS</th><th>RESOLUÇÃO</th><th>ACEITE MED.</th><th>RESOL. MED.</th><th>TOTAL MED.</th><th>SCORE</th></tr></thead><tbody id="rankingBody"></tbody></table>
@@ -773,7 +773,11 @@ function recomputePci(rows) {
     const ac=pn(r['Tempo Abertura→Aceite (min)']||r['Tempo Abertura->Aceite (min)']);
     const re=pn(r['Tempo Aceite→Finalização (min)']||r['Tempo Aceite->Finalizacao (min)']);
     const to=pn(r['Tempo Total (min)']);
-    if(ac!==null)td.aV.push(ac); if(re!==null)td.rV.push(re); if(to!==null)td.tV.push(to);
+    // SLA/tempos: excluir Engenharia (chamados mais complexos distorcem a mediana)
+    // Volume e taxa continuam contando todos os chamados normalmente
+    const solicitante = r['Área Solicitante']||'';
+    const contaParaSLA = solicitante !== 'Engenharia';
+    if(contaParaSLA){ if(ac!==null)td.aV.push(ac); if(re!==null)td.rV.push(re); if(to!==null)td.tV.push(to); }
   });
   const techs={};
   PCI_TECHS_ORDER.forEach(function(t,i){
