@@ -137,6 +137,7 @@
   .mf-btn.active { border-color:var(--accent3); color:var(--accent3); background:rgba(56,224,140,0.1); }
   .chart-box { position:relative; width:100%; height:200px; }
   .chart-box canvas { position:absolute; inset:0; }
+  .sla-note { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--accent4); background:rgba(255,195,0,0.08); border:1px solid rgba(255,195,0,0.2); border-radius:6px; padding:4px 10px; display:inline-block; margin-bottom:12px; }
   @media (max-width:768px) {
     header { flex-direction:column; gap:16px; padding:16px 16px 12px; }
     .header-right { flex-wrap:wrap; gap:10px; width:100%; }
@@ -186,14 +187,10 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
-     BARRA DE FILTROS / AÇÕES
-════════════════════════════════════════════════════════════════════════ -->
 <div class="area-filter-bar">
   <span class="area-filter-label">ÁREA:</span>
   <button class="area-btn active-pci" id="btnPCI"  onclick="switchArea('pci')">🔵 PCI</button>
   <button class="area-btn"            id="btnMont" onclick="switchArea('mont')">🟢 Montagem</button>
-  <!-- PATCH 1 ► botão atualizar online -->
   <button class="import-btn" id="btnAtualizar" onclick="fetchDashboard()"
           style="border-color:var(--accent3);color:var(--accent3);">
     🔄 Atualizar Online
@@ -217,9 +214,7 @@
   </div>
 </header>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
-     ÁREA PCI
-════════════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════ ÁREA PCI ════════════════════════════════ -->
 <div id="pci-wrapper">
 <nav class="nav-tabs" id="nav-pci">
   <div class="nav-tab active" onclick="showPage('overview',event)">📊 Visão Geral</div>
@@ -292,7 +287,7 @@
   </div>
   <div class="grid-3">
     <div class="chart-wrap"><div class="chart-title">📊 Chamados por Técnico</div><div class="chart-subtitle">Participação no volume total</div><canvas id="chartTechVolume" height="200"></canvas></div>
-    <div class="chart-wrap"><div class="chart-title">⚡ Tempo Médio Total (min) por Técnico</div><div class="chart-subtitle">Mediana — aceite + resolução | Exclui Engenharia</div><canvas id="chartTechTime" height="200"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">⚡ Tempo Médio Total (min) por Técnico</div><div class="chart-subtitle">Mediana — apenas SMT e PTH (produção direta)</div><canvas id="chartTechTime" height="200"></canvas></div>
     <div class="chart-wrap"><div class="chart-title">🎯 Taxa de Resolução (%)</div><div class="chart-subtitle">Chamados finalizados vs expirados</div><canvas id="chartResolucao" height="200"></canvas></div>
   </div>
 </div>
@@ -312,6 +307,7 @@
 <!-- PAGE: TEMPOS -->
 <div class="page" id="page-tempo">
   <div class="section-title">Análise de SLA e Tempos de Atendimento</div>
+  <div class="sla-note">⚠ SLA calculado apenas para chamados de produção direta: <strong>SMT</strong> e <strong>PTH</strong>. Engenharia, Check SMT e Processos são excluídos por maior complexidade.</div>
   <div class="grid-4">
     <div class="card" style="--accent-color:var(--iago)"><div class="card-title">MELHOR TEMPO ACEITE</div><div class="card-value">2 min</div><div class="card-sub">Iago — mediana</div><span class="badge badge-green">🏆 LÍDER</span></div>
     <div class="card" style="--accent-color:var(--iago)"><div class="card-title">MELHOR TEMPO TOTAL</div><div class="card-value">14 min</div><div class="card-sub">Iago — mediana total</div><span class="badge badge-green">🏆 MAIS RÁPIDO</span></div>
@@ -319,12 +315,12 @@
     <div class="card" style="--accent-color:var(--accent2)"><div class="card-title">MAIOR TEMPO TOTAL</div><div class="card-value">96 min</div><div class="card-sub">Ricardo — mediana total</div><span class="badge badge-yellow">📋 COMPLEXIDADE ALTA</span></div>
   </div>
   <div class="grid-2">
-    <div class="chart-wrap"><div class="chart-title">📊 Tempo de Aceite por Técnico (min)</div><div class="chart-subtitle">Mediana — do chamado ao primeiro aceite | Exclui Engenharia</div><canvas id="chartAceite" height="240"></canvas></div>
-    <div class="chart-wrap"><div class="chart-title">🔧 Tempo de Resolução por Técnico (min)</div><div class="chart-subtitle">Mediana — do aceite ao fechamento | Exclui Engenharia</div><canvas id="chartResolTime" height="240"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">📊 Tempo de Aceite por Técnico (min)</div><div class="chart-subtitle">Mediana — SMT e PTH apenas | Meta ≤ 15min</div><canvas id="chartAceite" height="240"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">🔧 Tempo de Resolução por Técnico (min)</div><div class="chart-subtitle">Mediana — SMT e PTH apenas</div><canvas id="chartResolTime" height="240"></canvas></div>
   </div>
-  <div class="chart-wrap"><div class="chart-title">📉 Comparativo Completo de Tempos — Aceite | Resolução | Total</div><div class="chart-subtitle">Valores em minutos (mediana) | Exclui Engenharia | Meta aceite ≤ 15min | Meta total ≤ 60min</div><canvas id="chartComparativo" height="200"></canvas></div>
+  <div class="chart-wrap"><div class="chart-title">📉 Comparativo Completo de Tempos — Aceite | Resolução | Total</div><div class="chart-subtitle">Valores em minutos (mediana) | SMT e PTH apenas | Meta aceite ≤ 15min | Meta total ≤ 60min</div><canvas id="chartComparativo" height="200"></canvas></div>
   <div class="chart-wrap">
-    <div class="chart-title">🏆 Ranking de Eficiência</div><div class="chart-subtitle">Pontuação combinada: volume × resolução ÷ tempo total</div>
+    <div class="chart-title">🏆 Ranking de Eficiência</div><div class="chart-subtitle">Pontuação combinada: volume × resolução ÷ tempo total (SMT+PTH)</div>
     <table class="cmp-table"><thead><tr><th>RANK</th><th>TÉCNICO</th><th>CHAMADOS</th><th>RESOLUÇÃO</th><th>ACEITE MED.</th><th>RESOL. MED.</th><th>TOTAL MED.</th><th>SCORE</th></tr></thead><tbody id="rankingBody"></tbody></table>
   </div>
 </div>
@@ -388,17 +384,13 @@
     </tbody></table>
   </div>
 </div>
+
 <!-- PAGE: ANÁLISE PCI -->
 <div class="page" id="page-analise">
   <div class="section-title">Análise de Problemas — SMT &amp; PTH</div>
-
-  <!-- Filtro de mês -->
   <div id="an-month-bar" class="month-filter-bar" style="margin-bottom:24px;"></div>
-
-  <!-- SMT -->
   <div class="section-title" style="font-size:12px">🔵 SMT</div>
   <div class="grid-2" style="margin-bottom:24px;">
-
     <div class="chart-wrap" style="padding:0;overflow:hidden;">
       <div style="padding:16px 20px 8px;border-bottom:1px solid var(--border);">
         <div class="chart-title">Top 10 Problemas</div>
@@ -416,7 +408,6 @@
         <tbody id="an-smt-prob-body"></tbody>
       </table>
     </div>
-
     <div class="chart-wrap" style="padding:0;overflow:hidden;">
       <div style="padding:16px 20px 8px;border-bottom:1px solid var(--border);">
         <div class="chart-title">Top 10 Máquinas / Locais</div>
@@ -426,13 +417,9 @@
         <tbody id="an-smt-maq-body"></tbody>
       </table>
     </div>
-
   </div>
-
-  <!-- PTH -->
   <div class="section-title" style="font-size:12px">🟢 PTH</div>
   <div class="grid-2">
-
     <div class="chart-wrap" style="padding:0;overflow:hidden;">
       <div style="padding:16px 20px 8px;border-bottom:1px solid var(--border);">
         <div class="chart-title">Top 10 Problemas</div>
@@ -450,7 +437,6 @@
         <tbody id="an-pth-prob-body"></tbody>
       </table>
     </div>
-
     <div class="chart-wrap" style="padding:0;overflow:hidden;">
       <div style="padding:16px 20px 8px;border-bottom:1px solid var(--border);">
         <div class="chart-title">Top 10 Máquinas / Locais</div>
@@ -460,7 +446,6 @@
         <tbody id="an-pth-maq-body"></tbody>
       </table>
     </div>
-
   </div>
 </div>
 
@@ -489,9 +474,7 @@
 </div>
 </div><!-- /pci-wrapper -->
 
-<!-- ═══════════════════════════════════════════════════════════════════════
-     ÁREA MONTAGEM
-════════════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════ ÁREA MONTAGEM ════════════════════════════════ -->
 <div id="mont-wrapper" style="display:none">
 <nav class="nav-tabs" id="nav-mont" style="display:none">
   <div class="nav-tab active" onclick="montShowPage('mont-overview',event)">📊 Visão Geral</div>
@@ -553,7 +536,6 @@
   <div class="section-title">Recomendações — Montagem</div>
   <div id="mont-recContent"></div>
 </div>
-<!-- PAGE: ABERTOS MONTAGEM -->
 <div class="page" id="mont-abertos">
   <div class="section-title">Chamados em Aberto — Montagem</div>
   <div style="display:flex;gap:12px;align-items:center;margin-bottom:20px;flex-wrap:wrap;">
@@ -582,18 +564,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 // =========================================================================
-// ESTRUTURA PCI — sem dados seed (tudo vem do banco via /api/dashboard)
+// CONSTANTES
 // =========================================================================
-const PCI_TECHS_ORDER = ['Vitor','Iago','Ricardo','Elciney','Giselly'];
-const PCI_COLORS = ['#00c8ff','#38e08c','#ffc300','#ff5f40','#c97bff'];
+const PCI_TECHS_ORDER  = ['Vitor','Iago','Ricardo','Elciney','Giselly'];
+const MONT_TECHS_ORDER = ['Dariany','Samuel','Danyel','Cassia','Johny'];
+const PCI_COLORS       = ['#00c8ff','#38e08c','#ffc300','#ff5f40','#c97bff'];
+
+// Áreas que entram no SLA/tempo para PCI (apenas produção direta)
+// Engenharia, Check SMT e Processos têm maior complexidade e são excluídos
+const PCI_SLA_AREAS = ['SMT', 'PTH'];
 
 let pciData = {
   techs: {},
   team_total: 0, taxa_all: 0, team_med: 0, total_geral: 0,
-  all_months: [], all_weeks: []
+  all_months: [], all_weeks: [],
+  weekMonthMap: {}   // FIX 2: mapeia semana ISO → mês 'YYYY-MM'
 };
 
-const MES_LABELS = {'2026-01':'Jan','2026-02':'Fev','2026-03':'Mar','2026-04':'Abr','2026-05':'Mai','2026-06':'Jun','2026-07':'Jul','2026-08':'Ago','2026-09':'Set','2026-10':'Out','2026-11':'Nov','2026-12':'Dez'};
+const MES_LABELS = {
+  '2026-01':'Jan','2026-02':'Fev','2026-03':'Mar','2026-04':'Abr',
+  '2026-05':'Mai','2026-06':'Jun','2026-07':'Jul','2026-08':'Ago',
+  '2026-09':'Set','2026-10':'Out','2026-11':'Nov','2026-12':'Dez'
+};
 let pciMonthFilter = 'all';
 let pciChartInstances = {};
 
@@ -611,7 +603,7 @@ const CHART_DEFAULTS = {
   plugins:{ legend:{ labels:{ color:'#7a9bb5', font:{family:'IBM Plex Mono',size:10}, boxWidth:12 } } }
 };
 
-// ── Header ────────────────────────────────────────────────────────────────
+// ── Header ──────────────────────────────────────────────────────────────
 function updateHeader(area) {
   const d = area === 'pci' ? pciData : MONT_DATA;
   const techCount = area === 'pci'
@@ -632,7 +624,7 @@ function updateHeader(area) {
   }
 }
 
-// ── Filtro de mês PCI ─────────────────────────────────────────────────────
+// ── Filtro de mês PCI ────────────────────────────────────────────────────
 function buildPciMonthFilter() {
   let bar = document.getElementById('pci-month-filter');
   if (!bar) {
@@ -685,33 +677,87 @@ function updatePciTechCards() {
   });
 }
 
-// ── Overview charts ───────────────────────────────────────────────────────
+// ── Overview charts ──────────────────────────────────────────────────────
 function initOverviewCharts() {
   const activeTechs = getPciActiveTechs();
   const months = pciData.all_months;
   const weeks  = pciData.all_weeks;
+
   let chartLabels, chartDatasets;
+
   if (pciMonthFilter === 'all') {
-    chartLabels = weeks.map(w => `S${w}`);
-    chartDatasets = activeTechs.map(t => ({ label:t, data:weeks.map(w => pciData.techs[t].weekly[w]||0), borderColor:pciData.techs[t].color, backgroundColor:pciData.techs[t].color+'22', borderWidth:2, pointRadius:3, tension:0.4, fill:false }));
+    // SEM filtro: mostrar semanas ISO normalmente
+    chartLabels   = weeks.map(w => `S${w}`);
+    chartDatasets = activeTechs.map(t => ({
+      label: t,
+      data: weeks.map(w => pciData.techs[t].weekly[w]||0),
+      borderColor: pciData.techs[t].color,
+      backgroundColor: pciData.techs[t].color+'22',
+      borderWidth: 2, pointRadius: 3, tension: 0.4, fill: false
+    }));
   } else {
-    chartLabels = months.map(m => MES_LABELS[m]||m);
-    chartDatasets = activeTechs.map(t => ({ label:t, data:months.map(m => pciData.techs[t].monthly[m]||0), borderColor:pciData.techs[t].color, backgroundColor:pciData.techs[t].color+'22', borderWidth:2, pointRadius:3, tension:0.4, fill:false }));
+    // FIX 2: COM filtro de mês → mostrar apenas as SEMANAS do mês selecionado
+    const weeksInMonth = weeks.filter(w => pciData.weekMonthMap[w] === pciMonthFilter);
+    if (weeksInMonth.length > 0) {
+      chartLabels   = weeksInMonth.map(w => `S${w}`);
+      chartDatasets = activeTechs.map(t => ({
+        label: t,
+        data: weeksInMonth.map(w => pciData.techs[t].weekly[w]||0),
+        borderColor: pciData.techs[t].color,
+        backgroundColor: pciData.techs[t].color+'22',
+        borderWidth: 2, pointRadius: 3, tension: 0.4, fill: false
+      }));
+    } else {
+      // Fallback: se não há mapeamento semana→mês, usar dias do mês agregados
+      chartLabels   = [MES_LABELS[pciMonthFilter] || pciMonthFilter];
+      chartDatasets = activeTechs.map(t => ({
+        label: t,
+        data: [pciData.techs[t].monthly[pciMonthFilter]||0],
+        borderColor: pciData.techs[t].color,
+        backgroundColor: pciData.techs[t].color+'22',
+        borderWidth: 2, pointRadius: 6, tension: 0.4, fill: false
+      }));
+    }
   }
-  pciChart('chartWeekly', { type:'line', data:{ labels:chartLabels, datasets:chartDatasets }, options:{...CHART_DEFAULTS} });
+
+  pciChart('chartWeekly', {
+    type:'line',
+    data:{ labels: chartLabels, datasets: chartDatasets },
+    options:{...CHART_DEFAULTS}
+  });
+
+  // Distribuição por área (proporcional ao filtro de mês)
   const areaTotals = {};
   activeTechs.forEach(t => {
     const ratio = pciMonthFilter === 'all' ? 1 : (getPciTotal(t) / (pciData.techs[t].total||1));
-    Object.entries(pciData.techs[t].areas).forEach(([a,v]) => { areaTotals[a] = (areaTotals[a]||0) + Math.round(v*ratio); });
+    Object.entries(pciData.techs[t].areas).forEach(([a,v]) => {
+      areaTotals[a] = (areaTotals[a]||0) + Math.round(v*ratio);
+    });
   });
-  pciChart('chartArea', { type:'doughnut', data:{ labels:Object.keys(areaTotals), datasets:[{ data:Object.values(areaTotals), backgroundColor:['#00c8ff99','#38e08c99','#ffc30099','#c97bff99','#ff5f4099','#ff9f4399'], borderColor:'#0d1520', borderWidth:3 }] }, options:{...CHART_DEFAULTS, cutout:'65%'} });
-  pciChart('chartTechVolume', { type:'bar', data:{ labels:activeTechs, datasets:[{ data:activeTechs.map(t => getPciTotal(t)), backgroundColor:activeTechs.map(t => pciData.techs[t].color+'cc'), borderRadius:6 }] }, options:{...CHART_DEFAULTS, plugins:{legend:{display:false}}, scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'}}}} });
-  pciChart('chartTechTime', { type:'bar', data:{ labels:activeTechs, datasets:[{ data:activeTechs.map(t => pciData.techs[t].total_t), backgroundColor:activeTechs.map(t => pciData.techs[t].color+'cc'), borderRadius:6 }] }, options:{...CHART_DEFAULTS, plugins:{legend:{display:false}}, scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'}}}} });
+  pciChart('chartArea', {
+    type:'doughnut',
+    data:{ labels:Object.keys(areaTotals), datasets:[{ data:Object.values(areaTotals), backgroundColor:['#00c8ff99','#38e08c99','#ffc30099','#c97bff99','#ff5f4099','#ff9f4399'], borderColor:'#0d1520', borderWidth:3 }] },
+    options:{...CHART_DEFAULTS, cutout:'65%'}
+  });
+  pciChart('chartTechVolume', {
+    type:'bar',
+    data:{ labels:activeTechs, datasets:[{ data:activeTechs.map(t => getPciTotal(t)), backgroundColor:activeTechs.map(t => pciData.techs[t].color+'cc'), borderRadius:6 }] },
+    options:{...CHART_DEFAULTS, plugins:{legend:{display:false}}, scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'}}}}
+  });
+  pciChart('chartTechTime', {
+    type:'bar',
+    data:{ labels:activeTechs, datasets:[{ data:activeTechs.map(t => pciData.techs[t].total_t), backgroundColor:activeTechs.map(t => pciData.techs[t].color+'cc'), borderRadius:6 }] },
+    options:{...CHART_DEFAULTS, plugins:{legend:{display:false}}, scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{ticks:{color:'#7a9bb5'}}}}
+  });
   const minTaxa = Math.min(...activeTechs.map(t => pciData.techs[t].taxa));
-  pciChart('chartResolucao', { type:'bar', data:{ labels:activeTechs, datasets:[{ data:activeTechs.map(t => pciData.techs[t].taxa), backgroundColor:activeTechs.map(t => pciData.techs[t].color+'cc'), borderRadius:6 }] }, options:{...CHART_DEFAULTS, plugins:{legend:{display:false}}, scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{min:Math.max(80,minTaxa-5),max:101,ticks:{color:'#7a9bb5'}}}} });
+  pciChart('chartResolucao', {
+    type:'bar',
+    data:{ labels:activeTechs, datasets:[{ data:activeTechs.map(t => pciData.techs[t].taxa), backgroundColor:activeTechs.map(t => pciData.techs[t].color+'cc'), borderRadius:6 }] },
+    options:{...CHART_DEFAULTS, plugins:{legend:{display:false}}, scales:{x:{ticks:{color:'#7a9bb5',font:{family:'IBM Plex Mono',size:11}}},y:{min:Math.max(80,minTaxa-5),max:101,ticks:{color:'#7a9bb5'}}}}
+  });
 }
 
-// ── Tech detail ───────────────────────────────────────────────────────────
+// ── Tech detail ──────────────────────────────────────────────────────────
 let currentTech = 'Vitor';
 function switchTechDetail(tech, btn) {
   currentTech = tech;
@@ -727,8 +773,8 @@ function renderTechDetail(tech) {
     <div class="grid-4">
       <div class="card" style="--accent-color:${c}"><div class="card-title">TOTAL CHAMADOS</div><div class="card-value">${d.total}</div><div class="card-sub">Período completo</div></div>
       <div class="card" style="--accent-color:${c}"><div class="card-title">TAXA RESOLUÇÃO</div><div class="card-value">${d.taxa}%</div><span class="badge ${d.taxa===100?'badge-green':'badge-yellow'}">${d.taxa===100?'✅ PERFEITO':'⚠ ATENÇÃO'}</span></div>
-      <div class="card" style="--accent-color:${c}"><div class="card-title">TEMPO ACEITE MED.</div><div class="card-value">${d.aceite}m</div><span class="badge ${d.aceite<=15?'badge-green':d.aceite<=30?'badge-yellow':'badge-red'}">${d.aceite<=15?'✅ OK':d.aceite<=30?'⚠ REGULAR':'❌ ALTO'}</span></div>
-      <div class="card" style="--accent-color:${c}"><div class="card-title">TEMPO TOTAL MED.</div><div class="card-value">${d.total_t}m</div><span class="badge ${d.total_t<=30?'badge-green':d.total_t<=60?'badge-yellow':'badge-red'}">${d.total_t<=30?'✅ EXCELENTE':d.total_t<=60?'⚠ BOM':'📋 COMPLEXO'}</span></div>
+      <div class="card" style="--accent-color:${c}"><div class="card-title">ACEITE MED. (SMT+PTH)</div><div class="card-value">${d.aceite}m</div><span class="badge ${d.aceite<=15?'badge-green':d.aceite<=30?'badge-yellow':'badge-red'}">${d.aceite<=15?'✅ OK':d.aceite<=30?'⚠ REGULAR':'❌ ALTO'}</span></div>
+      <div class="card" style="--accent-color:${c}"><div class="card-title">TOTAL MED. (SMT+PTH)</div><div class="card-value">${d.total_t}m</div><span class="badge ${d.total_t<=30?'badge-green':d.total_t<=60?'badge-yellow':'badge-red'}">${d.total_t<=30?'✅ EXCELENTE':d.total_t<=60?'⚠ BOM':'📋 COMPLEXO'}</span></div>
     </div>
     <div class="grid-2">
       <div class="chart-wrap"><div class="chart-title">🏭 Áreas Atendidas</div><div class="chart-subtitle">Distribuição por área solicitante</div><div class="chart-box"><canvas id="techAreaChart"></canvas></div></div>
@@ -749,7 +795,7 @@ function renderTechDetail(tech) {
   }, 50);
 }
 
-// ── Tempos ────────────────────────────────────────────────────────────────
+// ── Tempos ───────────────────────────────────────────────────────────────
 function initTempoCharts() {
   const activeTechs = PCI_TECHS_ORDER.filter(t => pciData.techs[t]);
   new Chart(document.getElementById('chartAceite').getContext('2d'),{type:'bar',data:{labels:activeTechs,datasets:[{label:'Aceite (min)',data:activeTechs.map(t=>pciData.techs[t].aceite),backgroundColor:activeTechs.map(t=>pciData.techs[t].color+'cc'),borderRadius:6},{label:'Meta (15 min)',data:activeTechs.map(()=>15),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'},title:{display:true,text:'Minutos',color:'#7a9bb5'}}}}});
@@ -793,7 +839,7 @@ function initDistribCharts() {
   new Chart(document.getElementById('chartAreaTech').getContext('2d'),{type:'bar',data:{labels:allAreas,datasets:activeTechs.map(t=>({label:t,data:allAreas.map(a=>pciData.techs[t].areas[a]||0),backgroundColor:pciData.techs[t].color+'cc',stack:'s',borderRadius:2}))},options:{...CHART_DEFAULTS,scales:{x:{stacked:true,ticks:{color:'#7a9bb5'}},y:{stacked:true,ticks:{color:'#7a9bb5'}}}}});
 }
 
-// ── Navegação PCI ─────────────────────────────────────────────────────────
+// ── Navegação PCI ────────────────────────────────────────────────────────
 let chartsInited = { overview:false, tempo:false, distribuicao:false };
 
 function showPage(id, ev) {
@@ -817,19 +863,28 @@ function selectTech(t) {
   if(btn) switchTechDetail(t, btn);
 }
 
-// ── recomputePci ──────────────────────────────────────────────────────────
+// =========================================================================
+// recomputePci — FIX 1 + FIX 2 + FIX 3
+// =========================================================================
 function recomputePci(rows) {
   function pn(v){const n=parseFloat(v);return isNaN(n)?null:n;}
   function med(arr){if(!arr.length)return 0;const s=[...arr].sort((a,b)=>a-b);const m=Math.floor(s.length/2);return s.length%2?Math.round(s[m]*10)/10:Math.round((s[m-1]+s[m])/2*10)/10;}
   const dowKeys=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const allMonths=new Set(),allWeeks=new Set(),tm={};
+  const allMonths=new Set(), allWeeks=new Set(), tm={};
+  // FIX 2: mapa semana→mês
+  const weekMonthMap = {};
+
   rows.forEach(function(r){
-    const t=r['Técnico']||''; if(PCI_TECHS_ORDER.indexOf(t)<0)return;
+    const t=r['Técnico']||'';
+    // FIX 1: aceitar APENAS técnicos de PCI e rejeitar técnicos de Montagem
+    if(PCI_TECHS_ORDER.indexOf(t)<0 || MONT_TECHS_ORDER.indexOf(t)>=0) return;
+
     if(!tm[t])tm[t]={total:0,fin:0,exp:0,areas:{},monthly:{},weekly:{},shifts:{T1:0,T2:0,T3:0},dow:{},hm:{},causa:{'Técnico':0,Operacional:0},aV:[],rV:[],tV:[]};
     const td=tm[t]; td.total++;
     const sf=r['Status Final']||''; if(sf==='Finalizado')td.fin++; if(sf.indexOf('Expirado')===0)td.exp++;
     const cr=r['Causa Raiz']||''; if(cr==='Problema Técnico')td.causa['Técnico']++; else if(cr==='Erro Operacional')td.causa.Operacional++;
     const sol=r['Área Solicitante']||''; if(sol)td.areas[sol]=(td.areas[sol]||0)+1;
+
     let h=null,mes=null,sem=null;
     try{
       const ds=r['Data Abertura']||''; let dd;
@@ -841,32 +896,54 @@ function recomputePci(rows) {
         td.dow[dowKeys[dw]]=(td.dow[dowKeys[dw]]||0)+1;
         mes=dd.getFullYear()+'-'+String(dd.getMonth()+1).padStart(2,'0'); allMonths.add(mes);
         const tmp=new Date(dd); tmp.setHours(0,0,0,0); tmp.setDate(tmp.getDate()+3-(tmp.getDay()+6)%7);
-        const w1=new Date(tmp.getFullYear(),0,4); sem=1+Math.round(((tmp-w1)/86400000-3+(w1.getDay()+6)%7)/7); allWeeks.add(sem);
+        const w1=new Date(tmp.getFullYear(),0,4); sem=1+Math.round(((tmp-w1)/86400000-3+(w1.getDay()+6)%7)/7);
+        allWeeks.add(sem);
+        // FIX 2: registrar a relação semana→mês (usa o mês de início da semana)
+        if(!weekMonthMap[sem]) weekMonthMap[sem] = mes;
       }
     }catch(ex){}
     const ts=r['Hora Abertura']||''; if(typeof ts==='string'&&ts.indexOf(':')>=0)h=parseInt(ts.split(':')[0]);
     if(mes)td.monthly[mes]=(td.monthly[mes]||0)+1;
     if(sem)td.weekly[sem]=(td.weekly[sem]||0)+1;
     if(h!==null){if(h>=6&&h<=13)td.shifts.T1++; else if(h>=14&&h<=21)td.shifts.T2++; else td.shifts.T3++; td.hm[h]=(td.hm[h]||0)+1;}
+
+    // FIX 3: SLA/tempos apenas para SMT e PTH (produção direta)
+    // Engenharia, Check SMT e Processos têm maior complexidade e são excluídos
+    const contaParaSLA = PCI_SLA_AREAS.indexOf(sol) >= 0;
     const ac=pn(r['Tempo Abertura→Aceite (min)']||r['Tempo Abertura->Aceite (min)']);
     const re=pn(r['Tempo Aceite→Finalização (min)']||r['Tempo Aceite->Finalizacao (min)']);
     const to=pn(r['Tempo Total (min)']);
-    // SLA/tempos: excluir Engenharia (chamados mais complexos distorcem a mediana)
-    // Volume e taxa continuam contando todos os chamados normalmente
-    const solicitante = r['Área Solicitante']||'';
-    const contaParaSLA = solicitante !== 'Engenharia';
     if(contaParaSLA){ if(ac!==null)td.aV.push(ac); if(re!==null)td.rV.push(re); if(to!==null)td.tV.push(to); }
   });
+
   const techs={};
   PCI_TECHS_ORDER.forEach(function(t,i){
     if(!tm[t])return; const td=tm[t];
-    techs[t]=Object.assign({},td,{taxa:td.total>0?Math.round(td.fin/td.total*1000)/10:0,aceite:med(td.aV),resolucao:med(td.rV),total_t:med(td.tV),color:PCI_COLORS[i]});
+    techs[t]=Object.assign({},td,{
+      taxa:td.total>0?Math.round(td.fin/td.total*1000)/10:0,
+      aceite:med(td.aV),
+      resolucao:med(td.rV),
+      total_t:med(td.tV),
+      color:PCI_COLORS[i],
+      expired:td.exp
+    });
     delete techs[t].aV; delete techs[t].rV; delete techs[t].tV;
   });
-  const allTot=rows.map(r=>pn(r['Tempo Total (min)'])).filter(v=>v!==null);
-  const finAll=rows.filter(r=>r['Status Final']==='Finalizado').length;
-  const teamTotal=rows.length;
-  return {techs,team_total:teamTotal,taxa_all:teamTotal>0?Math.round(finAll/teamTotal*1000)/10:0,team_med:med(allTot),total_geral:teamTotal,all_months:[...allMonths].sort(),all_weeks:[...allWeeks].sort((a,b)=>a-b)};
+
+  const allTot=rows.filter(r=>PCI_TECHS_ORDER.indexOf(r['Técnico']||'')>=0 && MONT_TECHS_ORDER.indexOf(r['Técnico']||'')<0).map(r=>pn(r['Tempo Total (min)'])).filter(v=>v!==null);
+  const finAll=rows.filter(r=>PCI_TECHS_ORDER.indexOf(r['Técnico']||'')>=0 && MONT_TECHS_ORDER.indexOf(r['Técnico']||'')<0 && r['Status Final']==='Finalizado').length;
+  const teamTotal=rows.filter(r=>PCI_TECHS_ORDER.indexOf(r['Técnico']||'')>=0 && MONT_TECHS_ORDER.indexOf(r['Técnico']||'')<0).length;
+
+  return {
+    techs,
+    team_total: teamTotal,
+    taxa_all:   teamTotal>0?Math.round(finAll/teamTotal*1000)/10:0,
+    team_med:   med(allTot),
+    total_geral:teamTotal,
+    all_months: [...allMonths].sort(),
+    all_weeks:  [...allWeeks].sort((a,b)=>a-b),
+    weekMonthMap  // FIX 2
+  };
 }
 
 // =========================================================================
@@ -877,7 +954,7 @@ const MONT_DATA = {
   area_dist: {}, weekly_all: {}, all_months: [], all_weeks: []
 };
 
-// ── Switch Área ───────────────────────────────────────────────────────────
+// ── Switch Área ──────────────────────────────────────────────────────────
 let currentArea = 'pci';
 let montInited = false;
 
@@ -904,7 +981,6 @@ function switchArea(area) {
 // MONTAGEM
 // =========================================================================
 const MD = MONT_DATA;
-const MONT_TECHS_ORDER = ['Dariany','Samuel','Danyel','Cassia','Johny'];
 let MONT_TECHS = MONT_TECHS_ORDER.filter(function(t){ return MD.techs[t] && MD.techs[t].total > 0; });
 var montCharts = {}, montCurrentTech = null, montPageInited = {}, montMonthFilter = 'all';
 
@@ -942,7 +1018,6 @@ function updateMontStats() {
 }
 
 function initMontagem() {
-  // Inserir filtro de mês apenas uma vez
   if (!document.getElementById('mont-month-filter')) {
     var overviewEl=document.getElementById('mont-overview');
     var firstChild=overviewEl.querySelector('.section-title');
@@ -1065,8 +1140,7 @@ function montShowPage(id,event){
 }
 
 // =========================================================================
-// IMPORTAR PLANILHA — versão única (corrigida)
-// Processa PCI + Montagem de uma só vez
+// IMPORTAR PLANILHA
 // =========================================================================
 function importFile(event) {
   var file=event.target.files[0]; if(!file)return;
@@ -1080,9 +1154,13 @@ function importFile(event) {
       var ws=wb.Sheets[wb.SheetNames[0]];
       var rows=XLSX.utils.sheet_to_json(ws,{defval:''});
 
-      // ── PCI ──────────────────────────────────────────────────────────
       fill.style.width='60%'; msg.textContent='Calculando PCI...';
-      var pciRows=rows.filter(function(r){var sup=r['Área Suporte']||'';return sup==='Processos'||sup==='Testes';});
+      // FIX 1: pciRows usa apenas técnicos de PCI (não Montagem)
+      var pciRows=rows.filter(function(r){
+        var sup=r['Área Suporte']||'';
+        var tec=r['Técnico']||'';
+        return (sup==='Processos'||sup==='Testes') && PCI_TECHS_ORDER.indexOf(tec)>=0 && MONT_TECHS_ORDER.indexOf(tec)<0;
+      });
       if(pciRows.length>0){
         var newPci=recomputePci(pciRows);
         Object.assign(pciData,newPci);
@@ -1093,12 +1171,12 @@ function importFile(event) {
         buildPciMonthFilter(); initOverviewCharts(); updatePciTechCards();
       }
 
-      // ── Montagem ─────────────────────────────────────────────────────
       fill.style.width='80%'; msg.textContent='Calculando Montagem...';
       var montRows=rows.filter(function(r){var sup=r['Área Suporte']||'';var sol=r['Área Solicitante']||'';var tec=r['Técnico']||'';return(sup==='Processos'||sup==='Testes')&&sol==='Montagem'&&MONT_TECHS_ORDER.indexOf(tec)>=0;});
       if(montRows.length>0){
         var newMont=recomputeMont(montRows);
         Object.assign(MD,newMont);
+        MONT_TECHS.length=0; MONT_TECHS_ORDER.forEach(function(t){if(MD.techs[t]&&MD.techs[t].total>0)MONT_TECHS.push(t);});
         montInited=false;montPageInited={};montCurrentTech=null;montMonthFilter='all';
         Object.keys(montCharts).forEach(function(k){if(montCharts[k])montCharts[k].destroy();delete montCharts[k];});
         if(currentArea==='mont'){initMontagem();montInited=true;}
@@ -1148,8 +1226,7 @@ function recomputeMont(rows){
 }
 
 // =========================================================================
-// FETCH DASHBOARD ONLINE — PATCH 3
-// Busca dados direto do servidor do bot sem precisar importar planilha
+// FETCH DASHBOARD ONLINE
 // =========================================================================
 var DASHBOARD_API = 'https://bot-chamados-tny4.onrender.com';
 
@@ -1164,8 +1241,12 @@ function fetchDashboard(){
     .then(function(rows){
       if(!rows||!rows.length)throw new Error('Nenhum dado retornado');
 
-      // ── PCI ──────────────────────────────────────────────────────────
-      var pciRows=rows.filter(function(r){var sup=r['Área Suporte']||'';return sup==='Processos'||sup==='Testes';});
+      // FIX 1: filtrar apenas técnicos PCI (excluir Montagem)
+      var pciRows=rows.filter(function(r){
+        var sup=r['Área Suporte']||'';
+        var tec=r['Técnico']||'';
+        return (sup==='Processos'||sup==='Testes') && PCI_TECHS_ORDER.indexOf(tec)>=0 && MONT_TECHS_ORDER.indexOf(tec)<0;
+      });
       if(pciRows.length>0){
         var newPci=recomputePci(pciRows);
         Object.assign(pciData,newPci);
@@ -1176,11 +1257,11 @@ function fetchDashboard(){
         buildPciMonthFilter();initOverviewCharts();updatePciTechCards();
       }
 
-      // ── Montagem ─────────────────────────────────────────────────────
       var montRows=rows.filter(function(r){var sup=r['Área Suporte']||'';var sol=r['Área Solicitante']||'';var tec=r['Técnico']||'';return(sup==='Processos'||sup==='Testes')&&sol==='Montagem'&&MONT_TECHS_ORDER.indexOf(tec)>=0;});
       if(montRows.length>0){
         var newMont=recomputeMont(montRows);
         Object.assign(MD,newMont);
+        MONT_TECHS.length=0; MONT_TECHS_ORDER.forEach(function(t){if(MD.techs[t]&&MD.techs[t].total>0)MONT_TECHS.push(t);});
         montInited=false;montPageInited={};montCurrentTech=null;montMonthFilter='all';
         Object.keys(montCharts).forEach(function(k){if(montCharts[k])montCharts[k].destroy();delete montCharts[k];});
         if(currentArea==='mont'){initMontagem();montInited=true;}
@@ -1188,13 +1269,10 @@ function fetchDashboard(){
 
       updateHeader(currentArea);
       if(st)st.textContent='✅ '+rows.length+' chamados — PCI: '+pciRows.length+' | Mont: '+montRows.length;
-      // Recomendações PCI dinâmicas após atualização
       if(document.getElementById('page-recomendacoes')&&document.getElementById('page-recomendacoes').classList.contains('active')) buildPciRec();
-      // Alimentar análise com dados frescos
       analiseRows = rows.map(function(r){ r['Local/Máquina']=r['Local/Máquina']||r['local_maquina']||''; return r; });
       analiseInited = false;
       if(document.getElementById('page-analise')&&document.getElementById('page-analise').classList.contains('active')){ buildAnMonthBar(); renderAnaliseSMT(); renderAnalisePTH(); }
-      // Buscar abertos também
       fetchAbertos();
       if(btn){btn.disabled=false;btn.textContent='🔄 Atualizar Online';}
       var ok=document.getElementById('importOk');
@@ -1207,16 +1285,13 @@ function fetchDashboard(){
     });
 }
 
-
-
 // =========================================================================
-// ANÁLISE — TOP 10 PROBLEMAS & MÁQUINAS (SMT e PTH)
+// ANÁLISE — TOP 10 PROBLEMAS & MÁQUINAS
 // =========================================================================
 var analiseRows  = [];
 var analiseInited = false;
 var anMonthFilter = 'all';
 
-// Palavras irrelevantes para normalização
 var AN_STOP = {de:1,da:1,do:1,das:1,dos:1,em:1,na:1,no:1,nas:1,nos:1,com:1,
   por:1,para:1,que:1,se:1,um:1,uma:1,e:1,o:1,a:1,os:1,as:1,ao:1,ou:1,
   problema:1,chamado:1,favor:1,verificar:1,apresentando:1,apresenta:1,
@@ -1255,23 +1330,19 @@ function anAgrupar(rows, threshold) {
     var prob = (r['Problema']||'').trim();
     var norm = anNorm(prob);
     if (!norm && !prob) { prob='(Não informado)'; norm=''; }
-
     if (!norm) {
       var g = grupos.find(function(g){ return g.label==='(Não informado)'; });
       if (!g) { g={label:'(Não informado)',norm:'',count:0,rows:[]}; grupos.push(g); }
       g.count++; g.rows.push(r); return;
     }
-
     var best=-1, bestG=null;
     grupos.forEach(function(g){
       if (!g.norm) return;
       var sc = anJaccard(norm, g.norm);
       if (sc > best) { best=sc; bestG=g; }
     });
-
     if (best >= threshold && bestG) {
       bestG.count++; bestG.rows.push(r);
-      // Centróide = texto original mais frequente
       var freq={};
       bestG.rows.forEach(function(rx){ var p=rx['Problema']||''; freq[p]=(freq[p]||0)+1; });
       bestG.label = Object.keys(freq).sort(function(a,b){return freq[b]-freq[a];})[0] || bestG.label;
@@ -1362,13 +1433,10 @@ function renderMaqTable(topMaq, tbodyId, acColor) {
 function renderAnalise() {
   var smtRows = anGetRows('SMT');
   var pthRows = anGetRows('PTH');
-
   var thSMT = anThreshold(document.getElementById('an-sim-smt') ? document.getElementById('an-sim-smt').value : 5);
   var thPTH = anThreshold(document.getElementById('an-sim-pth') ? document.getElementById('an-sim-pth').value : 5);
-
   var gruposSMT = anAgrupar(smtRows, thSMT);
   var gruposPTH = anAgrupar(pthRows, thPTH);
-
   renderProblTable(gruposSMT, 'an-smt-prob-body', 'var(--accent)');
   renderMaqTable(anTopMaq(smtRows), 'an-smt-maq-body', 'var(--accent)');
   renderProblTable(gruposPTH, 'an-pth-prob-body', 'var(--accent3)');
@@ -1427,8 +1495,6 @@ function buildPciRec() {
   var activeTechs = PCI_TECHS_ORDER.filter(function(t){ return pciData.techs[t] && pciData.techs[t].total > 0; });
   if (!activeTechs.length) return;
   var d = pciData;
-
-  // Resumo executivo
   var totalTime = d.all_months.length > 0 ?
     (MES_LABELS[d.all_months[0]]||d.all_months[0]) + ' – ' + (MES_LABELS[d.all_months[d.all_months.length-1]]||d.all_months[d.all_months.length-1]) : 'período';
   var resumo = '<div class="insight-box"><h3>🎯 Resumo Executivo</h3><p>' +
@@ -1436,21 +1502,16 @@ function buildPciRec() {
     '<strong style="color:var(--accent)">' + d.team_total + ' chamados</strong> (' + totalTime + ') ' +
     'com taxa de resolução de <strong style="color:var(--accent3)">' + d.taxa_all + '%</strong> ' +
     'e tempo médio de <strong style="color:var(--accent4)">' + d.team_med + ' min</strong>.</p></div>';
-
-  // Pontos de atenção
   var atencao = '';
-  // Técnicos com aceite > 30min
   activeTechs.filter(function(t){ return d.techs[t].aceite > 30; }).forEach(function(t) {
     atencao += '<div class="rec-card" style="--accent-color:var(--accent2)"><div class="rec-title">🔴 ' + t + ' — Tempo de Aceite Elevado</div>' +
       '<div class="rec-body">Mediana de ' + d.techs[t].aceite + ' min (meta: 15 min). ' +
       'Investigar sobrecarga no turno ' + (d.techs[t].shifts.T2 > d.techs[t].shifts.T1 ? 'T2' : 'T1') + '.</div></div>';
   });
-  // Técnicos com expirados
-  activeTechs.filter(function(t){ return d.techs[t].expired > 0; }).forEach(function(t) {
-    atencao += '<div class="rec-card" style="--accent-color:var(--accent4)"><div class="rec-title">🟡 ' + t + ' — ' + d.techs[t].expired + ' Chamado(s) Expirado(s)</div>' +
+  activeTechs.filter(function(t){ return d.techs[t].exp > 0; }).forEach(function(t) {
+    atencao += '<div class="rec-card" style="--accent-color:var(--accent4)"><div class="rec-title">🟡 ' + t + ' — ' + d.techs[t].exp + ' Chamado(s) Expirado(s)</div>' +
       '<div class="rec-body">Taxa de resolução ' + d.techs[t].taxa + '%. Criar processo de escalonamento preventivo.</div></div>';
   });
-  // Técnicos com baixo volume (< 20% da média)
   var mediaVol = d.team_total / activeTechs.length;
   activeTechs.filter(function(t){ return d.techs[t].total < mediaVol * 0.25; }).forEach(function(t) {
     atencao += '<div class="rec-card" style="--accent-color:var(--accent5)"><div class="rec-title">🟣 ' + t + ' — Volume Muito Baixo</div>' +
@@ -1459,8 +1520,6 @@ function buildPciRec() {
   });
   if (!atencao) atencao = '<div class="rec-card" style="--accent-color:var(--accent3)"><div class="rec-title">✅ Sem pontos críticos</div>' +
     '<div class="rec-body">Time operando dentro dos parâmetros de SLA.</div></div>';
-
-  // Boas práticas
   var boas = '';
   var byAceite = activeTechs.slice().sort(function(a,b){ return d.techs[a].aceite - d.techs[b].aceite; });
   var best = byAceite[0];
@@ -1470,28 +1529,24 @@ function buildPciRec() {
     boas += '<div class="rec-card" style="--accent-color:' + d.techs[t].color + '"><div class="rec-title">🟢 ' + t + ' — 100% de Resolução</div>' +
       '<div class="rec-body">' + d.techs[t].total + ' chamados sem nenhuma expiração.</div></div>';
   });
-  // Cobertura T3
   var t3techs = activeTechs.filter(function(t){ return d.techs[t].shifts.T3 > 0; });
   if (t3techs.length === 1) {
     boas += '<div class="rec-card" style="--accent-color:var(--accent)"><div class="rec-title">🔵 Cobertura T3 — Ponto Único</div>' +
       '<div class="rec-body">Apenas ' + t3techs[0] + ' cobre o T3 (' + d.techs[t3techs[0]].shifts.T3 + ' chamados). ' +
       'Considerar treinar backup para o turno noturno.</div></div>';
   }
-
   var el = document.getElementById('pci-rec-dynamic');
   if (el) el.innerHTML = resumo +
     '<div class="grid-2"><div><div class="section-title">⚠ Pontos de Atenção</div>' + atencao + '</div>' +
     '<div><div class="section-title">✅ Boas Práticas</div>' + boas + '</div></div>';
-
-  // Atualizar resumo exec
   var re = document.getElementById('pci-resumo-exec');
   if (re) re.style.display = 'none';
 }
 
 // =========================================================================
-// CHAMADOS ABERTOS — tempo real
+// CHAMADOS ABERTOS
 // =========================================================================
-var abertosData = [];  // cache da última busca
+var abertosData = [];
 var abertosTimer = null;
 
 function fetchAbertos() {
@@ -1500,7 +1555,6 @@ function fetchAbertos() {
     .then(function(rows){
       abertosData = rows;
       renderAbertos(rows);
-      // Atualizar badges nas tabs
       var pciOpen = rows.filter(function(r){ var s=r['Área Suporte']||''; return s==='Processos'||s==='Testes'; });
       var montOpen = rows.filter(function(r){ var s=r['Área Suporte']||''; var sol=r['Área Solicitante']||''; return (s==='Processos'||s==='Testes')&&sol==='Montagem'; });
       updateBadge('pci-abertos-badge',  pciOpen.length);
@@ -1544,7 +1598,6 @@ function tempoAberto(dataAb, horaAb) {
 }
 
 function renderAbertos(rows) {
-  // ── PCI ──────────────────────────────────────────────────────────────
   var pciRows = rows.filter(function(r){
     var s = r['Área Suporte']||''; return s==='Processos'||s==='Testes';
   });
@@ -1579,7 +1632,6 @@ function renderAbertos(rows) {
     }
   }
 
-  // ── Montagem ─────────────────────────────────────────────────────────
   var montRows = rows.filter(function(r){
     var s = r['Área Suporte']||''; var sol = r['Área Solicitante']||'';
     return (s==='Processos'||s==='Testes') && sol==='Montagem';
@@ -1625,7 +1677,6 @@ function getMontTechColor(name) {
   return idx >= 0 ? colors[idx] : 'var(--text)';
 }
 
-// Auto-refresh a cada 60s quando a aba Abertos está visível
 function startAbertosAutoRefresh() {
   if (abertosTimer) clearInterval(abertosTimer);
   abertosTimer = setInterval(function() {
@@ -1637,13 +1688,11 @@ function startAbertosAutoRefresh() {
 
 // ── Init — auto-connect ao banco ──────────────────────────────────────────
 window.addEventListener('load', function() {
-  // Tenta conectar ao banco automaticamente ao abrir
   var loadingEl = document.getElementById('loading');
   var loadingMsg = loadingEl.querySelector('p');
-  var loadingFill = loadingEl.querySelector('.loading-fill');
+
   if (loadingMsg) loadingMsg.textContent = 'Conectando ao banco de dados...';
 
-  // Dar um pequeno delay para o CSS de loading aparecer
   setTimeout(function() {
     fetch(DASHBOARD_API + '/api/dashboard')
       .then(function(res) {
@@ -1652,22 +1701,29 @@ window.addEventListener('load', function() {
       })
       .then(function(rows) {
         if (loadingMsg) loadingMsg.textContent = 'Processando ' + rows.length + ' chamados...';
-        // Processar PCI
-        var pciRows = rows.filter(function(r) { var s = r['Área Suporte']||''; return s==='Processos'||s==='Testes'; });
+
+        // FIX 1: filtrar pciRows apenas por técnicos PCI (excluir Montagem)
+        var pciRows = rows.filter(function(r) {
+          var s = r['Área Suporte']||'';
+          var tec = r['Técnico']||'';
+          return (s==='Processos'||s==='Testes') && PCI_TECHS_ORDER.indexOf(tec)>=0 && MONT_TECHS_ORDER.indexOf(tec)<0;
+        });
         if (pciRows.length > 0) {
           var np = recomputePci(pciRows);
           Object.assign(pciData, np);
         }
-        // Processar Montagem
-        var montRows = rows.filter(function(r) { var s=r['Área Suporte']||''; var sol=r['Área Solicitante']||''; var t=r['Técnico']||''; return (s==='Processos'||s==='Testes')&&sol==='Montagem'&&MONT_TECHS_ORDER.indexOf(t)>=0; });
+
+        var montRows = rows.filter(function(r) {
+          var s=r['Área Suporte']||''; var sol=r['Área Solicitante']||''; var t=r['Técnico']||'';
+          return (s==='Processos'||s==='Testes')&&sol==='Montagem'&&MONT_TECHS_ORDER.indexOf(t)>=0;
+        });
         if (montRows.length > 0) {
           var nm = recomputeMont(montRows);
           Object.assign(MD, nm);
-          // Atualizar MONT_TECHS dinamicamente
           MONT_TECHS.length = 0;
           MONT_TECHS_ORDER.forEach(function(t){ if(MD.techs[t]&&MD.techs[t].total>0) MONT_TECHS.push(t); });
         }
-        // Esconder loading e renderizar
+
         loadingEl.style.opacity = '0';
         setTimeout(function() { loadingEl.style.display = 'none'; }, 400);
         buildPciMonthFilter();
@@ -1680,7 +1736,6 @@ window.addEventListener('load', function() {
         startAbertosAutoRefresh();
       })
       .catch(function(err) {
-        // Falhou — mostra tela de erro no lugar do loading
         loadingEl.innerHTML = '<div style="text-align:center;padding:40px">' +
           '<h2 style="font-family:Syne,sans-serif;color:#ff5f40;font-size:20px;margin-bottom:16px">❌ Sem conexão com o banco</h2>' +
           '<p style="font-family:IBM Plex Mono,monospace;font-size:12px;color:#7a9bb5;margin-bottom:24px;max-width:420px">' +
