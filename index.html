@@ -59,6 +59,7 @@
   .badge-red { background:rgba(255,95,64,0.15); color:var(--accent2); }
   .badge-yellow { background:rgba(255,195,0,0.15); color:var(--accent4); }
   .badge-blue { background:rgba(0,200,255,0.15); color:var(--accent); }
+  .badge-purple { background:rgba(201,123,255,0.15); color:var(--accent5); }
   .tech-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; position:relative; overflow:hidden; cursor:pointer; transition:all 0.25s; }
   .tech-card:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,0,0,0.5); }
   .tech-card.selected { border-color:var(--t-color); box-shadow:0 0 0 1px var(--t-color); }
@@ -70,6 +71,8 @@
   .tech-kpi { background:var(--surface2); border-radius:8px; padding:10px; }
   .tech-kpi .k-val { font-family:'Syne',sans-serif; font-weight:700; font-size:20px; color:var(--t-color); display:block; }
   .tech-kpi .k-lbl { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--text3); text-transform:uppercase; }
+  .fila-note { margin-top:12px; background:rgba(255,195,0,0.08); border:1px solid rgba(255,195,0,0.25); border-radius:8px; padding:8px 10px; font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--accent4); display:flex; align-items:center; gap:6px; }
+  .fila-note.ok { display:none; }
   .perf-bar { margin-top:14px; height:4px; background:var(--surface2); border-radius:2px; overflow:hidden; }
   .perf-fill { height:100%; border-radius:2px; background:var(--t-color); transition:width 1s ease; }
   .chart-wrap { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:16px; overflow:hidden; }
@@ -308,20 +311,21 @@
 <div class="page" id="page-tempo">
   <div class="section-title">Análise de SLA e Tempos de Atendimento</div>
   <div class="sla-note">⚠ SLA calculado apenas para chamados de produção direta: <strong>SMT</strong> e <strong>PTH</strong>. Engenharia, Check SMT e Processos são excluídos por maior complexidade.</div>
-  <div class="grid-4">
-    <div class="card" style="--accent-color:var(--iago)"><div class="card-title">MELHOR TEMPO ACEITE</div><div class="card-value">2 min</div><div class="card-sub">Iago — mediana</div><span class="badge badge-green">🏆 LÍDER</span></div>
-    <div class="card" style="--accent-color:var(--iago)"><div class="card-title">MELHOR TEMPO TOTAL</div><div class="card-value">14 min</div><div class="card-sub">Iago — mediana total</div><span class="badge badge-green">🏆 MAIS RÁPIDO</span></div>
-    <div class="card" style="--accent-color:var(--accent4)"><div class="card-title">MAIOR TEMPO ACEITE</div><div class="card-value">52 min</div><div class="card-sub">Ricardo — mediana</div><span class="badge badge-yellow">⚠ ATENÇÃO</span></div>
-    <div class="card" style="--accent-color:var(--accent2)"><div class="card-title">MAIOR TEMPO TOTAL</div><div class="card-value">96 min</div><div class="card-sub">Ricardo — mediana total</div><span class="badge badge-yellow">📋 COMPLEXIDADE ALTA</span></div>
-  </div>
+  <div class="sla-note" style="border-color:rgba(0,200,255,0.3);background:rgba(0,200,255,0.06);color:var(--accent)">🕒 <strong>Aceite med.</strong> agora só considera chamados abertos quando o técnico estava <strong>livre</strong> (sem outro chamado em atendimento). Chamados que abriram enquanto ele já atendia outro entram como <strong>fila por concorrência</strong> — não penalizam o SLA individual.</div>
+  <div class="grid-4" id="tempoKpisTop"></div>
   <div class="grid-2">
-    <div class="chart-wrap"><div class="chart-title">📊 Tempo de Aceite por Técnico (min)</div><div class="chart-subtitle">Mediana — SMT e PTH apenas | Meta ≤ 15min</div><canvas id="chartAceite" height="240"></canvas></div>
+    <div class="chart-wrap"><div class="chart-title">📊 Tempo de Aceite por Técnico (min)</div><div class="chart-subtitle">Mediana — apenas quando estava livre | SMT e PTH | Meta ≤ 15min</div><canvas id="chartAceite" height="240"></canvas></div>
     <div class="chart-wrap"><div class="chart-title">🔧 Tempo de Resolução por Técnico (min)</div><div class="chart-subtitle">Mediana — SMT e PTH apenas</div><canvas id="chartResolTime" height="240"></canvas></div>
   </div>
   <div class="chart-wrap"><div class="chart-title">📉 Comparativo Completo de Tempos — Aceite | Resolução | Total</div><div class="chart-subtitle">Valores em minutos (mediana) | SMT e PTH apenas | Meta aceite ≤ 15min | Meta total ≤ 60min</div><canvas id="chartComparativo" height="200"></canvas></div>
   <div class="chart-wrap">
+    <div class="chart-title">🕒 Fila por Concorrência — Chamados Recebidos em Atendimento</div>
+    <div class="chart-subtitle">Quantidade de chamados que abriram enquanto o técnico já atendia outro, e o tempo médio que ficaram esperando</div>
+    <canvas id="chartFila" height="220"></canvas>
+  </div>
+  <div class="chart-wrap">
     <div class="chart-title">🏆 Ranking de Eficiência</div><div class="chart-subtitle">Pontuação combinada: volume × resolução ÷ tempo total (SMT+PTH)</div>
-    <table class="cmp-table"><thead><tr><th>RANK</th><th>TÉCNICO</th><th>CHAMADOS</th><th>RESOLUÇÃO</th><th>ACEITE MED.</th><th>RESOL. MED.</th><th>TOTAL MED.</th><th>SCORE</th></tr></thead><tbody id="rankingBody"></tbody></table>
+    <table class="cmp-table"><thead><tr><th>RANK</th><th>TÉCNICO</th><th>CHAMADOS</th><th>RESOLUÇÃO</th><th>ACEITE MED. (LIVRE)</th><th>🕒 EM FILA</th><th>RESOL. MED.</th><th>TOTAL MED.</th><th>SCORE</th></tr></thead><tbody id="rankingBody"></tbody></table>
   </div>
 </div>
 
@@ -473,7 +477,6 @@
   </div>
 </div>
 </div><!-- /pci-wrapper -->
-
 <!-- ═══════════════════════════════ ÁREA MONTAGEM ════════════════════════════════ -->
 <div id="mont-wrapper" style="display:none">
 <nav class="nav-tabs" id="nav-mont" style="display:none">
@@ -570,15 +573,13 @@ const PCI_TECHS_ORDER  = ['Vitor','Iago','Ricardo','Elciney','Giselly'];
 const MONT_TECHS_ORDER = ['Dariany','Samuel','Danyel','Cassia','Johny'];
 const PCI_COLORS       = ['#00c8ff','#38e08c','#ffc300','#ff5f40','#c97bff'];
 
-// Áreas que entram no SLA/tempo para PCI (apenas produção direta)
-// Engenharia, Check SMT e Processos têm maior complexidade e são excluídos
 const PCI_SLA_AREAS = ['SMT', 'PTH'];
 
 let pciData = {
   techs: {},
   team_total: 0, taxa_all: 0, team_med: 0, total_geral: 0,
   all_months: [], all_weeks: [],
-  weekMonthMap: {}   // FIX 2: mapeia semana ISO → mês 'YYYY-MM'
+  weekMonthMap: {}
 };
 
 const MES_LABELS = {
@@ -603,7 +604,6 @@ const CHART_DEFAULTS = {
   plugins:{ legend:{ labels:{ color:'#7a9bb5', font:{family:'IBM Plex Mono',size:10}, boxWidth:12 } } }
 };
 
-// ── Header ──────────────────────────────────────────────────────────────
 function updateHeader(area) {
   const d = area === 'pci' ? pciData : MONT_DATA;
   const techCount = area === 'pci'
@@ -624,7 +624,6 @@ function updateHeader(area) {
   }
 }
 
-// ── Filtro de mês PCI ────────────────────────────────────────────────────
 function buildPciMonthFilter() {
   let bar = document.getElementById('pci-month-filter');
   if (!bar) {
@@ -674,10 +673,22 @@ function updatePciTechCards() {
     card.style.display = activeTechs.indexOf(techName) >= 0 ? '' : 'none';
     const kvals = card.querySelectorAll('.k-val');
     if (kvals.length > 0) kvals[0].textContent = getPciTotal(techName);
+    const td = pciData.techs[techName];
+    let fila = card.querySelector('.fila-note');
+    if (!fila) {
+      fila = document.createElement('div');
+      fila.className = 'fila-note';
+      card.appendChild(fila);
+    }
+    if (td && td.qtd_fila > 0) {
+      fila.classList.remove('ok');
+      fila.innerHTML = '🕒 ' + td.qtd_fila + ' chamado(s) recebido(s) em atendimento — méd. ' + td.aceite_fila + ' min de espera';
+    } else {
+      fila.classList.add('ok');
+    }
   });
 }
 
-// ── Overview charts ──────────────────────────────────────────────────────
 function initOverviewCharts() {
   const activeTechs = getPciActiveTechs();
   const months = pciData.all_months;
@@ -686,7 +697,6 @@ function initOverviewCharts() {
   let chartLabels, chartDatasets;
 
   if (pciMonthFilter === 'all') {
-    // SEM filtro: mostrar semanas ISO normalmente
     chartLabels   = weeks.map(w => `S${w}`);
     chartDatasets = activeTechs.map(t => ({
       label: t,
@@ -696,7 +706,6 @@ function initOverviewCharts() {
       borderWidth: 2, pointRadius: 3, tension: 0.4, fill: false
     }));
   } else {
-    // FIX 2: COM filtro de mês → mostrar apenas as SEMANAS do mês selecionado
     const weeksInMonth = weeks.filter(w => pciData.weekMonthMap[w] === pciMonthFilter);
     if (weeksInMonth.length > 0) {
       chartLabels   = weeksInMonth.map(w => `S${w}`);
@@ -708,7 +717,6 @@ function initOverviewCharts() {
         borderWidth: 2, pointRadius: 3, tension: 0.4, fill: false
       }));
     } else {
-      // Fallback: se não há mapeamento semana→mês, usar dias do mês agregados
       chartLabels   = [MES_LABELS[pciMonthFilter] || pciMonthFilter];
       chartDatasets = activeTechs.map(t => ({
         label: t,
@@ -726,7 +734,6 @@ function initOverviewCharts() {
     options:{...CHART_DEFAULTS}
   });
 
-  // Distribuição por área (proporcional ao filtro de mês)
   const areaTotals = {};
   activeTechs.forEach(t => {
     const ratio = pciMonthFilter === 'all' ? 1 : (getPciTotal(t) / (pciData.techs[t].total||1));
@@ -757,7 +764,6 @@ function initOverviewCharts() {
   });
 }
 
-// ── Tech detail ──────────────────────────────────────────────────────────
 let currentTech = 'Vitor';
 function switchTechDetail(tech, btn) {
   currentTech = tech;
@@ -769,12 +775,16 @@ function renderTechDetail(tech) {
   const d = pciData.techs[tech]; const c = d.color;
   const months = pciData.all_months;
   const mesArr = months.map(m => MES_LABELS[m]||m);
+  const filaHtml = d.qtd_fila > 0
+    ? `<div class="fila-note" style="margin-top:0;margin-bottom:16px;display:flex"><span>🕒 ${d.qtd_fila} chamado(s) abriram enquanto ${tech} já estava em atendimento — espera média de ${d.aceite_fila} min. Esse tempo NÃO conta contra o SLA individual.</span></div>`
+    : `<div class="fila-note" style="margin-top:0;margin-bottom:16px;display:flex;border-color:rgba(56,224,140,0.25);background:rgba(56,224,140,0.06);color:var(--accent3)"><span>✅ Nenhum chamado recebido em fila de concorrência neste período.</span></div>`;
   document.getElementById('techDetail').innerHTML = `
+    ${filaHtml}
     <div class="grid-4">
       <div class="card" style="--accent-color:${c}"><div class="card-title">TOTAL CHAMADOS</div><div class="card-value">${d.total}</div><div class="card-sub">Período completo</div></div>
       <div class="card" style="--accent-color:${c}"><div class="card-title">TAXA RESOLUÇÃO</div><div class="card-value">${d.taxa}%</div><span class="badge ${d.taxa===100?'badge-green':'badge-yellow'}">${d.taxa===100?'✅ PERFEITO':'⚠ ATENÇÃO'}</span></div>
-      <div class="card" style="--accent-color:${c}"><div class="card-title">ACEITE MED. (SMT+PTH)</div><div class="card-value">${d.aceite}m</div><span class="badge ${d.aceite<=15?'badge-green':d.aceite<=30?'badge-yellow':'badge-red'}">${d.aceite<=15?'✅ OK':d.aceite<=30?'⚠ REGULAR':'❌ ALTO'}</span></div>
-      <div class="card" style="--accent-color:${c}"><div class="card-title">TOTAL MED. (SMT+PTH)</div><div class="card-value">${d.total_t}m</div><span class="badge ${d.total_t<=30?'badge-green':d.total_t<=60?'badge-yellow':'badge-red'}">${d.total_t<=30?'✅ EXCELENTE':d.total_t<=60?'⚠ BOM':'📋 COMPLEXO'}</span></div>
+      <div class="card" style="--accent-color:${c}"><div class="card-title">ACEITE MED. (LIVRE)</div><div class="card-value">${d.aceite}m</div><span class="badge ${d.aceite<=15?'badge-green':d.aceite<=30?'badge-yellow':'badge-red'}">${d.aceite<=15?'✅ OK':d.aceite<=30?'⚠ REGULAR':'❌ ALTO'}</span></div>
+      <div class="card" style="--accent-color:${d.qtd_fila>0?'var(--accent4)':c}"><div class="card-title">🕒 EM FILA (CONCORRÊNCIA)</div><div class="card-value">${d.qtd_fila>0?d.aceite_fila+'m':'—'}</div><span class="badge ${d.qtd_fila>0?'badge-yellow':'badge-green'}">${d.qtd_fila>0?d.qtd_fila+' chamado(s)':'✅ Sem fila'}</span></div>
     </div>
     <div class="grid-2">
       <div class="chart-wrap"><div class="chart-title">🏭 Áreas Atendidas</div><div class="chart-subtitle">Distribuição por área solicitante</div><div class="chart-box"><canvas id="techAreaChart"></canvas></div></div>
@@ -795,20 +805,49 @@ function renderTechDetail(tech) {
   }, 50);
 }
 
-// ── Tempos ───────────────────────────────────────────────────────────────
 function initTempoCharts() {
   const activeTechs = PCI_TECHS_ORDER.filter(t => pciData.techs[t]);
-  new Chart(document.getElementById('chartAceite').getContext('2d'),{type:'bar',data:{labels:activeTechs,datasets:[{label:'Aceite (min)',data:activeTechs.map(t=>pciData.techs[t].aceite),backgroundColor:activeTechs.map(t=>pciData.techs[t].color+'cc'),borderRadius:6},{label:'Meta (15 min)',data:activeTechs.map(()=>15),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'},title:{display:true,text:'Minutos',color:'#7a9bb5'}}}}});
+
+  const byAceite = [...activeTechs].sort((a,b)=>pciData.techs[a].aceite-pciData.techs[b].aceite);
+  const byTotal  = [...activeTechs].sort((a,b)=>pciData.techs[a].total_t-pciData.techs[b].total_t);
+  const fastA=byAceite[0], slowA=byAceite[byAceite.length-1];
+  const fastT=byTotal[0], slowT=byTotal[byTotal.length-1];
+  document.getElementById('tempoKpisTop').innerHTML =
+    `<div class="card" style="--accent-color:${pciData.techs[fastA].color}"><div class="card-title">MELHOR TEMPO ACEITE</div><div class="card-value">${pciData.techs[fastA].aceite} min</div><div class="card-sub">${fastA} — mediana (livre)</div><span class="badge badge-green">🏆 LÍDER</span></div>
+     <div class="card" style="--accent-color:${pciData.techs[fastT].color}"><div class="card-title">MELHOR TEMPO TOTAL</div><div class="card-value">${pciData.techs[fastT].total_t} min</div><div class="card-sub">${fastT} — mediana total</div><span class="badge badge-green">🏆 MAIS RÁPIDO</span></div>
+     <div class="card" style="--accent-color:var(--accent4)"><div class="card-title">MAIOR TEMPO ACEITE (LIVRE)</div><div class="card-value">${pciData.techs[slowA].aceite} min</div><div class="card-sub">${slowA} — mediana (livre)</div><span class="badge badge-yellow">⚠ ATENÇÃO</span></div>
+     <div class="card" style="--accent-color:var(--accent2)"><div class="card-title">MAIOR TEMPO TOTAL</div><div class="card-value">${pciData.techs[slowT].total_t} min</div><div class="card-sub">${slowT} — mediana total</div><span class="badge badge-yellow">📋 COMPLEXIDADE ALTA</span></div>`;
+
+  new Chart(document.getElementById('chartAceite').getContext('2d'),{type:'bar',data:{labels:activeTechs,datasets:[{label:'Aceite (min, livre)',data:activeTechs.map(t=>pciData.techs[t].aceite),backgroundColor:activeTechs.map(t=>pciData.techs[t].color+'cc'),borderRadius:6},{label:'Meta (15 min)',data:activeTechs.map(()=>15),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'},title:{display:true,text:'Minutos',color:'#7a9bb5'}}}}});
   new Chart(document.getElementById('chartResolTime').getContext('2d'),{type:'bar',data:{labels:activeTechs,datasets:[{label:'Resolução (min)',data:activeTechs.map(t=>pciData.techs[t].resolucao),backgroundColor:activeTechs.map(t=>pciData.techs[t].color+'cc'),borderRadius:6}]},options:{...CHART_DEFAULTS,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
-  new Chart(document.getElementById('chartComparativo').getContext('2d'),{type:'bar',data:{labels:activeTechs,datasets:[{label:'Aceite',data:activeTechs.map(t=>pciData.techs[t].aceite),backgroundColor:'#00c8ff77',borderRadius:4},{label:'Resolução',data:activeTechs.map(t=>pciData.techs[t].resolucao),backgroundColor:'#38e08c77',borderRadius:4},{label:'Total',data:activeTechs.map(t=>pciData.techs[t].total_t),backgroundColor:'#ffc30077',borderRadius:4},{label:'Meta total (60min)',data:activeTechs.map(()=>60),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
-  const ranking = activeTechs.map(t => { const d=pciData.techs[t]; return {name:t,color:d.color,total:d.total,taxa:d.taxa,aceite:d.aceite,resolucao:d.resolucao,total_t:d.total_t,score:Math.round((d.total*d.taxa)/(d.total_t+1))}; }).sort((a,b)=>b.score-a.score);
+  new Chart(document.getElementById('chartComparativo').getContext('2d'),{type:'bar',data:{labels:activeTechs,datasets:[{label:'Aceite (livre)',data:activeTechs.map(t=>pciData.techs[t].aceite),backgroundColor:'#00c8ff77',borderRadius:4},{label:'Resolução',data:activeTechs.map(t=>pciData.techs[t].resolucao),backgroundColor:'#38e08c77',borderRadius:4},{label:'Total',data:activeTechs.map(t=>pciData.techs[t].total_t),backgroundColor:'#ffc30077',borderRadius:4},{label:'Meta total (60min)',data:activeTechs.map(()=>60),type:'line',borderColor:'#ff5f40',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false}]},options:{...CHART_DEFAULTS,scales:{x:{ticks:{color:'#7a9bb5'}},y:{ticks:{color:'#7a9bb5'}}}}});
+
+  const filaTechs = activeTechs.filter(t => pciData.techs[t].qtd_fila > 0);
+  const filaCanvas = document.getElementById('chartFila');
+  if (filaTechs.length === 0) {
+    filaCanvas.parentElement.innerHTML = '<div class="chart-title">🕒 Fila por Concorrência — Chamados Recebidos em Atendimento</div><div class="chart-subtitle">Quantidade de chamados que abriram enquanto o técnico já atendia outro, e o tempo médio que ficaram esperando</div><p style="color:var(--accent3);font-family:IBM Plex Mono,monospace;font-size:12px;padding:20px 0;text-align:center">✅ Nenhum chamado em fila por concorrência neste período.</p>';
+  } else {
+    new Chart(filaCanvas.getContext('2d'),{
+      type:'bar',
+      data:{ labels:filaTechs, datasets:[
+        { label:'Qtd. chamados em fila', data:filaTechs.map(t=>pciData.techs[t].qtd_fila), backgroundColor:filaTechs.map(t=>pciData.techs[t].color+'cc'), borderRadius:6, yAxisID:'y' },
+        { label:'Espera média (min)', data:filaTechs.map(t=>pciData.techs[t].aceite_fila), backgroundColor:'#ffc30055', borderColor:'#ffc300', borderWidth:2, type:'line', yAxisID:'y1', tension:0.3 }
+      ]},
+      options:{...CHART_DEFAULTS, scales:{
+        x:{ticks:{color:'#7a9bb5'}},
+        y:{position:'left',ticks:{color:'#7a9bb5'},title:{display:true,text:'Qtd. chamados',color:'#7a9bb5'}},
+        y1:{position:'right',ticks:{color:'#ffc300'},grid:{drawOnChartArea:false},title:{display:true,text:'Minutos de espera',color:'#ffc300'}}
+      }}
+    });
+  }
+
+  const ranking = activeTechs.map(t => { const d=pciData.techs[t]; return {name:t,color:d.color,total:d.total,taxa:d.taxa,aceite:d.aceite,fila:d.qtd_fila,filaTempo:d.aceite_fila,resolucao:d.resolucao,total_t:d.total_t,score:Math.round((d.total*d.taxa)/(d.total_t+1))}; }).sort((a,b)=>b.score-a.score);
   const rc=['#ffd700','#c0c0c0','#cd7f32','#7a9bb5','#3d5a75'];
   document.getElementById('rankingBody').innerHTML = ranking.map((r,i) =>
-    `<tr><td><span class="rank-badge" style="background:${rc[i%rc.length]}22;color:${rc[i%rc.length]}">${i+1}</span></td><td style="color:${r.color};font-weight:700;font-family:'Syne',sans-serif">${r.name}</td><td>${r.total}</td><td><span class="badge ${r.taxa===100?'badge-green':'badge-yellow'}">${r.taxa}%</span></td><td>${r.aceite} min</td><td>${r.resolucao} min</td><td>${r.total_t} min</td><td><span style="color:${r.color};font-weight:700">${r.score}</span></td></tr>`
+    `<tr><td><span class="rank-badge" style="background:${rc[i%rc.length]}22;color:${rc[i%rc.length]}">${i+1}</span></td><td style="color:${r.color};font-weight:700;font-family:'Syne',sans-serif">${r.name}</td><td>${r.total}</td><td><span class="badge ${r.taxa===100?'badge-green':'badge-yellow'}">${r.taxa}%</span></td><td>${r.aceite} min</td><td>${r.fila>0?`<span class="badge badge-yellow">🕒 ${r.fila} (${r.filaTempo}m)</span>`:`<span class="badge badge-green">—</span>`}</td><td>${r.resolucao} min</td><td>${r.total_t} min</td><td><span style="color:${r.color};font-weight:700">${r.score}</span></td></tr>`
   ).join('');
 }
 
-// ── Distribuição ─────────────────────────────────────────────────────────
 function initDistribCharts() {
   const activeTechs = PCI_TECHS_ORDER.filter(t => pciData.techs[t]);
   const months = pciData.all_months;
@@ -839,7 +878,6 @@ function initDistribCharts() {
   new Chart(document.getElementById('chartAreaTech').getContext('2d'),{type:'bar',data:{labels:allAreas,datasets:activeTechs.map(t=>({label:t,data:allAreas.map(a=>pciData.techs[t].areas[a]||0),backgroundColor:pciData.techs[t].color+'cc',stack:'s',borderRadius:2}))},options:{...CHART_DEFAULTS,scales:{x:{stacked:true,ticks:{color:'#7a9bb5'}},y:{stacked:true,ticks:{color:'#7a9bb5'}}}}});
 }
 
-// ── Navegação PCI ────────────────────────────────────────────────────────
 let chartsInited = { overview:false, tempo:false, distribuicao:false };
 
 function showPage(id, ev) {
@@ -848,7 +886,7 @@ function showPage(id, ev) {
   document.getElementById(`page-${id}`).classList.add('active');
   if(ev && ev.target) ev.target.classList.add('active');
   if(id==='techs' && !document.getElementById('techDetail').innerHTML) renderTechDetail('Vitor');
-  if(id==='tempo' && !chartsInited.tempo) { initTempoCharts(); chartsInited.tempo=true; }
+  if(id==='tempo') { initTempoCharts(); chartsInited.tempo=true; }
   if(id==='distribuicao' && !chartsInited.distribuicao) { initDistribCharts(); chartsInited.distribuicao=true; }
   if(id==='recomendacoes') buildPciRec();
   if(id==='abertos') { fetchAbertos(); startAbertosAutoRefresh(); }
@@ -864,22 +902,42 @@ function selectTech(t) {
 }
 
 // =========================================================================
-// recomputePci — FIX 1 + FIX 2 + FIX 3
+// recomputePci — FIX 1 + FIX 2 + FIX 3 + FIX 4 (SLA por concorrência)
 // =========================================================================
 function recomputePci(rows) {
   function pn(v){const n=parseFloat(v);return isNaN(n)?null:n;}
   function med(arr){if(!arr.length)return 0;const s=[...arr].sort((a,b)=>a-b);const m=Math.floor(s.length/2);return s.length%2?Math.round(s[m]*10)/10:Math.round((s[m-1]+s[m])/2*10)/10;}
   const dowKeys=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   const allMonths=new Set(), allWeeks=new Set(), tm={};
-  // FIX 2: mapa semana→mês
   const weekMonthMap = {};
+
+  function parseDataHora(dataStr, horaStr) {
+    try {
+      let dd;
+      if (typeof dataStr === 'string' && dataStr.indexOf('/') >= 0) {
+        const p = dataStr.split('/');
+        dd = new Date(+p[2], +p[1]-1, +p[0]);
+      } else if (typeof dataStr === 'number') {
+        dd = new Date(Math.round((dataStr - 25569) * 86400 * 1000));
+      } else {
+        dd = new Date(dataStr);
+      }
+      if (isNaN(dd)) return null;
+      if (typeof horaStr === 'string' && horaStr.indexOf(':') >= 0) {
+        const hp = horaStr.split(':');
+        dd.setHours(+hp[0]||0, +hp[1]||0, +(hp[2]||0));
+      }
+      return isNaN(dd) ? null : dd;
+    } catch(e) { return null; }
+  }
+
+  const rawByTech = {};
 
   rows.forEach(function(r){
     const t=r['Técnico']||'';
-    // FIX 1: aceitar APENAS técnicos de PCI e rejeitar técnicos de Montagem
     if(PCI_TECHS_ORDER.indexOf(t)<0 || MONT_TECHS_ORDER.indexOf(t)>=0) return;
 
-    if(!tm[t])tm[t]={total:0,fin:0,exp:0,areas:{},monthly:{},weekly:{},shifts:{T1:0,T2:0,T3:0},dow:{},hm:{},causa:{'Técnico':0,Operacional:0},aV:[],rV:[],tV:[]};
+    if(!tm[t])tm[t]={total:0,fin:0,exp:0,areas:{},monthly:{},weekly:{},shifts:{T1:0,T2:0,T3:0},dow:{},hm:{},causa:{'Técnico':0,Operacional:0},aV:[],rV:[],tV:[],aVFila:[]};
     const td=tm[t]; td.total++;
     const sf=r['Status Final']||''; if(sf==='Finalizado')td.fin++; if(sf.indexOf('Expirado')===0)td.exp++;
     const cr=r['Causa Raiz']||''; if(cr==='Problema Técnico')td.causa['Técnico']++; else if(cr==='Erro Operacional')td.causa.Operacional++;
@@ -898,7 +956,6 @@ function recomputePci(rows) {
         const tmp=new Date(dd); tmp.setHours(0,0,0,0); tmp.setDate(tmp.getDate()+3-(tmp.getDay()+6)%7);
         const w1=new Date(tmp.getFullYear(),0,4); sem=1+Math.round(((tmp-w1)/86400000-3+(w1.getDay()+6)%7)/7);
         allWeeks.add(sem);
-        // FIX 2: registrar a relação semana→mês (usa o mês de início da semana)
         if(!weekMonthMap[sem]) weekMonthMap[sem] = mes;
       }
     }catch(ex){}
@@ -907,13 +964,36 @@ function recomputePci(rows) {
     if(sem)td.weekly[sem]=(td.weekly[sem]||0)+1;
     if(h!==null){if(h>=6&&h<=13)td.shifts.T1++; else if(h>=14&&h<=21)td.shifts.T2++; else td.shifts.T3++; td.hm[h]=(td.hm[h]||0)+1;}
 
-    // FIX 3: SLA/tempos apenas para SMT e PTH (produção direta)
-    // Engenharia, Check SMT e Processos têm maior complexidade e são excluídos
     const contaParaSLA = PCI_SLA_AREAS.indexOf(sol) >= 0;
-    const ac=pn(r['Tempo Abertura→Aceite (min)']||r['Tempo Abertura->Aceite (min)']);
-    const re=pn(r['Tempo Aceite→Finalização (min)']||r['Tempo Aceite->Finalizacao (min)']);
-    const to=pn(r['Tempo Total (min)']);
-    if(contaParaSLA){ if(ac!==null)td.aV.push(ac); if(re!==null)td.rV.push(re); if(to!==null)td.tV.push(to); }
+    if (contaParaSLA) {
+      const ac=pn(r['Tempo Abertura→Aceite (min)']||r['Tempo Abertura->Aceite (min)']);
+      const re=pn(r['Tempo Aceite→Finalização (min)']||r['Tempo Aceite->Finalizacao (min)']);
+      const to=pn(r['Tempo Total (min)']);
+      const abertura_dt = parseDataHora(r['Data Abertura'], r['Hora Abertura']);
+      const aceite_dt = (abertura_dt && ac!==null) ? new Date(abertura_dt.getTime() + ac*60000) : null;
+      const fim_dt = (aceite_dt && re!==null) ? new Date(aceite_dt.getTime() + re*60000) : null;
+
+      if (!rawByTech[t]) rawByTech[t] = [];
+      rawByTech[t].push({ ac, re, to, abertura_dt, aceite_dt, fim_dt });
+    }
+  });
+
+  // FIX 4: Segunda passada — reclassifica "aceite" em SLA real vs fila por concorrência
+  Object.keys(rawByTech).forEach(function(t){
+    const list = rawByTech[t].filter(x => x.abertura_dt).sort((a,b) => a.abertura_dt - b.abertura_dt);
+    const td = tm[t];
+    list.forEach(function(item, idx) {
+      const ocupado = list.some((other, j) =>
+        j !== idx && other.aceite_dt && other.fim_dt &&
+        other.aceite_dt <= item.abertura_dt && item.abertura_dt < other.fim_dt
+      );
+      if (item.ac !== null) {
+        if (ocupado) td.aVFila.push(item.ac);
+        else td.aV.push(item.ac);
+      }
+      if (item.re !== null) td.rV.push(item.re);
+      if (item.to !== null) td.tV.push(item.to);
+    });
   });
 
   const techs={};
@@ -922,12 +1002,14 @@ function recomputePci(rows) {
     techs[t]=Object.assign({},td,{
       taxa:td.total>0?Math.round(td.fin/td.total*1000)/10:0,
       aceite:med(td.aV),
+      aceite_fila: med(td.aVFila),
+      qtd_fila: td.aVFila.length,
       resolucao:med(td.rV),
       total_t:med(td.tV),
       color:PCI_COLORS[i],
       expired:td.exp
     });
-    delete techs[t].aV; delete techs[t].rV; delete techs[t].tV;
+    delete techs[t].aV; delete techs[t].rV; delete techs[t].tV; delete techs[t].aVFila;
   });
 
   const allTot=rows.filter(r=>PCI_TECHS_ORDER.indexOf(r['Técnico']||'')>=0 && MONT_TECHS_ORDER.indexOf(r['Técnico']||'')<0).map(r=>pn(r['Tempo Total (min)'])).filter(v=>v!==null);
@@ -942,19 +1024,15 @@ function recomputePci(rows) {
     total_geral:teamTotal,
     all_months: [...allMonths].sort(),
     all_weeks:  [...allWeeks].sort((a,b)=>a-b),
-    weekMonthMap  // FIX 2
+    weekMonthMap
   };
 }
 
-// =========================================================================
-// DADOS SEED — MONTAGEM
-// =========================================================================
 const MONT_DATA = {
   techs: {}, team_total: 0, taxa_all: 0, team_med: 0,
   area_dist: {}, weekly_all: {}, all_months: [], all_weeks: []
 };
 
-// ── Switch Área ──────────────────────────────────────────────────────────
 let currentArea = 'pci';
 let montInited = false;
 
@@ -977,9 +1055,6 @@ function switchArea(area) {
   updateHeader(area);
 }
 
-// =========================================================================
-// MONTAGEM
-// =========================================================================
 const MD = MONT_DATA;
 let MONT_TECHS = MONT_TECHS_ORDER.filter(function(t){ return MD.techs[t] && MD.techs[t].total > 0; });
 var montCharts = {}, montCurrentTech = null, montPageInited = {}, montMonthFilter = 'all';
@@ -1155,7 +1230,6 @@ function importFile(event) {
       var rows=XLSX.utils.sheet_to_json(ws,{defval:''});
 
       fill.style.width='60%'; msg.textContent='Calculando PCI...';
-      // FIX 1: pciRows usa apenas técnicos de PCI (não Montagem)
       var pciRows=rows.filter(function(r){
         var sup=r['Área Suporte']||'';
         var tec=r['Técnico']||'';
@@ -1241,7 +1315,6 @@ function fetchDashboard(){
     .then(function(rows){
       if(!rows||!rows.length)throw new Error('Nenhum dado retornado');
 
-      // FIX 1: filtrar apenas técnicos PCI (excluir Montagem)
       var pciRows=rows.filter(function(r){
         var sup=r['Área Suporte']||'';
         var tec=r['Técnico']||'';
@@ -1272,7 +1345,7 @@ function fetchDashboard(){
       if(document.getElementById('page-recomendacoes')&&document.getElementById('page-recomendacoes').classList.contains('active')) buildPciRec();
       analiseRows = rows.map(function(r){ r['Local/Máquina']=r['Local/Máquina']||r['local_maquina']||''; return r; });
       analiseInited = false;
-      if(document.getElementById('page-analise')&&document.getElementById('page-analise').classList.contains('active')){ buildAnMonthBar(); renderAnaliseSMT(); renderAnalisePTH(); }
+      if(document.getElementById('page-analise')&&document.getElementById('page-analise').classList.contains('active')){ buildAnMonthBar(); renderAnalise(); }
       fetchAbertos();
       if(btn){btn.disabled=false;btn.textContent='🔄 Atualizar Online';}
       var ok=document.getElementById('importOk');
@@ -1504,9 +1577,14 @@ function buildPciRec() {
     'e tempo médio de <strong style="color:var(--accent4)">' + d.team_med + ' min</strong>.</p></div>';
   var atencao = '';
   activeTechs.filter(function(t){ return d.techs[t].aceite > 30; }).forEach(function(t) {
-    atencao += '<div class="rec-card" style="--accent-color:var(--accent2)"><div class="rec-title">🔴 ' + t + ' — Tempo de Aceite Elevado</div>' +
-      '<div class="rec-body">Mediana de ' + d.techs[t].aceite + ' min (meta: 15 min). ' +
+    atencao += '<div class="rec-card" style="--accent-color:var(--accent2)"><div class="rec-title">🔴 ' + t + ' — Tempo de Aceite Elevado (quando livre)</div>' +
+      '<div class="rec-body">Mediana de ' + d.techs[t].aceite + ' min (meta: 15 min) considerando apenas chamados em que estava livre. ' +
       'Investigar sobrecarga no turno ' + (d.techs[t].shifts.T2 > d.techs[t].shifts.T1 ? 'T2' : 'T1') + '.</div></div>';
+  });
+  activeTechs.filter(function(t){ return d.techs[t].qtd_fila > 0; }).forEach(function(t) {
+    atencao += '<div class="rec-card" style="--accent-color:var(--accent4)"><div class="rec-title">🕒 ' + t + ' — ' + d.techs[t].qtd_fila + ' Chamado(s) Recebido(s) em Atendimento</div>' +
+      '<div class="rec-body">Esses chamados abriram enquanto ' + t + ' já atendia outro (espera média de ' + d.techs[t].aceite_fila + ' min). ' +
+      'Isso é carga/volume, não desempenho — considerar redistribuir ou reforçar o turno nesses horários.</div></div>';
   });
   activeTechs.filter(function(t){ return d.techs[t].exp > 0; }).forEach(function(t) {
     atencao += '<div class="rec-card" style="--accent-color:var(--accent4)"><div class="rec-title">🟡 ' + t + ' — ' + d.techs[t].exp + ' Chamado(s) Expirado(s)</div>' +
@@ -1524,7 +1602,7 @@ function buildPciRec() {
   var byAceite = activeTechs.slice().sort(function(a,b){ return d.techs[a].aceite - d.techs[b].aceite; });
   var best = byAceite[0];
   boas += '<div class="rec-card" style="--accent-color:' + d.techs[best].color + '"><div class="rec-title">🟢 ' + best + ' — Referência de Aceite (' + d.techs[best].aceite + ' min)</div>' +
-    '<div class="rec-body">' + d.techs[best].taxa + '% de resolução com menor tempo de aceite do time.</div></div>';
+    '<div class="rec-body">' + d.techs[best].taxa + '% de resolução com menor tempo de aceite do time (quando livre).</div></div>';
   activeTechs.filter(function(t){ return d.techs[t].taxa === 100 && t !== best; }).forEach(function(t) {
     boas += '<div class="rec-card" style="--accent-color:' + d.techs[t].color + '"><div class="rec-title">🟢 ' + t + ' — 100% de Resolução</div>' +
       '<div class="rec-body">' + d.techs[t].total + ' chamados sem nenhuma expiração.</div></div>';
@@ -1702,7 +1780,6 @@ window.addEventListener('load', function() {
       .then(function(rows) {
         if (loadingMsg) loadingMsg.textContent = 'Processando ' + rows.length + ' chamados...';
 
-        // FIX 1: filtrar pciRows apenas por técnicos PCI (excluir Montagem)
         var pciRows = rows.filter(function(r) {
           var s = r['Área Suporte']||'';
           var tec = r['Técnico']||'';
